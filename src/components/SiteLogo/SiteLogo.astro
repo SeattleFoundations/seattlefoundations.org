@@ -13,7 +13,8 @@ const siteData = getTranslatedData("siteData", currLocale);
 
 // images
 import logo from "@images/atlas-logo.png";
-import foundationsLogo from "@assets/images/logo.svg";
+import foundationsLogoLight from "@assets/images/logo.svg";
+import foundationsLogoDark from "@assets/images/logo-dark.svg";
 ---
 
 <a
@@ -29,12 +30,20 @@ import foundationsLogo from "@assets/images/logo.svg";
     aria-label="Atlas logo"
   /> -->
 	<Image
-		src={foundationsLogo}
+		src={foundationsLogoLight}
 		alt="Foundations logo"
 		loading="eager"
 		width={100}
 		height={40}
-		class="w-48"
+		class="w-48 dark:hidden"
+	/>
+	<Image
+		src={foundationsLogoDark}
+		alt="Foundations logo"
+		loading="eager"
+		width={100}
+		height={40}
+		class="hidden w-48 dark:block"
 	/>
 	<!-- <Icon name="foundations/logo" class="w-48" /> -->
 	<!-- <p class="">{siteData.name}</p> -->
