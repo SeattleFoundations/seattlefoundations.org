@@ -1,0 +1,53 @@
+{
+	"name": "atlas",
+	"type": "module",
+	"version": "3.1.0",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"config-i18n": "node ./scripts/config-i18n.js",
+		"remove-keystatic": "node ./scripts/remove-keystatic.js",
+		"format": "prettier -w \"**/*\" --ignore-unknown --cache"
+	},
+	"dependencies": {
+		"@astrojs/mdx": "^4.1.0",
+		"@astrojs/netlify": "^6.2.2",
+		"@astrojs/react": "^4.2.1",
+		"@astrojs/rss": "^4.0.11",
+		"@astrojs/sitemap": "^3.2.1",
+		"@fontsource/poppins": "^5.2.5",
+		"@keystatic/astro": "^5.0.6",
+		"@keystatic/core": "^0.5.46",
+		"@tabler/icons": "^3.31.0",
+		"@tailwindcss/forms": "^0.5.10",
+		"@tailwindcss/vite": "^4.0.12",
+		"@types/react": "^19.0.10",
+		"@types/react-dom": "^18.3.5",
+		"animejs": "^3.2.2",
+		"astro": "^5.4.2",
+		"astro-auto-import": "^0.4.4",
+		"astro-icon": "1.1.5",
+		"astro-seo": "^0.8.4",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"swiper": "^11.2.5",
+		"tailwindcss": "^4.0.12",
+		"tailwindcss-animate": "^1.0.7"
+	},
+	"devDependencies": {
+		"@playform/compress": "^0.1.6",
+		"lodash.debounce": "^4.0.8",
+		"lodash.throttle": "^4.1.1",
+		"prettier-plugin-astro": "^0.14.1",
+		"prettier-plugin-tailwindcss": "^0.6.9"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"sharp"
+		]
+	}
+}

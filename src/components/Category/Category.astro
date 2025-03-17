@@ -1,0 +1,22 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { humanize, slugify } from "@js/textUtils";
+
+interface Props {
+	category: string;
+}
+
+const { category } = Astro.props as Props;
+
+const currLocale = getLocaleFromUrl(Astro.url);
+---
+
+<a
+	class="bg-primary-100/70 text-primary-500 shadow-base-200/20 hover:bg-primary-200/70 dark:bg-primary-500 dark:hover:bg-primary-600 inline-block rounded-full px-3 py-1 text-xs leading-5 font-medium uppercase shadow-sm transition-colors dark:text-white dark:shadow-none"
+	href={getRelativeLocaleUrl(currLocale, `/categories/${slugify(category)}`)}
+>
+	{humanize(category)}
+</a>

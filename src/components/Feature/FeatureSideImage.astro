@@ -1,0 +1,70 @@
+---
+// components
+import FeatureCard from "@components/FeatureCard/FeatureCardSideImage.astro";
+
+// images
+import image1 from "@images/event.jpg";
+import image2 from "@images/fir-launch.jpg";
+
+interface FeatureItem {
+	badge: string; // badge text
+	image: ImageMetadata; // an imported image
+	title: string;
+	items: string[]; // list of items that will have check marks next to
+	href?: string; // link to learn more
+	actionLabel?: string; // button label
+}
+
+// data
+const featureData: FeatureItem[] = [
+	{
+		badge: "Our Space",
+		image: image1,
+		title: "5,000 sqft space in Capitol Hill",
+		items: [
+			"24/7 access to a space designed for deep work and collaboration.",
+			"50+ seats for members to work in, deep work room, 8 private spaces for meetings.",
+			"Event space with 1-2 events every week.",
+		],
+	},
+	{
+		badge: "Programming",
+		image: image2,
+		title: "Founder in Residence Program",
+		items: [
+			"Dedicated mentor for one-on-one guidance",
+			"Small founder groups with private channels",
+			"Monthly product demos and pitches",
+			"Weekly mentor office hours",
+			"Monthly pitch refinement workshops",
+			"Community support in weekly emails",
+		],
+		href: "/founder-in-residence-program",
+		actionLabel: "Learn More",
+	},
+];
+---
+
+<section id="feature-side-image" class="my-12 overflow-hidden py-12">
+	<div class="site-container">
+		<!-- <div class="mx-auto mb-16 text-center md:max-w-4xl" data-aos="fade-up">
+      <h2 class="h2 mb-4">The best choice for your needs</h2>
+    </div> -->
+		<div class="flex flex-col gap-16 md:gap-24">
+			{
+				featureData.map((feature, idx) => (
+					<FeatureCard
+						badge={feature.badge}
+						title={feature.title}
+						items={feature.items}
+						image={feature.image}
+						imageSide={idx % 2 === 0 ? "right" : "left"}
+						href={feature.href}
+						actionLabel="Learn More"
+						idx={idx}
+					/>
+				))
+			}
+		</div>
+	</div>
+</section>

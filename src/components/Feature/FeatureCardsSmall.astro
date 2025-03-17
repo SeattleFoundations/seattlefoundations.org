@@ -1,0 +1,63 @@
+---
+/**
+ * * These are small cards with icons, titles, and text. With title first
+ * This looks best with an even number of cards. They are smaller to
+ * use with more cards in the same section. 4 or 6 cards is probably ideal
+ *
+ * ! I copy all icons into the src/icons folder and recommend you do the same
+ * ! If the icon is at src/icons/tabler/paint.svg then you put in "tabler/paint"
+ */
+
+import { Icon } from "astro-icon/components";
+
+// components
+import FeatureCard from "@components/FeatureCard/FeatureCardSmall.astro";
+import Badge from "@components/Badge/Badge.astro";
+
+interface FeatureData {
+	icon: string;
+	title: string;
+	text: string;
+}
+
+// data
+const featureData: FeatureData[] = [
+	{
+		icon: "tabler/affiliate",
+		title: "Networking",
+		text: `Instantly connect with Seattle’s top investors, founders, and startups all in one place.`,
+	},
+	{
+		icon: "tabler/bolt",
+		title: "Energy",
+		text: `Work alongside the most ambitious founders and builders in the region.`,
+	},
+	{
+		icon: "tabler/load-balancer",
+		title: "Flexibility	",
+		text: `Engage with the community at the pace that matches your stage in the startup journey.`,
+	},
+];
+---
+
+<section
+	id="feature-cards-small"
+	class="bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat py-24 md:py-28 dark:bg-[url('/assets/pattern-dark.svg')]"
+>
+	<div class="site-container relative">
+		<div class="mx-auto mb-16 text-center md:max-w-4xl">
+			<h2 class="h2 mb-4">We help founders thrive in Seattle</h2>
+			<p class="description text-lg text-pretty md:text-xl">
+				We aim to create a vibrant, interconnected network of experienced founders, new entrants,
+				and established leaders to foster innovation and growth.
+			</p>
+		</div>
+		<div id="trigger-small-cards" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				featureData.map((feature, idx) => (
+					<FeatureCard title={feature.title} text={feature.text} icon={feature.icon} />
+				))
+			}
+		</div>
+	</div>
+</section>

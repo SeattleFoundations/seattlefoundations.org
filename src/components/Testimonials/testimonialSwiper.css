@@ -1,0 +1,13 @@
+@import "tailwindcss/theme" theme(reference);
+@import "@/styles/tailwind-theme.css" theme(reference);
+
+.swiper-pagination-bullet {
+	@apply border-primary-500 bg-primary-300 size-3 translate-y-12 border-2 transition;
+	&:hover {
+		@apply bg-primary-500;
+	}
+}
+
+.swiper-pagination-bullet-active {
+	@apply bg-primary-500;
+}

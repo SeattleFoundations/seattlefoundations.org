@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+// components
+import Badge from "@components/Badge/Badge.astro";
+
+// utils
+import { type TestimonialItem } from "@config/types/configDataTypes";
+
+const { avatar, name, title, testimonial } = Astro.props as TestimonialItem;
+---
+
+<div class="flex h-full flex-col">
+	<div class="relative mx-auto mb-10 max-w-5xl pt-16 pb-6 text-center sm:px-6">
+		<svg
+			class="text-primary-200 dark:text-primary-500 absolute top-0 left-0 size-32"
+			aria-hidden="true"
+			width="142"
+			height="98"
+			viewBox="0 0 142 98"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M80 60C80 49.6 81.6 40.6667 84.8 33.2C88 25.4667 92.1333 19.2 97.2 14.4C102.267 9.33334 108 5.73334 114.4 3.6C121.067 1.2 127.6 0 134 0V14C127.067 14 120.533 16.4 114.4 21.2C108.533 25.7333 105.067 32 104 40C104.8 39.7333 105.733 39.4667 106.8 39.2C107.6 38.9333 108.533 38.6667 109.6 38.4C110.933 38.1333 112.4 38 114 38C122 38 128.667 41.0667 134 47.2C139.333 53.0667 142 60 142 68C142 76 139.2 83.0667 133.6 89.2C128.267 95.0667 121.067 98 112 98C101.867 98 94 94.2667 88.4 86.8C82.8 79.0667 80 70.1333 80 60ZM0 60C0 49.6 1.6 40.6667 4.8 33.2C8 25.4667 12.1333 19.2 17.2 14.4C22.2667 9.33334 28 5.73334 34.4 3.6C41.0667 1.2 47.6 0 54 0V14C47.0667 14 40.5333 16.4 34.4 21.2C28.5333 25.7333 25.0667 32 24 40C24.8 39.7333 25.7333 39.4667 26.8 39.2C27.6 38.9333 28.5333 38.6667 29.6 38.4C30.9333 38.1333 32.4 38 34 38C42 38 48.6667 41.0667 54 47.2C59.3333 53.0667 62 60 62 68C62 76 59.2 83.0667 53.6 89.2C48.2667 95.0667 41.0667 98 32 98C21.8667 98 14 94.2667 8.4 86.8C2.8 79.0667 0 70.1333 0 60Z"
+				fill="url(#atlas/quotes-top-gradient)"></path>
+			<defs>
+				<linearGradient
+					id="atlas/quotes-top-gradient"
+					x1="71"
+					y1="0"
+					x2="71"
+					y2="98"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop stop-color="currentColor"></stop>
+					<stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+				</linearGradient>
+			</defs>
+		</svg>
+		<svg
+			class="text-primary-200 dark:text-primary-500 absolute right-0 -bottom-10 size-32"
+			aria-hidden="true"
+			width="142"
+			height="98"
+			viewBox="0 0 142 98"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M62 38C62 48.4 60.4 57.3333 57.2 64.8C54 72.5333 49.8667 78.8 44.8 83.6C39.7333 88.6667 34 92.2667 27.6 94.4C20.9333 96.8 14.4 98 7.99998 98L7.99998 84C14.9333 84 21.4667 81.6 27.6 76.8C33.4667 72.2667 36.9333 66 38 58C37.2 58.2667 36.2667 58.5333 35.2 58.8C34.4 59.0667 33.4667 59.3333 32.4 59.6C31.0667 59.8667 29.6 60 28 60C20 60 13.3333 56.9333 7.99998 50.8C2.66665 44.9333 -5.24537e-06 38 -5.94475e-06 30C-6.64413e-06 22 2.8 14.9334 8.4 8.80001C13.7333 2.93335 20.9333 1.0584e-05 30 9.79135e-06C40.1333 8.90547e-06 48 3.73335 53.6 11.2C59.2 18.9333 62 27.8667 62 38ZM142 38C142 48.4 140.4 57.3333 137.2 64.8C134 72.5333 129.867 78.8 124.8 83.6C119.733 88.6667 114 92.2667 107.6 94.4C100.933 96.8 94.4 98 88 98L88 84C94.9333 84 101.467 81.6 107.6 76.8C113.467 72.2667 116.933 66 118 58C117.2 58.2667 116.267 58.5333 115.2 58.8C114.4 59.0667 113.467 59.3333 112.4 59.6C111.067 59.8667 109.6 60 108 60C100 60 93.3333 56.9333 88 50.8C82.6667 44.9333 80 38 80 30C80 22 82.8 14.9333 88.4 8.80001C93.7333 2.93334 100.933 3.59016e-06 110 2.79753e-06C120.133 1.91164e-06 128 3.73334 133.6 11.2C139.2 18.9333 142 27.8667 142 38Z"
+				fill="url(#atlas/quotes-bottom-gradient)"></path>
+			<defs>
+				<linearGradient
+					id="atlas/quotes-bottom-gradient"
+					x1="71"
+					y1="98"
+					x2="71"
+					y2="6.20702e-06"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop stop-color="currentColor"></stop>
+					<stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+				</linearGradient>
+			</defs>
+		</svg>
+		<div class="relative">
+			<!-- <Badge>Quotes</Badge> -->
+			<h2
+				class="dark:text-base-100 text-2xl leading-relaxed font-semibold md:text-3xl md:leading-relaxed"
+			>
+				{testimonial}
+			</h2>
+		</div>
+	</div>
+
+	<div class="flex flex-col items-center pb-4">
+		<Image src={avatar} alt={name} height={160} class="size-20 rounded-full object-cover" />
+		<h3 class="h3 mt-4 font-semibold">{name}</h3>
+		<p class="description mt-1 text-lg">{title}</p>
+	</div>
+</div>

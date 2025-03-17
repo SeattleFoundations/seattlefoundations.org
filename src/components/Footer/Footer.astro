@@ -1,0 +1,58 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// components
+import FooterLink from "@components/Footer/FooterLink.astro";
+import SiteLogo from "@components/SiteLogo/SiteLogo.astro";
+import Button from "@components/Button/Button.astro";
+import SocialIcon from "@components/SocialIcon/SocialIcon.astro";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { getTranslatedData } from "@js/translationUtils";
+
+// data
+const currLocale = getLocaleFromUrl(Astro.url);
+const siteData = getTranslatedData("siteData", currLocale);
+
+const today = new Date();
+---
+
+<footer class="text-base-500 overflow-x-clip pt-20 pb-16 font-medium">
+	<div class="site-container">
+		<div class="mt-6 flex flex-wrap items-center justify-between gap-6">
+			<SiteLogo />
+			<!-- <div class="flex flex-wrap gap-x-4">
+				<FooterLink href={getRelativeLocaleUrl(currLocale, "/overview")}>Overview</FooterLink>
+				<FooterLink href={getRelativeLocaleUrl(currLocale, "/blog")}>Blog</FooterLink>
+				<FooterLink href={getRelativeLocaleUrl(currLocale, "/elements")}>Elements</FooterLink>
+				<FooterLink href={getRelativeLocaleUrl(currLocale, "/contact")}>Contact</FooterLink>
+				<FooterLink href={getRelativeLocaleUrl(currLocale, "/terms")}>Terms</FooterLink>
+				<FooterLink href={getRelativeLocaleUrl(currLocale, "/privacy-policy")}>Privacy</FooterLink>
+			</div> -->
+		</div>
+	</div>
+	<div class="border-t-base-200/50 text-base-400 mt-6 border-t text-sm">
+		<div class="site-container mt-6 flex flex-wrap justify-between gap-6">
+			<div class="my-auto">
+				&copy; {today.getFullYear()}
+				{" "}{siteData.name}. All rights reserved.
+			</div>
+			<!-- Socials -->
+			<div class="flex flex-col">
+				<div class="flex gap-4">
+					<SocialIcon
+						href="https://www.linkedin.com/company/foundations-seattle"
+						icon="tabler/brand-linkedin"
+						social="linkedin"
+					/>
+					<SocialIcon
+						href="https://www.youtube.com/@SeattleFoundations"
+						icon="tabler/brand-youtube"
+						social="youtube"
+					/>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

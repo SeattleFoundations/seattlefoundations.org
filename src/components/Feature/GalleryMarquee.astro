@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+
+// Define props interface
+interface Props {
+	group?: 1 | 2; // Optional prop to specify which group of images to display (1 or 2)
+}
+
+const { group = 1 } = Astro.props;
+
+// images
+interface MarqueeImages {
+	images: ImageMetadata[]; // imported images
+}
+
+import image1 from "@images/space/1.jpg";
+import image2 from "@images/space/2.jpg";
+import image3 from "@images/space/3.jpg";
+import image4 from "@images/space/4.jpg";
+import image5 from "@images/space/5.jpg";
+import image6 from "@images/space/6.jpg";
+import image7 from "@images/space/7.jpg";
+import image8 from "@images/space/8.jpg";
+import image9 from "@images/space/9.jpg";
+import image10 from "@images/space/10.jpg";
+import image11 from "@images/space/11.jpg";
+import image12 from "@images/space/12.jpg";
+import image14 from "@images/space/14.jpg";
+import image15 from "@images/space/15.jpg";
+import image16 from "@images/space/16.jpg";
+import image17 from "@images/space/17.jpg";
+import image18 from "@images/space/18.jpg";
+import image19 from "@images/space/19.jpg";
+import image20 from "@images/space/20.jpg";
+import image21 from "@images/space/21.jpg";
+import image22 from "@images/space/22.jpg";
+import image23 from "@images/space/23.jpg";
+
+// All available images
+const allImages = [
+	image14,
+	image15,
+	image16,
+	image17,
+	image1,
+	image2,
+	image4,
+	image5,
+	image6,
+	image7,
+	image8,
+	image9,
+	image3,
+	image10,
+	image11,
+	image12,
+	image18,
+	image19,
+	image20,
+	image21,
+	image22,
+	image23,
+];
+
+// Split the images into two groups
+const groupOneImages = allImages.slice(0, Math.ceil(allImages.length / 2));
+const groupTwoImages = allImages.slice(Math.ceil(allImages.length / 2));
+
+// Select which group to use based on the prop
+const images = group === 1 ? groupOneImages : groupTwoImages;
+---
+
+<section
+	id="feature-gallery-marquee"
+	class="bg-[url('/assets/pattern-light-big.svg')] bg-center bg-no-repeat py-16 dark:bg-[url('/assets/pattern-dark-big.svg')]"
+>
+	<div class="relative flex flex-col gap-2 overflow-hidden">
+		<!-- marquee top row -->
+		<div class="marquee-top relative flex gap-2 overflow-hidden">
+			<div class="animate-marquee flex min-w-full shrink-0 items-center gap-2">
+				{
+					images.map((image) => (
+						<Image
+							src={image}
+							alt=""
+							loading="lazy"
+							width={600}
+							class="aspect-[4/3] max-w-80 rounded-md object-cover shadow-md"
+						/>
+					))
+				}
+			</div>
+
+			<!-- Duplicate the images for seamless looping -->
+			<div class="animate-marquee flex min-w-full shrink-0 items-center gap-2">
+				{
+					images.map((image) => (
+						<Image
+							src={image}
+							alt=""
+							loading="lazy"
+							width={600}
+							class="aspect-[4/3] max-w-80 rounded-md object-cover shadow-md"
+						/>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>

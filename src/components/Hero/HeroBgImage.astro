@@ -1,0 +1,120 @@
+---
+/**
+ * * Hero with background image
+ * You'll want a mobile image, and a desktop image for this.
+ */
+
+import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+// components
+import Button from "@components/Button/Button.astro";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+// images
+import heroImage from "@assets/images/mountains-min.png";
+import heroImageMobile from "@assets/images/mountains-mobile-min.png";
+
+const currLocale = getLocaleFromUrl(Astro.url);
+---
+
+<section id="hero-bg-image" class="relative mt-[4.5rem] mb-14 flex min-h-[60svh] w-full">
+	<!-- background image -->
+	<div class="absolute -z-20 h-full w-full overflow-hidden bg-black">
+		<Image
+			src={heroImage}
+			class="hidden h-auto min-h-full w-full object-cover sm:block"
+			alt="smiling family"
+			aria-hidden="true"
+			loading="eager"
+			height={1400}
+		/>
+		<Image
+			src={heroImageMobile}
+			class="h-auto min-h-full w-full object-cover sm:hidden"
+			alt="smiling family"
+			aria-hidden="true"
+			loading="eager"
+			width={1200}
+		/>
+	</div>
+
+	<!-- hero items -->
+	<div class="site-container flex w-full gap-10 py-36 text-center md:py-44 md:text-left">
+		<!-- Hero text -->
+		<div
+			class="my-auto mr-auto flex max-w-[650px] flex-col rounded-xl bg-white/70 px-4 py-6 backdrop-blur md:px-6"
+		>
+			<h1
+				class="text-base-800 mb-4 text-3xl leading-tight font-semibold text-pretty md:text-5xl md:leading-tight"
+			>
+				Building the Foundations of Seattle’s Startups
+			</h1>
+			<p class="text-base-500 mb-6 text-lg font-medium text-pretty md:text-xl">
+				Building the Foundations of Seattle’s Startups
+			</p>
+			<div class="flex flex-wrap justify-center gap-4 md:justify-start">
+				<Button
+					variant="primary"
+					href={getRelativeLocaleUrl(currLocale, "/contact")}
+					class="shadow-none"
+				>
+					Contact Us
+				</Button>
+			</div>
+
+			<!-- social proof -->
+			<!-- <div class="mx-auto mt-8 flex max-w-md md:ml-0">
+        <div class="-m-1.5 flex flex-wrap items-center">
+          <div class="w-auto p-1.5">
+            <div class="flex flex-wrap">
+              <div
+                class="aspect-square size-10 overflow-hidden rounded-full border-2 border-primary-500 bg-primary-500"
+              >
+                <Image
+                  src={person1}
+                  class="object-cover"
+                  alt="reader"
+                  loading="eager"
+                  width={100}
+                />
+              </div>
+              <div
+                class="-ml-5 aspect-square size-10 overflow-hidden rounded-full border-2 border-primary-500 bg-primary-500"
+              >
+                <Image
+                  src={person2}
+                  class="object-cover"
+                  alt="reader"
+                  loading="eager"
+                  width={100}
+                />
+              </div>
+              <div
+                class="-ml-5 aspect-square size-10 overflow-hidden rounded-full border-2 border-primary-500 bg-primary-500"
+              >
+                <Image
+                  src={person3}
+                  class="object-cover"
+                  alt="reader"
+                  loading="eager"
+                  width={100}
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 p-1.5 text-left">
+            <p
+              class="description max-w-[14rem] text-sm leading-tight tracking-tight"
+            >
+              Join 200+ happy and<br />
+              satisfied customers.
+            </p>
+          </div>
+        </div>
+      </div> -->
+		</div>
+	</div>
+</section>

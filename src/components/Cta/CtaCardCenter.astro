@@ -1,0 +1,45 @@
+---
+/**
+ * * CTA card center with dark background and light text
+ */
+
+import { Icon } from "astro-icon/components";
+
+// components
+import Button from "@components/Button/Button.astro";
+
+// svgs
+import Dots3 from "@src/icons/atlas/dots3.svg";
+import WaveBgBasic from "@src/icons/atlas/wave-bg-basic.svg";
+---
+
+<section class="py-10">
+	<div class="site-container">
+		<div class="bg-base-900 relative overflow-hidden rounded-md px-16 py-11 md:py-20">
+			<Icon
+				is:inline
+				name="atlas/wave-bg-basic"
+				class="absolute top-1/2 left-1/2 h-full w-auto -translate-x-1/2 -translate-y-1/2 object-cover text-black/5"
+				aria-hidden="true"
+			/>
+
+			<div
+				class="relative z-20 -m-3 mx-auto flex max-w-lg flex-col flex-wrap items-center gap-4 text-center"
+			>
+				<h2 class="mb-6 text-4xl/normal font-medium text-white">
+					Interested in building a company in Seattle?
+				</h2>
+				<!-- <p class="font-semibold text-base-100">Level up with this theme.</p> -->
+				<Button
+					variant="primary"
+					href="https://cosmicthemes.com/themes/atlas/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="shadow-none"
+				>
+					Founder in Residence
+				</Button>
+			</div>
+		</div>
+	</div>
+</section>
