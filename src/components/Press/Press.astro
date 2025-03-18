@@ -1,0 +1,71 @@
+---
+import { Image } from "astro:assets";
+import press1 from "@images/press/launch-party.jpg";
+import press2 from "@images/press/announcement.jpg";
+import press3 from "@images/press/fir-launch.jpg";
+const pressData = [
+	{
+		title: "Inside the new ‘serendipity factory’ trying to spark the startup scene in Seattle",
+		image: press1,
+		source: "GeekWire",
+		link: "https://www.geekwire.com/2024/inside-the-new-serendipity-factory-trying-to-spark-the-startup-scene-in-seattle/",
+	},
+	{
+		title:
+			"Following demise of Techstars Seattle, prominent VC launches new twist on accelerator concept",
+		image: press2,
+		source: "GeekWire",
+		link: "https://www.geekwire.com/2024/can-this-new-community-hub-provide-a-spark-for-seattles-startup-ecosystem/",
+	},
+	{
+		title:
+			"Seattle startup group launches new program for founders that rethinks traditional accelerator format",
+		image: press3,
+		source: "GeekWire",
+		link: "Seattle startup group launches new program for founders that rethinks traditional accelerator format",
+	},
+];
+---
+
+<section
+	id="press"
+	class="overflow-hidden bg-[url('/assets/pattern-light-big.svg')] bg-center bg-no-repeat py-24 md:pb-28"
+>
+	<div class="site-container">
+		<div class="flex flex-col items-center justify-center">
+			<h2 class="h2 text-center">Press coverage</h2>
+		</div>
+
+		<div class="mx-auto mt-6 max-w-7xl overflow-hidden pb-10 md:mt-10">
+			<div class="grid grid-cols-1 gap-4 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+				{
+					pressData.map((press) => (
+						<div class="overflow-hidden rounded-md">
+							<a href={press.link} target="_blank" rel="noopener noreferrer">
+								<Image
+									src={press.image}
+									alt={press.title}
+									width={600}
+									height={400}
+									class="aspect-video object-cover"
+								/>
+							</a>
+							<div class="mt-3 flex flex-col gap-2">
+								<p class="font-med text-sm text-gray-500">{press.source}</p>
+								<h3 class="min-h-24 text-xl font-medium">{press.title}</h3>
+								<a
+									href={press.link}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="text-primary-500 text-sm underline underline-offset-4 transition-all hover:underline-offset-2"
+								>
+									Read more →
+								</a>
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>

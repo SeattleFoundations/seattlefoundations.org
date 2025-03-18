@@ -27,56 +27,35 @@ import image11 from "@images/space/11.jpg";
 import image12 from "@images/space/12.jpg";
 import image14 from "@images/space/14.jpg";
 import image15 from "@images/space/15.jpg";
-import image16 from "@images/space/16.jpg";
-import image17 from "@images/space/17.jpg";
-import image18 from "@images/space/18.jpg";
-import image19 from "@images/space/19.jpg";
-import image20 from "@images/space/20.jpg";
-import image21 from "@images/space/21.jpg";
-import image22 from "@images/space/22.jpg";
-import image23 from "@images/space/23.jpg";
 
-// All available images
 const allImages = [
-	image14,
-	image15,
-	image16,
-	image17,
 	image1,
 	image2,
+	image3,
 	image4,
 	image5,
 	image6,
 	image7,
 	image8,
 	image9,
-	image3,
 	image10,
 	image11,
 	image12,
-	image18,
-	image19,
-	image20,
-	image21,
-	image22,
-	image23,
+	image14,
+	image15,
 ];
 
-// Split the images into two groups
 const groupOneImages = allImages.slice(0, Math.ceil(allImages.length / 2));
 const groupTwoImages = allImages.slice(Math.ceil(allImages.length / 2));
-
-// Select which group to use based on the prop
-const images = group === 1 ? groupOneImages : groupTwoImages;
 ---
 
-<section id="feature-gallery-marquee" class="bg-center bg-no-repeat py-16 dark:bg-none">
+<section id="feature-gallery-marquee" class="bg-center bg-no-repeat py-8 dark:bg-none">
 	<div class="relative flex flex-col gap-2 overflow-hidden">
-		<!-- marquee top row -->
-		<div class="marquee-top relative flex gap-2 overflow-hidden">
+		<!-- marquee top row - moving right -->
+		<div class="marquee-right relative flex gap-2 overflow-hidden">
 			<div class="animate-marquee flex min-w-full shrink-0 items-center gap-2">
 				{
-					images.map((image) => (
+					groupOneImages.map((image) => (
 						<Image
 							src={image}
 							alt=""
@@ -87,11 +66,39 @@ const images = group === 1 ? groupOneImages : groupTwoImages;
 					))
 				}
 			</div>
-
-			<!-- Duplicate the images for seamless looping -->
 			<div class="animate-marquee flex min-w-full shrink-0 items-center gap-2">
 				{
-					images.map((image) => (
+					groupOneImages.map((image) => (
+						<Image
+							src={image}
+							alt=""
+							loading="lazy"
+							width={600}
+							class="aspect-[4/3] max-w-80 rounded-md object-cover shadow-md"
+						/>
+					))
+				}
+			</div>
+		</div>
+
+		<!-- marquee bottom row - moving left -->
+		<div class="marquee-right relative flex gap-2 overflow-hidden">
+			<div class="animate-marquee-reverse flex min-w-full shrink-0 items-center gap-2">
+				{
+					groupTwoImages.map((image) => (
+						<Image
+							src={image}
+							alt=""
+							loading="lazy"
+							width={600}
+							class="aspect-[4/3] max-w-80 rounded-md object-cover shadow-md"
+						/>
+					))
+				}
+			</div>
+			<div class="animate-marquee-reverse flex min-w-full shrink-0 items-center gap-2">
+				{
+					groupTwoImages.map((image) => (
 						<Image
 							src={image}
 							alt=""
@@ -104,4 +111,32 @@ const images = group === 1 ? groupOneImages : groupTwoImages;
 			</div>
 		</div>
 	</div>
+
+	<style>
+		@keyframes marquee {
+			0% {
+				transform: translateX(0);
+			}
+			100% {
+				transform: translateX(-100%);
+			}
+		}
+
+		@keyframes marquee-reverse {
+			0% {
+				transform: translateX(-100%);
+			}
+			100% {
+				transform: translateX(0);
+			}
+		}
+
+		.animate-marquee {
+			animation: marquee 150s linear infinite;
+		}
+
+		.animate-marquee-reverse {
+			animation: marquee-reverse 150s linear infinite;
+		}
+	</style>
 </section>

@@ -86,7 +86,7 @@
 	/* starwind and cosmic themes animations */
 	--animate-accordion-down: accordion-down 0.3s ease-out;
 	--animate-accordion-up: accordion-up 0.3s ease-out;
-	--animate-marquee: marquee 100s linear infinite;
+	--animate-marquee: marquee 50s linear infinite;
 
 	@keyframes accordion-down {
 		from {
