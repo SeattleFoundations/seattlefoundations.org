@@ -20,7 +20,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 
 <BaseLayout title="404" description="Error 404 page not found." noindex={true}>
 	<section
-		class="mt-20 bg-[url('/assets/pattern-light-big.svg')] bg-center bg-no-repeat py-24 dark:bg-[url('/assets/pattern-dark-big.svg')]"
+		class="mt-20 bg-[url('/assets/pattern-light-big.svg')] bg-center bg-no-repeat py-24 dark:bg-none"
 	>
 		<div class="site-container mx-auto px-4">
 			<div class="-mx-4 flex flex-wrap items-center">
@@ -68,7 +68,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 							Oh no! Error 404
 						</h2>
 						<p class="text-base-500 mb-6 text-lg md:text-xl">
-							Something went wrong, so this page is broken.
+							Something went wrong, so this page is missing.
 						</p>
 						<div class="flex flex-wrap justify-center md:justify-start">
 							<Button variant="primary" href={getRelativeLocaleUrl(currLocale, "/")}
