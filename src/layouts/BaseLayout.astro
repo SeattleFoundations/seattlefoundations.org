@@ -65,19 +65,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
 		</div>
 		<Footer />
 
+		{import.meta.env.PROD && <script defer src="https://assets.onedollarstats.com/stonks.js" />}
 		<!-- Scroll animations -->
-		<script>
-			import siteSettings from "@config/siteSettings.json";
-
-			import AOS from "@js/aos/aos";
-
-			if (siteSettings.useAnimations === true) {
-				// runs on initial page load
-				AOS.init({ once: true, duration: 0.75, distance: 100, offset: 120 });
-
-				// runs on view transitions navigation
-				document.addEventListener("astro:after-swap", AOS.refreshHard);
-			}
-		</script>
 	</body>
 </html>
