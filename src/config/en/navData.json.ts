@@ -5,13 +5,13 @@ const navConfig: navItem[] = [
 		text: "Manifesto",
 		link: "/static/manifesto",
 	},
+	// {
+	// 	text: "Companies",
+	// 	link: "/companies",
+	// },
 	{
-		text: "Companies",
-		link: "/companies",
-	},
-	{
-		text: "Membership",
-		link: "/membership",
+		text: "Founders in Residence",
+		link: "/static/founders-in-residence",
 	},
 	{
 		text: "Blog",
