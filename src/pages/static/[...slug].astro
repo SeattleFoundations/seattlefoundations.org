@@ -1,0 +1,24 @@
+---
+import { type InferGetStaticPropsType } from "astro";
+import { type CollectionEntry, getCollection, render } from "astro:content";
+
+import StaticLayoutCenter from "@layouts/StaticLayoutCenter.astro";
+import ExternalLink from "@components/MarkdownComponents/ExternalLink.astro";
+
+export async function getStaticPaths() {
+	const staticPages = await getCollection("static");
+
+	return staticPages.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const staticPage = Astro.props as Props;
+const { Content } = await render(staticPage);
+---
+
+<StaticLayoutCenter {...staticPage.data}>
+	<Content components={{ a: ExternalLink }} />
+</StaticLayoutCenter>

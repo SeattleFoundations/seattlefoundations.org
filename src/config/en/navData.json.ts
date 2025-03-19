@@ -2,8 +2,8 @@ import { type navItem } from "../types/configDataTypes";
 
 const navConfig: navItem[] = [
 	{
-		text: "Mission",
-		link: "/mission",
+		text: "Manifesto",
+		link: "/static/manifesto",
 	},
 	{
 		text: "Companies",

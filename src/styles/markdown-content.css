@@ -87,7 +87,7 @@
 
 /* blockquotes */
 .markdown-content blockquote:not(:where(.not-content *)) {
-	@apply border-primary-500 border-l-4 pl-4 font-medium italic;
+	@apply my-4 border-primary-500 border-l-4 pl-4 text-xl font-light;
 }
 
 /* images, videos, etc */

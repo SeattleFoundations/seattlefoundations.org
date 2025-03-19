@@ -40,15 +40,13 @@ const authorsCollection = defineCollection({
 });
 
 // services
-const servicesCollection = defineCollection({
-	loader: glob({ pattern: "**/[^_]*{md,mdx}", base: "./src/data/services" }),
+const staticCollection = defineCollection({
+	loader: glob({ pattern: "**/[^_]*{md,mdx}", base: "./src/data/static" }),
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
 			description: z.string(),
 			image: image(),
-			// services will be excluded from build if draft is "true"
-			draft: z.boolean().optional(),
 		}),
 });
 
@@ -66,6 +64,6 @@ const otherPagesCollection = defineCollection({
 export const collections = {
 	blog: blogCollection,
 	authors: authorsCollection,
-	services: servicesCollection,
+	static: staticCollection,
 	otherPages: otherPagesCollection,
 };
