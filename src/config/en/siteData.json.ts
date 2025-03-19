@@ -4,29 +4,29 @@ import { type SiteDataProps } from "../types/configDataTypes";
 const siteData: SiteDataProps = {
 	name: "Foundations",
 	// Your website's title and description (meta fields)
-	title: "Foundations - a small business theme and landing page crafted with Astro and Tailwind CSS",
+	title: "Foundations",
 	description:
-		"Create an amazing website for your small business clients with our beautiful website theme designed using Astro and Tailwind CSS. Perfect for freelancers, developers, startups, and personal use.",
+		"Foundations' mission is to provide the scaffolding needed to support the most capable and ambitious Seattle founders without getting in the way of their most precious resource, time",
 
 	// used on contact page and footer
 	contact: {
 		address1: "1234 Main Street",
 		address2: "New York, NY 10001",
 		phone: "(123) 456-7890",
-		email: "creator@cosmicthemes.com",
+		email: "art@seattlefoundations.org",
 	},
 
 	// Your information for blog post purposes
 	author: {
-		name: "Cosmic Themes",
-		email: "creator@cosmicthemes.com",
-		twitter: "Cosmic_Themes",
+		name: "Foundations",
+		email: "art@seattlefoundations.org",
+		twitter: "",
 	},
 
 	// default image for meta tags if the page doesn't have an image already
 	defaultImage: {
-		src: "/images/cosmic-themes-logo.jpg",
-		alt: "Cosmic Themes logo",
+		src: "/images/og_image.png",
+		alt: "Foundations",
 	},
 };
 

@@ -76,10 +76,12 @@ function trimEndSlash(str: string) {
 // put together the image URL
 const imageUrl =
 	trimEndSlash(Astro.site?.toString() || "") + (optimizedImage?.src || siteData.defaultImage.src);
+
+const fullTitle = title !== "Foundations" ? title + " | " + siteData.title : title;
 ---
 
 <SEO
-	title={title}
+	title={fullTitle}
 	description={description}
 	canonical={canonicalUrl.toString()}
 	openGraph={{
