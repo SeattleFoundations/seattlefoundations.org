@@ -11,12 +11,13 @@ const navConfig: navItem[] = [
 	// },
 	{
 		text: "Founders in Residence",
-		link: "/static/founders-in-residence",
+		link: "https://hill-newsprint-479.notion.site/Founder-in-Residence-Program-184bcd8b70e4804a8836cf1193af7d02",
+		newTab: true
 	},
-	{
-		text: "Blog",
-		link: "/blog",
-	},
+	// {
+	// 	text: "Blog",
+	// 	link: "/blog",
+	// },
 ];
 
 export default navConfig;
