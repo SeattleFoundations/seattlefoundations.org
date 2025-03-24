@@ -4,7 +4,7 @@ import { type SiteDataProps } from "../types/configDataTypes";
 const siteData: SiteDataProps = {
 	name: "Foundations",
 	// Your website's title and description (meta fields)
-	title: "Foundations",
+	title: "Foundations - In-person, Invite-only startup community in Seattle",
 	description:
 		"Foundations' mission is to provide the scaffolding needed to support the most capable and ambitious Seattle founders without getting in the way of their most precious resource, time",
 
