@@ -17,7 +17,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="py-10">
+<section id="newsletter-form" class="py-10">
 	<div class="site-container">
 		<div class="bg-primary-500 relative overflow-hidden rounded-md px-16 py-11 md:py-20">
 			<Icon
@@ -39,3 +39,22 @@ const {
 		</div>
 	</div>
 </section>
+
+<script>
+	// Focus email input when scrolled into view
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				const emailInput = document.querySelector('#newsletter-email');
+				if (emailInput) {
+					emailInput.focus();
+				}
+			}
+		});
+	});
+
+	const newsletterForm = document.querySelector('#newsletter-form');
+	if (newsletterForm) {
+		observer.observe(newsletterForm);
+	}
+</script>

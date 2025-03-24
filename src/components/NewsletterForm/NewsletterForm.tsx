@@ -70,7 +70,7 @@ export const NewsletterForm = ({ formId }: { formId: string }) => {
 				<input
 					type="email"
 					name="email"
-					id="email"
+					id="newsletter-email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					required
