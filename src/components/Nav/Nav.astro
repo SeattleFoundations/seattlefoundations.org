@@ -8,6 +8,7 @@ import SiteLogo from "@components/SiteLogo/SiteLogo.astro";
 import Button from "@components/Button/Button.astro";
 import LanguageSelect from "@components/LanguageSelect/LanguageSelect.astro";
 import ThemeToggle from "@components/ThemeToggle/ThemeToggle.astro";
+import AnnouncementBanner from "@components/Banner/AnnouncementBanner.astro";
 
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
@@ -25,6 +26,13 @@ import { locales } from "@config/siteSettings.json";
 	class="navbar--initial fixed top-0 left-0 z-30 flex w-full flex-col border-b transition-all duration-300"
 	transition:name={`nav`}
 >
+	<!-- <AnnouncementBanner
+		message="🎉 Foundations has been nominated for GeekWire's 2025 Best Workplace Award!"
+		ctaText="Vote Now"
+		ctaUrl="https://www.surveymonkey.com/r/2025AwardsVoting?name=%5Bname_value%5D"
+	/> -->
+
+	<!-- Main Navigation -->
 	<div class="mx-auto flex w-full">
 		<div class="site-container flex h-14 w-full items-center">
 			<header class="relative flex w-full items-center gap-2">
@@ -34,7 +42,7 @@ import { locales } from "@config/siteSettings.json";
 				</div>
 
 				<!-- <div class="flex flex-auto justify-center">
-          
+
         </div> -->
 
 				<!-- desktop nav menu -->

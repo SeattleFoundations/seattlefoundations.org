@@ -1,0 +1,33 @@
+---
+interface Props {
+	message: string;
+	ctaText: string;
+	ctaUrl: string;
+	backgroundColor?: string;
+	textColor?: string;
+}
+
+const {
+	message,
+	ctaText,
+	ctaUrl,
+	backgroundColor = "bg-primary-500",
+	textColor = "text-white",
+} = Astro.props;
+---
+
+<div class={`${backgroundColor} ${textColor} py-2`}>
+	<div class="site-container">
+		<div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
+			<p class="text-md font-medium">{message}</p>
+			<a
+				href={ctaUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="bg-white text-primary-500 px-6 py-1.5 rounded-md font-medium hover:bg-primary-50 transition-colors"
+			>
+				{ctaText}
+			</a>
+		</div>
+	</div>
+</div>
