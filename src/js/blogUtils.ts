@@ -4,53 +4,14 @@ import { type CollectionEntry, getCollection, getEntryBySlug, getEntries } from 
 import { removeLocaleFromSlug, filterCollectionByLanguage } from "@js/localeUtils";
 import { slugify } from "@js/textUtils";
 
-// data
-import { locales, defaultLocale } from "@config/siteSettings.json";
-
-// --------------------------------------------------------
-/**
- * * get all blog posts in a formatted array
- * @param lang: string (optional) - language to filter by (matching a locale in i18nUtils.ts)
- * @returns all blog posts, filtered for drafts, sorted by date, future posts removed, locale removed from slug, and filtered by language if passed
- *
- * ## Examples
- *
- * ### If not using i18n features
- * ```ts
- * const posts = await getAllPosts();
- * ```
- *
- * ### If using i18n features
- * ```ts
- * const posts = await getAllPosts("en");
- * ```
- * or
- * ```ts
- * const currentLocale = getLocaleFromUrl(Astro.url);
- * const posts = await getAllPosts(currentLocale);
- * ```
- */
-export async function getAllPosts(
-	lang?: (typeof locales)[number],
-): Promise<CollectionEntry<"blog">[]> {
+export async function getAllPosts(): Promise<CollectionEntry<"blog">[]> {
 	const posts = await getCollection("blog", ({ data, id }) => {
 		// filter out draft posts
 		return data.draft !== true;
 	});
 
-	// if a language is passed, filter the posts by that language
-	let filteredPosts: CollectionEntry<"blog">[];
-	if (lang) {
-		// console.log("filtering by language", lang);
-		filteredPosts = filterCollectionByLanguage(posts, lang);
-		// filteredPosts = posts;
-	} else {
-		// console.log("no language passed, returning all posts");
-		filteredPosts = posts;
-	}
-
 	// filter out future posts and sort by date
-	const formattedPosts = formatPosts(filteredPosts, {
+	const formattedPosts = formatPosts(posts, {
 		filterOutFuturePosts: true,
 		sortByDate: true,
 		limit: undefined,

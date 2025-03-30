@@ -33,16 +33,6 @@
       "line": 4
     },
     {
-      "file": "src/data/blog/en/tsconfig-paths-setup/index.mdx",
-      "description": "This is an example blog post with all required frontmatter (the stuff at the top of the file). Note that the \"authors\" array elements need to match the slug of an author in the authors content collection.",
-      "line": 13
-    },
-    {
-      "file": "src/data/authors/web-reaper/index.mdx",
-      "description": "Here is an example author content collection entry.",
-      "line": 7
-    },
-    {
       "file": "src/pages/index.astro",
       "description": "This is the homepage! You can see the various components in use. Edit to your heart's content!",
       "line": 31

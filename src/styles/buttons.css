@@ -12,8 +12,8 @@
 }
 
 .button--secondary {
-	@apply bg-base-500 text-base-50 shadow-sm;
-	@apply hover:bg-base-600;
+	@apply bg-primary-500/10 text-primary-500 border border-primary-500 shadow-sm;
+	@apply hover:bg-primary-500/15;
 	@apply focus-visible:ring-base-500/50 focus-visible:ring-2;
 }
 
