@@ -4,8 +4,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 // components
 import PostCard from "@components/PostCard/PostCardAtlas.astro";
-import CategoryCloud from "@components/CategoryCloud/CategoryCloud.astro";
-import Badge from "@components/Badge/Badge.astro";
+import BlogGrid from "@components/Blog/BlogGrid.astro";
 
 // utils
 import { getAllPosts } from "@js/blogUtils";
@@ -23,8 +22,6 @@ const posts = await getAllPosts();
 			</div>
 		</div>
 
-		<div class="grid gap-8 gap-y-10 md:grid-cols-3">
-			{posts.map((post) => <PostCard post={post} showDescription={true} />)}
-		</div>
+		<BlogGrid posts={posts} />
 	</section>
 </BaseLayout>

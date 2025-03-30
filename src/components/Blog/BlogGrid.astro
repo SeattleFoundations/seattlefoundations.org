@@ -1,0 +1,8 @@
+---
+import PostCard from "@components/PostCard/PostCardAtlas.astro";
+const { posts, limit = 100 } = Astro.props;
+---
+
+<div class="grid gap-8 gap-y-10 md:grid-cols-3">
+	{posts.slice(0, limit).map((post) => <PostCard post={post} showDescription={true} />)}
+</div>

@@ -1,0 +1,21 @@
+---
+import BlogGrid from "@components/Blog/BlogGrid.astro";
+import { getAllPosts } from "@js/blogUtils";
+
+const posts = await getAllPosts();
+---
+
+<section
+	id="blog-preview"
+	class="light:bg-[url('/assets/pattern-light-big.svg')] overflow-hidden bg-center bg-no-repeat py-24 md:pb-28"
+>
+	<div class="site-container">
+		<div class="flex flex-col items-center justify-center">
+			<h2 class="h2 text-center">Foundations Blog</h2>
+		</div>
+
+		<div class="mx-auto mt-6 max-w-7xl overflow-hidden pb-10 md:mt-10">
+			<BlogGrid posts={posts} limit={3} />
+		</div>
+	</div>
+</section>
