@@ -1,7 +1,7 @@
 ---
 title: "Vibe Coding Workflow Tips"
 description: >-
-  Pejman shares his practical approach to "vibe coding," using AI tools and structured specifications to build software despite limited coding experience.
+  Pejman Pour-Moezzi shares his practical approach to "vibe coding," using AI tools and structured specifications to build software despite limited coding experience.
 draft: false
 authors:
   - pejman
@@ -13,11 +13,11 @@ categories:
 
 ## My Background and Context
 
-I wouldn't consider myself an engineer. I haven't been full-time coding in a decade plus. When I was doing a lot of coding, it was in this era where Ruby on Rails was all the rage, you had U-Scooter Shrap for career CSS, and jQuery was the JavaScript framework of choice—way before React. I was using Chrome for deployment.
+I wouldn't consider myself an engineer. I haven't been full-time coding in a decade plus. When I was doing a lot of coding, it was in this era where Ruby on Rails was all the rage, you had Bootstrap for CSS, and jQuery was the JavaScript framework of choice—way before React. I was using Heroku for deployment.
 
-So, the things I'm doing now with Cursor, I would definitely consider vibe coding, because I don't know a lot of the stuff that I'm actually doing full-time. At the same time, I'm not a complete beginner—I know how to set up my local environment, use source versioning, handle deployment, and all these sort of fundamental things.
+So, the things I'm doing now with Cursor, I would definitely consider vibe coding, because I don't know a lot of the stuff like Typescript, React and Next.js that I'm building with. At the same time, I'm not a complete beginner—I know how to set up my local environment, use source versioning, handle deployment, and all these sort of fundamental things.
 
-That's important context because there's a lot of things around development beyond just the code itself where being productive matters. I like to think I'm kind of in the sweet spot because I have to play the game a little bit, and I know enough to get going.
+That's important context because there's a lot of things around development beyond just the code itself that you need to know in order to be productive. I like to think I'm kind of in the sweet spot because I know enough of the fundamentals but if I had to do this by hand, I simply wouldn't get very far at all.
 
 ## What is Vibe Coding?
 
@@ -98,7 +98,7 @@ Next, you feed in the feature request, Cursor rules, and any existing code, aski
 There are two approaches here:
 
 - Use O1 Pro with repo prompt (more involved but leverages the most powerful LLM)
-- Simply take the feature request, put it into markdown in Cursor, and work directly there (since it already has all context)
+- Simply take the feature request, put it into markdown in Cursor, and work directly there (since it already has all the context)
 
 I often choose the second approach for speed.
 
@@ -133,4 +133,4 @@ My "skinny prompts, fat specs" approach has made me surprisingly productive even
 
 ---
 
-_This blog post is based on Pejman Pour-Moezzi's Vibe Coding Workshop presented in March 2025 at Foundations._
+_This blog post is based on [Pejman Pour-Moezzi](https://x.com/pejmanjohn)'s Vibe Coding Workshop presented in March 2025 at Foundations._
