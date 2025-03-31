@@ -1,20 +1,27 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-
+import { Image } from "astro:assets";
 // components
 import FooterLink from "@components/Footer/FooterLink.astro";
 import SiteLogo from "@components/SiteLogo/SiteLogo.astro";
 import Button from "@components/Button/Button.astro";
 import SocialIcon from "@components/SocialIcon/SocialIcon.astro";
 
-// utils
-import { getLocaleFromUrl } from "@js/localeUtils";
-import { getTranslatedData } from "@js/translationUtils";
+import stifelLogo from "@images/sponsors/Stifel.png";
+import wilsonSonsiniLogo from "@images/sponsors/WilsonSonsini.png";
 
-// data
-const currLocale = getLocaleFromUrl(Astro.url);
-const siteData = getTranslatedData("siteData", currLocale);
-
+const sponsorData = [
+	{
+		logo: stifelLogo,
+		alt: "Stifel",
+		link: "https://bankwithstifel.com/",
+	},
+	{
+		logo: wilsonSonsiniLogo,
+		alt: "Wilson Sonsini",
+		link: "https://www.wsgr.com/en/",
+	},
+];
 const today = new Date();
 ---
 
@@ -36,7 +43,22 @@ const today = new Date();
 		<div class="site-container mt-6 flex flex-wrap justify-between gap-6">
 			<div class="my-auto">
 				&copy; {today.getFullYear()}
-				{" "}{siteData.name}
+				{" "}
+				Seattle Foundations
+			</div>
+			<div class="flex gap-4">
+				{
+					sponsorData.map((sponsor) => (
+						<a href={sponsor.link} target="_blank" rel="noopener noreferrer">
+							<Image
+								src={sponsor.logo}
+								alt={sponsor.alt}
+								width={200}
+								class="max-h-8 object-contain grayscale transition-all hover:grayscale-0"
+							/>
+						</a>
+					))
+				}
 			</div>
 			<!-- Socials -->
 			<div class="flex flex-col">
