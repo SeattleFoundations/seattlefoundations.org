@@ -1,0 +1,60 @@
+---
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// components
+import { Image } from "astro:assets";
+
+// data
+import { getCollection } from "astro:content";
+import { companyLogoUrl } from "@utils/routes";
+
+// Get all companies
+const companies = await getCollection("companies");
+---
+
+<BaseLayout
+  title="Companies - Foundations"
+  description="Foundations Founder in Residence Companies"
+>
+  <section class="site-container space-y-12">
+    <div
+      class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-none"
+    >
+      <div class="mx-auto flex max-w-[950px] flex-col justify-center">
+        <h1 class="h1 text-center">Companies</h1>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+        {
+          companies.map((company) => (
+            <a href={`/companies/${company.id}`} class="group">
+              <div class="flex flex-col items-center border-r border-b border-gray-200 p-4 transition-all duration-200 hover:shadow-lg">
+                <div class="flex h-20 w-full items-center justify-center px-8">
+                  {company.data.logo ? (
+                    <img
+                      src={companyLogoUrl(company.data.logo)}
+                      alt={`${company.data.name} logo`}
+                      class="h-16 object-contain"
+                    />
+                  ) : (
+                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                      <span class="text-lg font-medium text-gray-500">
+                        {company.data.name.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <h3 class="group-hover:text-primary-600 mt-2 text-center text-sm font-medium text-gray-900">
+                  {company.data.name}
+                </h3>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -58,9 +58,36 @@ const otherPagesCollection = defineCollection({
 		}),
 });
 
+// companies
+const companiesCollection = defineCollection({
+	loader: async () => {
+		const response = await fetch("https://ai.seattlefoundations.org/api/companies");
+		const data = await response.json();
+		// Extract companies array from the response
+		return data.success && data.data && data.data.companies ? data.data.companies : [];
+	},
+	schema: z.object({
+		id: z.string().uuid(),
+		name: z.string(),
+		url: z.string().url().optional().nullable(),
+		description: z.string().optional().nullable(),
+		logo: z.string().optional().nullable(),
+		memberCount: z.number().optional(),
+		members: z
+			.array(
+				z.object({
+					name: z.string(),
+					linkedin: z.string().url().optional(),
+				}),
+			)
+			.optional(),
+	}),
+});
+
 export const collections = {
 	blog: blogCollection,
 	authors: authorsCollection,
 	static: staticCollection,
 	otherPages: otherPagesCollection,
+	companies: companiesCollection,
 };
