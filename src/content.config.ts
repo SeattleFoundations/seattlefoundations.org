@@ -68,6 +68,7 @@ const companiesCollection = defineCollection({
 	},
 	schema: z.object({
 		id: z.string().uuid(),
+		slug: z.string(),
 		name: z.string(),
 		url: z.string().url().optional().nullable(),
 		description: z.string().optional().nullable(),
