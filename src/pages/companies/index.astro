@@ -47,8 +47,15 @@ const companies = await getCollection("companies");
 										</div>
 									)}
 								</div>
-								<h3 class="group-hover:text-primary-600 mt-2 text-center text-sm font-medium text-gray-900">
-									{company.data.name}
+								<h3 class="group-hover:text-primary-600 mt-2 flex gap-2 text-center text-sm text-gray-900">
+									<span class="flex items-center justify-center text-base">
+										{company.data.name}
+									</span>
+									{company.data.alumn && (
+										<span class="bg-primary-500/40 text-primary-800 ml-1 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium">
+											Alum
+										</span>
+									)}
 								</h3>
 							</div>
 						</a>

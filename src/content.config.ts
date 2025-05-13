@@ -74,6 +74,7 @@ const companiesCollection = defineCollection({
 		description: z.string().optional().nullable(),
 		logo: z.string().optional().nullable(),
 		memberCount: z.number().optional(),
+		alumn: z.coerce.boolean().optional().nullable(),
 		members: z
 			.array(
 				z.object({
