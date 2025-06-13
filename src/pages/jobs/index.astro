@@ -1,0 +1,117 @@
+---
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// components
+import { Image } from "astro:assets";
+
+// data
+import { getCollection } from "astro:content";
+import { companyLogoUrl } from "@utils/routes";
+
+// Get all jobs
+const jobs = await getCollection("jobs");
+
+// Group jobs by company
+const jobsByCompany = jobs.reduce((acc, job) => {
+	const companyId = job.data.companyId;
+	if (!acc[companyId]) {
+		acc[companyId] = {
+			companyName: job.data.companyName,
+			companyLogo: job.data.companyLogo || null,
+			jobs: []
+		};
+	}
+	acc[companyId].jobs.push(job);
+	return acc;
+}, {} as Record<string, { companyName: string; companyLogo: string | null; jobs: typeof jobs }>);
+
+// Sort companies by name and filter out companies with no jobs
+const sortedCompanies = Object.entries(jobsByCompany)
+	.filter(([_, company]) => company.jobs.length > 0)
+	.sort(([_, a], [__, b]) => a.companyName.localeCompare(b.companyName));
+---
+
+<BaseLayout
+	title="Jobs - Foundations"
+	description="Job opportunities at Foundations companies"
+>
+	<section class="site-container space-y-12">
+		<div
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-none"
+		>
+			<div class="mx-auto flex max-w-[950px] flex-col justify-center">
+				<h1 class="h1 text-center">Jobs</h1>
+				<p class="mt-4 text-center text-lg text-gray-600">
+					Explore open positions at Foundations companies
+				</p>
+			</div>
+		</div>
+
+		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24">
+			{sortedCompanies.length === 0 ? (
+				<div class="text-center py-12">
+					<p class="text-gray-500">No job listings available at the moment.</p>
+				</div>
+			) : (
+				<div class="space-y-8">
+					{sortedCompanies.map(([companyId, company]) => (
+						<div class="border border-gray-200 rounded-lg overflow-hidden">
+							<div class="bg-gray-50 px-6 py-4 flex items-center gap-4">
+								{company.companyLogo ? (
+									<img
+										src={companyLogoUrl(company.companyLogo)}
+										alt={`${company.companyName} logo`}
+										class="h-12 w-12 object-contain"
+									/>
+								) : (
+									<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200">
+										<span class="text-lg font-medium text-gray-600">
+											{company.companyName.charAt(0)}
+										</span>
+									</div>
+								)}
+								<h2 class="text-xl font-semibold text-gray-900">{company.companyName}</h2>
+								<span class="ml-auto text-sm text-gray-500">
+									{company.jobs.length} {company.jobs.length === 1 ? 'position' : 'positions'}
+								</span>
+							</div>
+							<div class="divide-y divide-gray-200">
+								{company.jobs.map((job) => (
+									<div class="px-6 py-4 hover:bg-gray-50 transition-colors">
+										<div class="flex items-start justify-between">
+											<div class="flex-1">
+												<h3 class="text-lg font-medium text-gray-900">
+													{job.data.name}
+												</h3>
+												{job.data.description && (
+													<p class="mt-1 text-sm text-gray-600 line-clamp-2">
+														{job.data.description}
+													</p>
+												)}
+												<div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+													<span>Posted {new Date(job.data.created_at).toLocaleDateString()}</span>
+												</div>
+											</div>
+											<a
+												href={job.data.url}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+											>
+												Apply
+												<svg class="ml-2 -mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+												</svg>
+											</a>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					))}
+				</div>
+			)}
+		</div>
+	</section>
+</BaseLayout> 

@@ -22,6 +22,10 @@ const navConfig: navItem[] = [
 		text: "Companies",
 		link: "/companies",
 	},
+	{
+		text: "Startup Jobs",
+		link: "/jobs",
+	},
 ];
 
 export default navConfig;

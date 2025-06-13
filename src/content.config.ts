@@ -86,10 +86,58 @@ const companiesCollection = defineCollection({
 	}),
 });
 
+// jobs
+const jobsCollection = defineCollection({
+	loader: async () => {
+		const response = await fetch("https://ai.seattlefoundations.org/api/job-listings");
+		const data = await response.json();
+		// Extract job listings from the response and flatten them
+		if (data.success && data.data && data.data.jobListingsByCompany) {
+			const jobs: Array<{
+				id: string;
+				company_id: string;
+				companyId: string;
+				companyName: string;
+				companyLogo: string | null;
+				name: string;
+				url: string;
+				description: string | null;
+				created_at: string;
+				updated_at: string;
+			}> = [];
+			for (const company of data.data.jobListingsByCompany) {
+				for (const job of company.jobListings) {
+					jobs.push({
+						...job,
+						companyName: company.companyName,
+						companyLogo: company.companyLogo,
+						companyId: company.companyId,
+					});
+				}
+			}
+			return jobs;
+		}
+		return [];
+	},
+	schema: z.object({
+		id: z.string().uuid(),
+		company_id: z.string().uuid(),
+		companyId: z.string().uuid(),
+		companyName: z.string(),
+		companyLogo: z.string().optional().nullable(),
+		name: z.string(),
+		url: z.string().url(),
+		description: z.string().optional().nullable(),
+		created_at: z.string(),
+		updated_at: z.string(),
+	}),
+});
+
 export const collections = {
 	blog: blogCollection,
 	authors: authorsCollection,
 	static: staticCollection,
 	otherPages: otherPagesCollection,
 	companies: companiesCollection,
+	jobs: jobsCollection,
 };
