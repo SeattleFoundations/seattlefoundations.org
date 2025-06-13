@@ -26,6 +26,10 @@ const navConfig: navItem[] = [
 		text: "Startup Jobs",
 		link: "/jobs",
 	},
+	{
+		text: "Merch",
+		link: "https://merch.seattlefoundations.org/",
+	},
 ];
 
 export default navConfig;
