@@ -9,22 +9,29 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { companyLogoUrl } from "@utils/routes";
 
-// Get all jobs
+// Get all jobs and companies
 const jobs = await getCollection("jobs");
+const companies = await getCollection("companies");
+
+// Create a map of company IDs to company data for quick lookup
+const companyMap = new Map(companies.map(company => [company.data.id, company.data]));
 
 // Group jobs by company
 const jobsByCompany = jobs.reduce((acc, job) => {
 	const companyId = job.data.companyId;
 	if (!acc[companyId]) {
+		const companyData = companyMap.get(companyId);
 		acc[companyId] = {
 			companyName: job.data.companyName,
 			companyLogo: job.data.companyLogo || null,
+			companyUrl: companyData?.url || null,
+			companySlug: companyData?.slug || null,
 			jobs: []
 		};
 	}
 	acc[companyId].jobs.push(job);
 	return acc;
-}, {} as Record<string, { companyName: string; companyLogo: string | null; jobs: typeof jobs }>);
+}, {} as Record<string, { companyName: string; companyLogo: string | null; companyUrl: string | null; companySlug: string | null; jobs: typeof jobs }>);
 
 // Sort companies by name and filter out companies with no jobs
 const sortedCompanies = Object.entries(jobsByCompany)
@@ -71,7 +78,28 @@ const sortedCompanies = Object.entries(jobsByCompany)
 										</span>
 									</div>
 								)}
-								<h2 class="text-xl font-semibold text-gray-900">{company.companyName}</h2>
+								{company.companyUrl ? (
+									<a 
+										href={company.companyUrl} 
+										target="_blank" 
+										rel="noopener noreferrer"
+										class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors"
+									>
+										{company.companyName}
+										<svg class="inline-block w-4 h-4 ml-1 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+										</svg>
+									</a>
+								) : company.companySlug ? (
+									<a 
+										href={`/companies/${company.companySlug}`}
+										class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors"
+									>
+										{company.companyName}
+									</a>
+								) : (
+									<h2 class="text-xl font-semibold text-gray-900">{company.companyName}</h2>
+								)}
 								<span class="ml-auto text-sm text-gray-500">
 									{company.jobs.length} {company.jobs.length === 1 ? 'position' : 'positions'}
 								</span>
