@@ -166,15 +166,8 @@ import Button from "@components/Button/Button.astro";
 		containerEl?.classList.add('hidden');
 
 		try {
-			// Check if we're in development or production
-			const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-			
-			// Use direct API in development, Netlify function in production
-			const apiUrl = isDevelopment 
-				? `https://ai.seattlefoundations.org/api/calendar/events?t=${Date.now()}`
-				: `/.netlify/functions/events?t=${Date.now()}`;
-			
-			const response = await fetch(apiUrl, {
+			// Use the local API endpoint that proxies the request
+			const response = await fetch(`/api/events.json?t=${Date.now()}`, {
 				method: 'GET',
 				headers: {
 					'Cache-Control': 'no-cache, no-store, must-revalidate',
