@@ -5,6 +5,10 @@ const navConfig: navItem[] = [
 		text: "Manifesto",
 		link: "/static/manifesto",
 	},
+	{
+		text: "Public Events",
+		link: "/events",
+	},
 	// {
 	// 	text: "Companies",
 	// 	link: "/companies",
