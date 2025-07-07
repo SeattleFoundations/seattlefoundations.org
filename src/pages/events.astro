@@ -159,8 +159,21 @@ import Button from "@components/Button/Button.astro";
 		const emptyEl = document.getElementById('empty');
 		const containerEl = document.getElementById('events-container');
 
+		// Reset visibility states
+		loadingEl?.classList.remove('hidden');
+		errorEl?.classList.add('hidden');
+		emptyEl?.classList.add('hidden');
+		containerEl?.classList.add('hidden');
+
 		try {
-			const response = await fetch('https://ai.seattlefoundations.org/api/calendar/events');
+			// Add cache-busting parameter and no-cache headers
+			const response = await fetch(`https://ai.seattlefoundations.org/api/calendar/events?t=${Date.now()}`, {
+				method: 'GET',
+				headers: {
+					'Cache-Control': 'no-cache, no-store, must-revalidate',
+					'Pragma': 'no-cache'
+				}
+			});
 			const data: EventsResponse = await response.json();
 			
 			// Hide loading
@@ -194,4 +207,18 @@ import Button from "@components/Button/Button.astro";
 
 	// Load events when page loads
 	loadEvents();
+
+	// Reload events when page becomes visible (e.g., when navigating back)
+	document.addEventListener('visibilitychange', () => {
+		if (!document.hidden) {
+			loadEvents();
+		}
+	});
+
+	// Also reload when navigating to the page using browser back/forward
+	window.addEventListener('pageshow', (event) => {
+		if (event.persisted) {
+			loadEvents();
+		}
+	});
 </script> 
