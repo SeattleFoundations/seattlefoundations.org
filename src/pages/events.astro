@@ -210,20 +210,54 @@ import Button from "@components/Button/Button.astro";
 		}
 	}
 
-	// Load events when page loads
-	loadEvents();
+	// Track if events are currently loaded
+	let eventsLoaded = false;
 
-	// Reload events when page becomes visible (e.g., when navigating back)
-	document.addEventListener('visibilitychange', () => {
-		if (!document.hidden) {
+	// Function to check if we're on the events page and need to load events
+	function checkAndLoadEvents() {
+		const isEventsPage = window.location.pathname === '/events' || window.location.pathname === '/events/';
+		const hasEventsContainer = document.getElementById('events-container') !== null;
+		
+		if (isEventsPage && hasEventsContainer && !eventsLoaded) {
+			eventsLoaded = true;
 			loadEvents();
+		} else if (!isEventsPage) {
+			// Reset the flag when leaving the events page
+			eventsLoaded = false;
+		}
+	}
+
+	// Initial load
+	checkAndLoadEvents();
+
+	// Watch for DOM changes (handles client-side navigation)
+	const observer = new MutationObserver(() => {
+		checkAndLoadEvents();
+	});
+
+	// Start observing the document body for changes
+	observer.observe(document.body, {
+		childList: true,
+		subtree: true
+	});
+
+	// Handle visibility changes (tab switching)
+	document.addEventListener('visibilitychange', () => {
+		if (!document.hidden && window.location.pathname.includes('/events')) {
+			eventsLoaded = false; // Force reload when tab becomes visible
+			checkAndLoadEvents();
 		}
 	});
 
-	// Also reload when navigating to the page using browser back/forward
-	window.addEventListener('pageshow', (event) => {
-		if (event.persisted) {
-			loadEvents();
-		}
+	// Handle browser navigation (back/forward)
+	window.addEventListener('popstate', () => {
+		eventsLoaded = false; // Force reload on navigation
+		setTimeout(checkAndLoadEvents, 100); // Small delay to ensure DOM is ready
+	});
+
+	// Handle Astro page transitions if they're being used
+	document.addEventListener('astro:after-swap', () => {
+		eventsLoaded = false; // Reset flag after page swap
+		checkAndLoadEvents();
 	});
 </script> 
