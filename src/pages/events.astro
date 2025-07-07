@@ -166,14 +166,26 @@ import Button from "@components/Button/Button.astro";
 		containerEl?.classList.add('hidden');
 
 		try {
-			// Use local Netlify function to avoid CORS issues
-			const response = await fetch(`/.netlify/functions/events?t=${Date.now()}`, {
+			// Check if we're in development or production
+			const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+			
+			// Use direct API in development, Netlify function in production
+			const apiUrl = isDevelopment 
+				? `https://ai.seattlefoundations.org/api/calendar/events?t=${Date.now()}`
+				: `/.netlify/functions/events?t=${Date.now()}`;
+			
+			const response = await fetch(apiUrl, {
 				method: 'GET',
 				headers: {
 					'Cache-Control': 'no-cache, no-store, must-revalidate',
 					'Pragma': 'no-cache'
 				}
 			});
+			
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			
 			const data: EventsResponse = await response.json();
 			
 			// Hide loading
