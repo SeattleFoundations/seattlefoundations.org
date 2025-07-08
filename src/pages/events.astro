@@ -166,12 +166,12 @@ import Button from "@components/Button/Button.astro";
 		containerEl?.classList.add('hidden');
 
 		try {
-			// Use the local API endpoint that proxies the request
-			const response = await fetch(`/api/events.json?t=${Date.now()}`, {
+			// Always use the direct API URL
+			// The API should have CORS headers configured to allow requests from seattlefoundations.org
+			const response = await fetch(`https://ai.seattlefoundations.org/api/calendar/events?t=${Date.now()}`, {
 				method: 'GET',
 				headers: {
-					'Cache-Control': 'no-cache, no-store, must-revalidate',
-					'Pragma': 'no-cache'
+					'Accept': 'application/json',
 				}
 			});
 			
