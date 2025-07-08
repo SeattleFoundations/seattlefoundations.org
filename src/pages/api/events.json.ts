@@ -1,5 +1,4 @@
-// This tells Astro to always run this endpoint dynamically, not pre-render it
-export const prerender = false;
+export const prerender = false; // This ensures the endpoint runs on each request
 
 export async function GET() {
   try {
@@ -11,8 +10,7 @@ export async function GET() {
       headers: {
         'Content-Type': 'application/json',
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
+        'Pragma': 'no-cache'
       }
     });
   } catch (error) {
