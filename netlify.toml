@@ -7,6 +7,14 @@
   publish = "dist"
   functions = "netlify/functions/"
 
+# Disable caching for the events API endpoint
+[[headers]]
+  for = "/api/events.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
 # [[redirects]]
 #   from = "/api/*" # simplify all calls to serverless functions
 #   to = "/.netlify/functions/:splat" # all function calls will go to this path

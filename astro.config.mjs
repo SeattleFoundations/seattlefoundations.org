@@ -13,6 +13,7 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
 	site: "https://seattlefoundations.org",
+	output: 'server', // Server mode to ensure API endpoints work dynamically
 	adapter: netlify({
 		imageCDN: false,
 	}),
