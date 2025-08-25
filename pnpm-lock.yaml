@@ -63,7 +63,7 @@ importers:
         specifier: ^0.8.4
         version: 0.8.4(prettier-plugin-astro@0.14.1)(prettier@3.5.0)(typescript@5.7.3)
       react:
-        specifier: ^18.3.1
+        specifier: ^19.0.0
         version: 19.0.0
       react-dom:
         specifier: ^19.0.0
