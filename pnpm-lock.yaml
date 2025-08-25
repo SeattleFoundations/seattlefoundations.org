@@ -45,7 +45,7 @@ importers:
         specifier: ^19.0.10
         version: 19.0.10
       '@types/react-dom':
-        specifier: ^18.3.5
+        specifier: ^19.0.1
         version: 19.0.4(@types/react@19.0.10)
       animejs:
         specifier: ^3.2.2
