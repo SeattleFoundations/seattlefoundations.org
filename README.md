@@ -61,6 +61,9 @@ I've spent the past two years diving deep into the world of GenAI and CodeGen…
 
 The blog posts are rendered using [Astro.build](https://docs.astro.build/en/guides/markdown-content/) and will be available at [https://seattlefoundations.org/blog](https://seattlefoundations.org/blog).
 
+## Deployment
+Auto-deploys from main
+
 ## License
 
 This website is maintained by Seattle Foundations. All rights reserved.
