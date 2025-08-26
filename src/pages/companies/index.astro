@@ -11,6 +11,32 @@ import { companyLogoUrl } from "@utils/routes";
 
 // Get all companies
 const companies = await getCollection("companies");
+
+// Sort companies: Active FIR first, then FIR Alumni, then Members
+// Within each group, sort alphabetically
+const sortedCompanies = companies.sort((a, b) => {
+	// Determine the priority group for each company
+	// Priority 1: Active FIR (fir=true, alumn=false)
+	// Priority 2: FIR Alumni (fir=true, alumn=true) 
+	// Priority 3: Members (fir=false)
+	
+	const getPriority = (company) => {
+		if (company.data.fir && !company.data.alumn) return 1; // Active FIR
+		if (company.data.fir && company.data.alumn) return 2;  // FIR Alumni
+		return 3; // Members
+	};
+	
+	const priorityA = getPriority(a);
+	const priorityB = getPriority(b);
+	
+	// If different priority groups, sort by priority
+	if (priorityA !== priorityB) {
+		return priorityA - priorityB;
+	}
+	
+	// If same priority group, sort alphabetically by name
+	return a.data.name.localeCompare(b.data.name);
+});
 ---
 
 <BaseLayout
@@ -29,7 +55,7 @@ const companies = await getCollection("companies");
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
 				{
-					companies.map((company) => (
+					sortedCompanies.map((company) => (
 						<a href={`/companies/${company.data.slug}`} class="group">
 							<div class="flex flex-col items-center border-r border-b border-gray-200 p-4 transition-all duration-200 hover:shadow-lg">
 								<div class="flex h-20 w-full items-center justify-center px-8">
