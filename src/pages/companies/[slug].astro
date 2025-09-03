@@ -1,7 +1,18 @@
 ---
 // layout
 import BaseLayout from "@layouts/BaseLayout.astro";
-export const prerender = false;
+
+export async function getStaticPaths() {
+	try {
+		const resp = await fetch('https://ai.seattlefoundations.org/api/companies');
+		const data = await resp.json();
+		const companies = data && data.data && data.data.companies ? data.data.companies : [];
+		return companies.map((c) => ({ params: { slug: c.slug } }));
+	} catch (e) {
+		console.error('getStaticPaths companies error', e);
+		return [];
+	}
+}
 ---
 
 <BaseLayout title="Company - Foundations" description="Foundations Founder in Residence Company">
