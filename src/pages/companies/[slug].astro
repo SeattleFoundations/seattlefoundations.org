@@ -1,30 +1,10 @@
 ---
 // layout
 import BaseLayout from "@layouts/BaseLayout.astro";
-
-// data
-import { getCollection } from "astro:content";
-
-// utils
-import { companyLogoUrl } from "@utils/routes";
-
-export async function getStaticPaths() {
-	const companies = await getCollection("companies");
-
-	return companies.map((company) => ({
-		params: { slug: company.data.slug },
-		props: { company: company.data },
-	}));
-}
-
-// Get the company from props
-const { company } = Astro.props;
+export const prerender = false;
 ---
 
-<BaseLayout
-	title={`${company.name} - Foundations`}
-	description={company.description || `${company.name} - Foundations Founder in Residence Company`}
->
+<BaseLayout title="Company - Foundations" description="Foundations Founder in Residence Company">
 	<section class="site-container space-y-12 pt-20">
 		<!-- Breadcrumbs -->
 		<div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -34,94 +14,174 @@ const { company } = Astro.props;
 				</div>
 			</div>
 
-			<!-- Company Card -->
+			<!-- Loading -->
+			<div id="company-loading" class="mx-auto max-w-5xl text-center">
+				<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
+					<div class="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-primary-600"></div>
+					<p class="text-lg text-gray-600 dark:text-gray-300">Loading company...</p>
+				</div>
+			</div>
+
+			<!-- Error -->
+			<div id="company-error" class="mx-auto max-w-5xl text-center hidden">
+				<div class="rounded-lg bg-red-50 p-8 dark:bg-red-900/20">
+					<p class="text-lg text-red-800 dark:text-red-300">Failed to load company</p>
+					<p class="mt-2 text-sm text-red-600 dark:text-red-400">Please try again later.</p>
+				</div>
+			</div>
+
+			<!-- Empty -->
+			<div id="company-empty" class="mx-auto max-w-5xl text-center hidden">
+				<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
+					<p class="text-lg text-gray-600 dark:text-gray-300">Company not found.</p>
+				</div>
+			</div>
+
+			<!-- Container for dynamic content -->
+			<div id="company-container" class="mx-auto max-w-5xl hidden"></div>
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	interface CompanyMember { name: string; linkedin?: string }
+	interface Company {
+		id: string;
+		slug: string;
+		name: string;
+		url?: string | null;
+		description?: string | null;
+		logo?: string | null;
+		memberCount?: number;
+		alumn?: boolean | null;
+		fir?: boolean | null;
+		members?: CompanyMember[];
+	}
+
+	interface CompaniesApiResponse {
+		success: boolean;
+		data?: { companies?: Company[] };
+	}
+
+	function companyLogoUrl(relativeUrl: string): string {
+		return new URL(relativeUrl, 'https://ai.seattlefoundations.org').toString();
+	}
+
+	function renderCompany(company: Company): string {
+		const hostname = company.url ? new URL(company.url).hostname : '';
+		const urlWithUtm = company.url ? `${company.url}${company.url.includes('?') ? '&' : '?'}utm_source=seattlefoundations&utm_medium=directory&utm_campaign=company_profile` : null;
+		return `
 			<div class="mb-8 overflow-hidden rounded-lg bg-white shadow">
 				<div class="p-6">
 					<div class="flex flex-col md:flex-row md:items-start">
-						{
-							company.logo && (
-								<div class="mt-1 mb-4 flex-shrink-0 md:mr-6 md:mb-0">
-									<img
-										src={companyLogoUrl(company.logo)}
-										alt={`${company.name} logo`}
-										class="max-h-32 max-w-32 object-contain"
-									/>
-								</div>
-							)
-						}
-						<div class={`flex-1 ${!company.logo ? "md:pl-0" : ""}`}>
+						${company.logo ? `
+							<div class="mt-1 mb-4 flex-shrink-0 md:mr-6 md:mb-0">
+								<img src="${companyLogoUrl(company.logo)}" alt="${company.name} logo" class="max-h-32 max-w-32 object-contain" />
+							</div>
+						` : ''}
+						<div class="flex-1 ${!company.logo ? 'md:pl-0' : ''}">
 							<div class="flex flex-wrap items-center justify-between">
 								<div>
-									<h1 class="text-2xl font-semibold text-gray-900">{company.name}</h1>
+									<h1 class="text-2xl font-semibold text-gray-900">${company.name}</h1>
 									<div class="mt-2 flex items-center gap-2">
-										{company.alumn && (
-											<span class="bg-primary-500/40 text-primary-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">
-												Alumni
-											</span>
-										)}
-										{company.fir ? (
-											<span class="bg-gray-500/40 text-gray-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">
-												Founder in Residence
-											</span>
-										) : (
-											<span class="bg-green-500/40 text-green-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">
-												Member
-											</span>
-										)}
+										${company.alumn ? `<span class=\"bg-primary-500/40 text-primary-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium\">Alumni</span>` : ''}
+										${company.fir ? `<span class=\"bg-gray-500/40 text-gray-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium\">Founder in Residence</span>` : `<span class=\"bg-green-500/40 text-green-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium\">Member</span>`}
 									</div>
 								</div>
-								{
-									company.url && (
-										<a
-											href={`${company.url}${company.url.includes("?") ? "&" : "?"}utm_source=seattlefoundations&utm_medium=directory&utm_campaign=company_profile`}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="text-primary-600 hover:underline"
-										>
-											{new URL(company.url).hostname}
-										</a>
-									)
-								}
+								${urlWithUtm ? `<a href=\"${urlWithUtm}\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary-600 hover:underline\">${hostname}</a>` : ''}
 							</div>
-							{company.description && <p class="mt-2 text-gray-600">{company.description}</p>}
+							${company.description ? `<p class=\"mt-2 text-gray-600\">${company.description}</p>` : ''}
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<!-- Team Members -->
-			{
-				company.members && company.members.length > 0 && (
-					<div class="mb-8">
-						<h2 class="mb-4 text-xl font-medium text-gray-900">Active Founders</h2>
-						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-							{company.members.map((member) => (
-								<div class="space-y-2 rounded-lg bg-white px-6 py-4 shadow-sm">
-									<h3 class="text-lg font-medium text-gray-900">{member.name}</h3>
-									{member.linkedin && (
-										<a
-											href={member.linkedin}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="text-primary-600 hover:text-primary-700 inline-flex items-center text-sm"
-										>
-											<svg
-												class="mr-1 h-4 w-4"
-												fill="currentColor"
-												viewBox="0 0 24 24"
-												xmlns="http://www.w3.org/2000/svg"
-											>
-												<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
-											</svg>
-											LinkedIn
-										</a>
-									)}
-								</div>
-							))}
-						</div>
+			${company.members && company.members.length ? `
+				<div class="mb-8">
+					<h2 class="mb-4 text-xl font-medium text-gray-900">Active Founders</h2>
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+						${company.members.map(m => `
+							<div class="space-y-2 rounded-lg bg-white px-6 py-4 shadow-sm">
+								<h3 class="text-lg font-medium text-gray-900">${m.name}</h3>
+								${m.linkedin ? `<a href=\"${m.linkedin}\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary-600 hover:text-primary-700 inline-flex items-center text-sm\"><svg class=\"mr-1 h-4 w-4\" fill=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z\" /></svg>LinkedIn</a>` : ''}
+							</div>
+						`).join('')}
 					</div>
-				)
+				</div>
+			` : ''}
+		`;
+	}
+
+	async function loadCompany(): Promise<void> {
+		const loadingEl = document.getElementById('company-loading');
+		const errorEl = document.getElementById('company-error');
+		const emptyEl = document.getElementById('company-empty');
+		const containerEl = document.getElementById('company-container');
+
+		loadingEl?.classList.remove('hidden');
+		errorEl?.classList.add('hidden');
+		emptyEl?.classList.add('hidden');
+		containerEl?.classList.add('hidden');
+
+		try {
+			const slug = window.location.pathname.replace(/^\/companies\//, '').replace(/\/$/, '');
+			const resp = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
+			if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+			const data: CompaniesApiResponse = await resp.json();
+			const companies = data.success && data.data && data.data.companies ? data.data.companies : [];
+			const company = companies.find(c => c.slug === slug);
+
+			loadingEl?.classList.add('hidden');
+
+			if (!company) {
+				emptyEl?.classList.remove('hidden');
+				return;
 			}
-		</div>
-	</section>
-</BaseLayout>
+
+			// Update page title dynamically
+			document.title = `${company.name} - Foundations`;
+
+			if (containerEl) {
+				containerEl.innerHTML = renderCompany(company);
+				containerEl.classList.remove('hidden');
+			}
+		} catch (e) {
+			console.error('Error fetching company:', e);
+			loadingEl?.classList.add('hidden');
+			errorEl?.classList.remove('hidden');
+		}
+	}
+
+	let companyLoaded = false;
+	function checkAndLoadCompany() {
+		const isCompanyPage = window.location.pathname.startsWith('/companies/');
+		const hasContainer = document.getElementById('company-container') !== null;
+		if (isCompanyPage && hasContainer && !companyLoaded) {
+			companyLoaded = true;
+			loadCompany();
+		} else if (!isCompanyPage) {
+			companyLoaded = false;
+		}
+	}
+
+	checkAndLoadCompany();
+
+	const observer = new MutationObserver(() => { checkAndLoadCompany(); });
+	observer.observe(document.body, { childList: true, subtree: true });
+
+	document.addEventListener('visibilitychange', () => {
+		if (!document.hidden && window.location.pathname.startsWith('/companies/')) {
+			companyLoaded = false;
+			checkAndLoadCompany();
+		}
+	});
+
+	window.addEventListener('popstate', () => {
+		companyLoaded = false;
+		setTimeout(checkAndLoadCompany, 100);
+	});
+
+	document.addEventListener('astro:after-swap', () => {
+		companyLoaded = false;
+		checkAndLoadCompany();
+	});
+</script>

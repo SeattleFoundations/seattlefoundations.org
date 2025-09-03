@@ -1,42 +1,6 @@
 ---
 // layout
 import BaseLayout from "@layouts/BaseLayout.astro";
-
-// components
-import { Image } from "astro:assets";
-
-// data
-import { getCollection } from "astro:content";
-import { companyLogoUrl } from "@utils/routes";
-
-// Get all jobs and companies
-const jobs = await getCollection("jobs");
-const companies = await getCollection("companies");
-
-// Create a map of company IDs to company data for quick lookup
-const companyMap = new Map(companies.map(company => [company.data.id, company.data]));
-
-// Group jobs by company
-const jobsByCompany = jobs.reduce((acc, job) => {
-	const companyId = job.data.companyId;
-	if (!acc[companyId]) {
-		const companyData = companyMap.get(companyId);
-		acc[companyId] = {
-			companyName: job.data.companyName,
-			companyLogo: job.data.companyLogo || null,
-			companyUrl: companyData?.url || null,
-			companySlug: companyData?.slug || null,
-			jobs: []
-		};
-	}
-	acc[companyId].jobs.push(job);
-	return acc;
-}, {} as Record<string, { companyName: string; companyLogo: string | null; companyUrl: string | null; companySlug: string | null; jobs: typeof jobs }>);
-
-// Sort companies by name and filter out companies with no jobs
-const sortedCompanies = Object.entries(jobsByCompany)
-	.filter(([_, company]) => company.jobs.length > 0)
-	.sort(([_, a], [__, b]) => a.companyName.localeCompare(b.companyName));
 ---
 
 <BaseLayout
@@ -55,91 +19,197 @@ const sortedCompanies = Object.entries(jobsByCompany)
 			</div>
 		</div>
 
+		<!-- Loading state -->
+		<div id="jobs-loading" class="mx-auto max-w-2xl text-center">
+			<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
+				<div class="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-primary-600"></div>
+				<p class="text-lg text-gray-600 dark:text-gray-300">Loading jobs...</p>
+			</div>
+		</div>
+
+		<!-- Error state (hidden by default) -->
+		<div id="jobs-error" class="mx-auto max-w-2xl text-center hidden">
+			<div class="rounded-lg bg-red-50 p-8 dark:bg-red-900/20">
+				<p class="text-lg text-red-800 dark:text-red-300">Failed to load jobs</p>
+				<p class="mt-2 text-sm text-red-600 dark:text-red-400">Please try again later.</p>
+			</div>
+		</div>
+
+		<!-- Empty state (hidden by default) -->
+		<div id="jobs-empty" class="mx-auto max-w-2xl text-center hidden">
+			<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
+				<p class="text-lg text-gray-600 dark:text-gray-300">No job listings available at the moment.</p>
+			</div>
+		</div>
+
+		<!-- Jobs container (hidden by default) -->
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24">
-			{sortedCompanies.length === 0 ? (
-				<div class="text-center py-12">
-					<p class="text-gray-500">No job listings available at the moment.</p>
-				</div>
-			) : (
-				<div class="space-y-8">
-					{sortedCompanies.map(([companyId, company]) => (
-						<div class="border border-gray-200 rounded-lg overflow-hidden">
-							<div class="bg-gray-50 px-6 py-4 flex items-center gap-4">
-								{company.companyLogo ? (
-									<img
-										src={companyLogoUrl(company.companyLogo)}
-										alt={`${company.companyName} logo`}
-										class="h-12 w-12 object-contain"
-									/>
-								) : (
-									<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200">
-										<span class="text-lg font-medium text-gray-600">
-											{company.companyName.charAt(0)}
-										</span>
-									</div>
-								)}
-								{company.companyUrl ? (
-									<a 
-										href={company.companyUrl} 
-										target="_blank" 
-										rel="noopener noreferrer"
-										class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors"
-									>
-										{company.companyName}
-										<svg class="inline-block w-4 h-4 ml-1 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-										</svg>
-									</a>
-								) : company.companySlug ? (
-									<a 
-										href={`/companies/${company.companySlug}`}
-										class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors"
-									>
-										{company.companyName}
-									</a>
-								) : (
-									<h2 class="text-xl font-semibold text-gray-900">{company.companyName}</h2>
-								)}
-								<span class="ml-auto text-sm text-gray-500">
-									{company.jobs.length} {company.jobs.length === 1 ? 'position' : 'positions'}
-								</span>
-							</div>
-							<div class="divide-y divide-gray-200">
-								{company.jobs.map((job) => (
-									<div class="px-6 py-4 hover:bg-gray-50 transition-colors">
-										<div class="flex items-start justify-between">
-											<div class="flex-1">
-												<h3 class="text-lg font-medium text-gray-900">
-													{job.data.name}
-												</h3>
-												{job.data.description && (
-													<p class="mt-1 text-sm text-gray-600 line-clamp-2">
-														{job.data.description}
-													</p>
-												)}
-												<div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
-													<span>Posted {new Date(job.data.created_at).toLocaleDateString()}</span>
-												</div>
-											</div>
-											<a
-												href={job.data.url}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-											>
-												Apply
-												<svg class="ml-2 -mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-												</svg>
-											</a>
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-					))}
-				</div>
-			)}
+			<div id="jobs-container" class="space-y-8 hidden"></div>
 		</div>
 	</section>
+	<script>
+		interface ApiJob {
+			id: string;
+			company_id: string;
+			companyId: string;
+			companyName: string;
+			companyLogo: string | null;
+			name: string;
+			url: string;
+			description: string | null;
+			created_at: string;
+			updated_at: string;
+		}
+
+		interface JobsApiResponse {
+			success: boolean;
+			data?: { jobListingsByCompany?: Array<{ companyId: string; companyName: string; companyLogo: string | null; jobListings: ApiJob[] }> };
+		}
+
+		interface CompaniesApiResponse {
+			success: boolean;
+			data?: { companies?: Array<{ id: string; slug: string | null; url: string | null }> };
+		}
+
+		function companyLogoUrl(relativeUrl: string): string {
+			return new URL(relativeUrl, 'https://ai.seattlefoundations.org').toString();
+		}
+
+		function createCompanySection(company: { companyId: string; companyName: string; companyLogo: string | null; companyUrl: string | null; companySlug: string | null; jobs: ApiJob[] }): string {
+			return `
+				<div class="border border-gray-200 rounded-lg overflow-hidden">
+					<div class="bg-gray-50 px-6 py-4 flex items-center gap-4">
+						${company.companyLogo ? `
+							<img src="${companyLogoUrl(company.companyLogo)}" alt="${company.companyName} logo" class="h-12 w-12 object-contain" />
+						` : `
+							<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200">
+								<span class="text-lg font-medium text-gray-600">${company.companyName.charAt(0)}</span>
+							</div>
+						`}
+						${company.companyUrl ? `
+							<a href="${company.companyUrl}" target="_blank" rel="noopener noreferrer" class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors">
+								${company.companyName}
+								<svg class="inline-block w-4 h-4 ml-1 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+							</a>
+						` : company.companySlug ? `
+							<a href="/companies/${company.companySlug}" class="text-xl font-semibold text-gray-900 hover:text-primary-600 transition-colors">${company.companyName}</a>
+						` : `
+							<h2 class="text-xl font-semibold text-gray-900">${company.companyName}</h2>
+						`}
+						<span class="ml-auto text-sm text-gray-500">${company.jobs.length} ${company.jobs.length === 1 ? 'position' : 'positions'}</span>
+					</div>
+					<div class="divide-y divide-gray-200">
+						${company.jobs.map(job => `
+							<div class="px-6 py-4 hover:bg-gray-50 transition-colors">
+								<div class="flex items-start justify-between">
+									<div class="flex-1">
+										<h3 class="text-lg font-medium text-gray-900">${job.name}</h3>
+										${job.description ? `<p class="mt-1 text-sm text-gray-600 line-clamp-2">${job.description}</p>` : ''}
+										<div class="mt-2 flex items-center gap-4 text-sm text-gray-500">
+											<span>Posted ${new Date(job.created_at).toLocaleDateString()}</span>
+										</div>
+									</div>
+									<a href="${job.url}" target="_blank" rel="noopener noreferrer" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+										Apply
+										<svg class="ml-2 -mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+									</a>
+								</div>
+							</div>
+					`).join('')}
+					</div>
+				</div>
+			`;
+		}
+
+		async function loadJobs(): Promise<void> {
+			const loadingEl = document.getElementById('jobs-loading');
+			const errorEl = document.getElementById('jobs-error');
+			const emptyEl = document.getElementById('jobs-empty');
+			const containerEl = document.getElementById('jobs-container');
+
+			loadingEl?.classList.remove('hidden');
+			errorEl?.classList.add('hidden');
+			emptyEl?.classList.add('hidden');
+			containerEl?.classList.add('hidden');
+
+			try {
+				// Fetch jobs grouped by company
+				const jobsResp = await fetch(`https://ai.seattlefoundations.org/api/job-listings?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
+				if (!jobsResp.ok) throw new Error(`HTTP error! status: ${jobsResp.status}`);
+				const jobsData: JobsApiResponse = await jobsResp.json();
+
+				// Fetch companies to map url/slug
+				const companiesResp = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
+				if (!companiesResp.ok) throw new Error(`HTTP error! status: ${companiesResp.status}`);
+				const companiesData: CompaniesApiResponse = await companiesResp.json();
+
+				loadingEl?.classList.add('hidden');
+
+				const companies = companiesData.success && companiesData.data && companiesData.data.companies ? companiesData.data.companies : [];
+				const companyMap = new Map(companies.map(c => [c.id, c]));
+
+				const groupsRaw = jobsData.success && jobsData.data && jobsData.data.jobListingsByCompany ? jobsData.data.jobListingsByCompany : [];
+				const groups = groupsRaw
+					.map(g => ({
+						companyId: g.companyId,
+						companyName: g.companyName,
+						companyLogo: g.companyLogo,
+						companyUrl: companyMap.get(g.companyId)?.url || null,
+						companySlug: companyMap.get(g.companyId)?.slug || null,
+						jobs: g.jobListings
+					}))
+					.filter(g => g.jobs && g.jobs.length > 0)
+					.sort((a, b) => a.companyName.localeCompare(b.companyName));
+
+				if (!groups.length) {
+					emptyEl?.classList.remove('hidden');
+					return;
+				}
+
+				const html = groups.map(g => createCompanySection(g)).join('');
+				if (containerEl) {
+					containerEl.innerHTML = html;
+					containerEl.classList.remove('hidden');
+				}
+			} catch (e) {
+				console.error('Error fetching jobs:', e);
+				loadingEl?.classList.add('hidden');
+				errorEl?.classList.remove('hidden');
+			}
+		}
+
+		let jobsLoaded = false;
+		function checkAndLoadJobs() {
+			const isJobsPage = window.location.pathname === '/jobs' || window.location.pathname === '/jobs/';
+			const hasContainer = document.getElementById('jobs-container') !== null;
+			if (isJobsPage && hasContainer && !jobsLoaded) {
+				jobsLoaded = true;
+				loadJobs();
+			} else if (!isJobsPage) {
+				jobsLoaded = false;
+			}
+		}
+
+		checkAndLoadJobs();
+
+		const observer = new MutationObserver(() => { checkAndLoadJobs(); });
+		observer.observe(document.body, { childList: true, subtree: true });
+
+		document.addEventListener('visibilitychange', () => {
+			if (!document.hidden && (window.location.pathname === '/jobs' || window.location.pathname === '/jobs/')) {
+				jobsLoaded = false;
+				checkAndLoadJobs();
+			}
+		});
+
+		window.addEventListener('popstate', () => {
+			jobsLoaded = false;
+			setTimeout(checkAndLoadJobs, 100);
+		});
+
+		document.addEventListener('astro:after-swap', () => {
+			jobsLoaded = false;
+			checkAndLoadJobs();
+		});
+	</script>
 </BaseLayout> 
