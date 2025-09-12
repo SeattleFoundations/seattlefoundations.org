@@ -5,6 +5,8 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import StaticLayoutCenter from "@layouts/StaticLayoutCenter.astro";
 import ExternalLink from "@components/MarkdownComponents/ExternalLink.astro";
 
+export const prerender = true;
+
 export async function getStaticPaths() {
 	const staticPages = await getCollection("static");
 

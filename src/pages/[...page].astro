@@ -12,6 +12,8 @@ import ExternalLink from "@components/MarkdownComponents/ExternalLink.astro";
 import { filterCollectionByLanguage } from "@js/localeUtils";
 import { defaultLocale } from "@config/siteSettings.json";
 
+export const prerender = true;
+
 export async function getStaticPaths() {
 	const otherPages: CollectionEntry<"otherPages">[] = await getCollection(
 		"otherPages",
