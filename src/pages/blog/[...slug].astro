@@ -12,8 +12,6 @@ import ExternalLink from "@components/MarkdownComponents/ExternalLink.astro";
 import { getAllPosts } from "@js/blogUtils";
 import { defaultLocale } from "@config/siteSettings.json";
 
-export const prerender = true;
-
 export async function getStaticPaths() {
 	const posts = await getAllPosts(defaultLocale);
 
