@@ -13,6 +13,7 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
 	site: "https://seattlefoundations.org",
+	output: "server", // Enable server-side rendering
 	adapter: netlify({
 		imageCDN: false,
 	}),
