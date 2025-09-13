@@ -41,6 +41,15 @@ export const prerender = true;
 			</div>
 		</div>
 
+		<!-- Local dev notice (hidden by default) -->
+		<div id="local-notice" class="mx-auto max-w-2xl mb-4 hidden">
+			<div class="rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
+				<p class="text-sm text-yellow-800 dark:text-yellow-300">
+					🔧 Local Development Mode - Using mock data
+				</p>
+			</div>
+		</div>
+
 		<!-- Companies container (hidden by default) -->
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div id="companies-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 hidden"></div>
@@ -67,6 +76,90 @@ export const prerender = true;
 		success: boolean;
 		data?: { companies?: Company[] };
 	}
+
+	// Mock data for local development
+	const mockData: CompaniesApiResponse = {
+		success: true,
+		data: {
+			companies: [
+				{
+					id: "7a138fb6-b35f-4ea8-b47e-3467457504b1",
+					name: "Aarden",
+					slug: "aarden",
+					url: "https://aarden.ai/",
+					description: null,
+					logo: "/uploads/uploadedfiles/company-ab0883ab-b2ef-4b8a-9fd3-32f4ab6696e7.png",
+					alumn: true,
+					fir: true,
+					memberCount: 3,
+					members: [
+						{ name: "Ben Hudson", linkedin: "https://www.linkedin.com/in/hudsonbd/" },
+						{ name: "Danan Margason", linkedin: "https://www.linkedin.com/in/dananmargason/" },
+						{ name: "Jasper Croom", linkedin: "https://www.linkedin.com/in/jaspercroome/" }
+					]
+				},
+				{
+					id: "8e3efd99-8b9d-4484-aa3c-a9ceb41bf09b",
+					name: "Actual AI",
+					slug: "actual-ai",
+					url: "https://www.actual.ai/",
+					description: "Actual AI is an AI-native engineering management tool",
+					logo: "/uploads/uploadedfiles/company-ce0233e7-0818-47ef-9c64-7ced6fb2b4ec.png",
+					alumn: true,
+					fir: true,
+					memberCount: 2,
+					members: [
+						{ name: "Ethan Byrd", linkedin: "https://www.linkedin.com/in/etbyrd/" },
+						{ name: "John Kennedy", linkedin: "https://www.linkedin.com/in/johnakennedy/" }
+					]
+				},
+				{
+					id: "c8491266-8097-4dc3-b708-f718b43f86b5",
+					name: "Adyn",
+					slug: "adyn",
+					url: "https://adyn.com",
+					description: null,
+					logo: "/uploads/uploadedfiles/company-1a584240-411f-42fc-9d2c-b862d2de5ddb.jpg",
+					alumn: false,
+					fir: false,
+					memberCount: 1,
+					members: [
+						{ name: "Elizabeth Ruzzo", linkedin: "https://www.linkedin.com/in/elizabethruzzophd/" }
+					]
+				},
+				{
+					id: "537d6c17-fa84-4e41-8bc6-2c834e846f76",
+					name: "AI Lever",
+					slug: "ai-lever",
+					url: "https://ailever.io",
+					description: null,
+					logo: null,
+					alumn: false,
+					fir: true,
+					memberCount: 2,
+					members: [
+						{ name: "David Krieger", linkedin: "https://www.linkedin.com/in/davidbkrieger/" },
+						{ name: "Seshadri Sridharan", linkedin: "https://www.linkedin.com/in/seshsridharan/" }
+					]
+				},
+				{
+					id: "976b6864-d648-4a44-b8bf-dadac8d9e3df",
+					name: "Airsignal",
+					slug: "airsignal",
+					url: "https://www.airsignal.com/",
+					description: null,
+					logo: "/uploads/uploadedfiles/company-ff28d579-6667-4b65-98e1-0244945dd43a.svg",
+					alumn: false,
+					fir: false,
+					memberCount: 2,
+					members: [
+						{ name: "Jason Stowe", linkedin: "https://www.linkedin.com/in/jasonastowe/" },
+						{ name: "Rob Futrick", linkedin: "https://www.linkedin.com/in/robfutrick/" }
+					]
+				}
+			]
+		}
+	};
 
 	function companyLogoUrl(relativeUrl: string): string {
 		return new URL(relativeUrl, 'https://ai.seattlefoundations.org').toString();
@@ -109,24 +202,44 @@ export const prerender = true;
 		`;
 	}
 
+	// Check if we're running locally
+	function isLocalDevelopment(): boolean {
+		const hostname = window.location.hostname;
+		return hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('localhost');
+	}
+
 	async function loadCompanies(): Promise<void> {
 		const loadingEl = document.getElementById('companies-loading');
 		const errorEl = document.getElementById('companies-error');
 		const emptyEl = document.getElementById('companies-empty');
 		const containerEl = document.getElementById('companies-container');
+		const localNoticeEl = document.getElementById('local-notice');
 
 		loadingEl?.classList.remove('hidden');
 		errorEl?.classList.add('hidden');
 		emptyEl?.classList.add('hidden');
 		containerEl?.classList.add('hidden');
+		localNoticeEl?.classList.add('hidden');
 
 		try {
-			const response = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, {
-				method: 'GET',
-				headers: { 'Accept': 'application/json' }
-			});
-			if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-			const data: CompaniesApiResponse = await response.json();
+			let data: CompaniesApiResponse;
+			
+			if (isLocalDevelopment()) {
+				// Use mock data for local development
+				console.log('Using mock data for local development');
+				localNoticeEl?.classList.remove('hidden');
+				// Simulate network delay
+				await new Promise(resolve => setTimeout(resolve, 500));
+				data = mockData;
+			} else {
+				// Fetch from API in production
+				const response = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, {
+					method: 'GET',
+					headers: { 'Accept': 'application/json' }
+				});
+				if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+				data = await response.json();
+			}
 
 			loadingEl?.classList.add('hidden');
 

@@ -7,21 +7,109 @@ export const prerender = false;
 // Get the slug from the URL
 const { slug } = Astro.params;
 
-// Fetch company data on the server
+// Mock data for local testing
+const mockData = {
+    "success": true,
+    "data": {
+        "companies": [
+            {
+                "id": "7a138fb6-b35f-4ea8-b47e-3467457504b1",
+                "name": "Aarden",
+                "slug": "aarden",
+                "url": "https://aarden.ai/",
+                "description": null,
+                "logo": "/uploads/uploadedfiles/company-ab0883ab-b2ef-4b8a-9fd3-32f4ab6696e7.png",
+                "alumn": true,
+                "fir": true,
+                "memberCount": 3,
+                "members": [
+                    {
+                        "name": "Ben Hudson",
+                        "linkedin": "https://www.linkedin.com/in/hudsonbd/"
+                    },
+                    {
+                        "name": "Danan Margason",
+                        "linkedin": "https://www.linkedin.com/in/dananmargason/"
+                    },
+                    {
+                        "name": "Jasper Croom",
+                        "linkedin": "https://www.linkedin.com/in/jaspercroome/"
+                    }
+                ]
+            },
+            {
+                "id": "8e3efd99-8b9d-4484-aa3c-a9ceb41bf09b",
+                "name": "Actual AI",
+                "slug": "actual-ai",
+                "url": "https://www.actual.ai/",
+                "description": "Actual AI is an AI-native engineering management tool that measures velocity and summarizes progress to reduce management overhead and optimize team performance. VPs of Engineering can gain an objective view of progress and productivity across their entire organization down to the level of the individual developer including the ability to see the velocity and quality impacts of AI tools, such as Cursor. Engineering managers can generate work summaries for standups, 1:1s, team meetings, leadership updates, and promotion documents, saving time and aligning effort with business priorities in real time.",
+                "logo": "/uploads/uploadedfiles/company-ce0233e7-0818-47ef-9c64-7ced6fb2b4ec.png",
+                "alumn": true,
+                "fir": true,
+                "memberCount": 2,
+                "members": [
+                    {
+                        "name": "Ethan Byrd",
+                        "linkedin": "https://www.linkedin.com/in/etbyrd/"
+                    },
+                    {
+                        "name": "John Kennedy",
+                        "linkedin": "https://www.linkedin.com/in/johnakennedy/"
+                    }
+                ]
+            },
+            {
+                "id": "c8491266-8097-4dc3-b708-f718b43f86b5",
+                "name": "Adyn",
+                "slug": "adyn",
+                "url": "https://adyn.com",
+                "description": null,
+                "logo": "/uploads/uploadedfiles/company-1a584240-411f-42fc-9d2c-b862d2de5ddb.jpg",
+                "alumn": false,
+                "fir": false,
+                "memberCount": 1,
+                "members": [
+                    {
+                        "name": "Elizabeth Ruzzo",
+                        "linkedin": "https://www.linkedin.com/in/elizabethruzzophd/"
+                    }
+                ]
+            }
+        ]
+    }
+};
+
+// Determine if we're running locally
+const isLocal = import.meta.env.DEV || Astro.url.hostname === 'localhost' || Astro.url.hostname === '127.0.0.1';
+
+// Fetch company data
 let company = null;
 let error = null;
 
 try {
-	const response = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, {
-		method: 'GET',
-		headers: { 'Accept': 'application/json' }
-	});
+	let data;
 	
-	if (response.ok) {
-		const data = await response.json();
-		const companies = data.success && data.data && data.data.companies ? data.data.companies : [];
-		company = companies.find(c => c.slug === slug);
+	if (isLocal) {
+		// Use mock data for local testing
+		console.log('Using mock data for local testing');
+		data = mockData;
+	} else {
+		// Fetch from API in production
+		const response = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, {
+			method: 'GET',
+			headers: { 'Accept': 'application/json' }
+		});
+		
+		if (response.ok) {
+			data = await response.json();
+		} else {
+			throw new Error(`API responded with status ${response.status}`);
+		}
 	}
+	
+	const companies = data?.success && data?.data?.companies ? data.data.companies : [];
+	company = companies.find(c => c.slug === slug);
+	
 } catch (e) {
 	error = e;
 	console.error('Error fetching company:', e);
@@ -52,6 +140,14 @@ const pageTitle = company ? `${company.name} - Foundations` : 'Company - Foundat
 				</div>
 			</div>
 
+			{isLocal && (
+				<div class="mb-4 rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
+					<p class="text-sm text-yellow-800 dark:text-yellow-300">
+						🔧 Local Development Mode - Using mock data. Available slugs: aarden, actual-ai, adyn
+					</p>
+				</div>
+			)}
+
 			{error ? (
 				<!-- Error state -->
 				<div class="mx-auto max-w-5xl text-center">
@@ -65,6 +161,11 @@ const pageTitle = company ? `${company.name} - Foundations` : 'Company - Foundat
 				<div class="mx-auto max-w-5xl text-center">
 					<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
 						<p class="text-lg text-gray-600 dark:text-gray-300">Company not found.</p>
+						{isLocal && (
+							<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+								Try one of these slugs: aarden, actual-ai, adyn
+							</p>
+						)}
 					</div>
 				</div>
 			) : (
