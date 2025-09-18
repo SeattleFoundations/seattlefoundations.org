@@ -124,6 +124,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 	// Store companies data globally for modal access
 	let companiesData: Company[] = [];
+	let globalListenersInitialized = false;
 
 	// Mock data for local development
 	const mockData: CompaniesApiResponse = {
@@ -346,6 +347,18 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		}
 	}
 
+	function bindModalEvents(): void {
+		const modalClose = document.getElementById('modal-close') as HTMLButtonElement | null;
+		const modalBackdrop = document.getElementById('modal-backdrop') as HTMLDivElement | null;
+
+		if (modalClose) {
+			modalClose.onclick = () => closeModal();
+		}
+		if (modalBackdrop) {
+			modalBackdrop.onclick = () => closeModal();
+		}
+	}
+
 	async function loadCompanies(): Promise<void> {
 		const loadingEl = document.getElementById('companies-loading');
 		const errorEl = document.getElementById('companies-error');
@@ -422,18 +435,10 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		}
 	}
 
-	// Set up modal event listeners
-	document.addEventListener('DOMContentLoaded', () => {
-		const modalClose = document.getElementById('modal-close');
-		const modalBackdrop = document.getElementById('modal-backdrop');
-		
-		if (modalClose) {
-			modalClose.addEventListener('click', closeModal);
-		}
-		
-		if (modalBackdrop) {
-			modalBackdrop.addEventListener('click', closeModal);
-		}
+	// Set up modal and global event listeners
+	function initGlobalListeners(): void {
+		if (globalListenersInitialized) return;
+		globalListenersInitialized = true;
 
 		// Handle escape key
 		document.addEventListener('keydown', (e) => {
@@ -442,14 +447,20 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 			}
 		});
 
-		// Handle browser back button
-		window.addEventListener('popstate', (e) => {
-			if (e.state && e.state.companySlug) {
-				window.showCompanyModal(e.state.companySlug);
+		// Handle browser navigation for modal state
+		window.addEventListener('popstate', (e: PopStateEvent) => {
+			const state = (e.state as { companySlug?: string } | null) || null;
+			if (state && state.companySlug) {
+				window.showCompanyModal(state.companySlug);
 			} else {
 				closeModal();
 			}
 		});
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		bindModalEvents();
+		initGlobalListeners();
 	});
 
 	checkAndLoadCompanies();
@@ -464,12 +475,13 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		}
 	});
 
-	window.addEventListener('popstate', () => {
-		companiesLoaded = false;
-		setTimeout(checkAndLoadCompanies, 100);
+	document.addEventListener('astro:page-load', () => {
+		bindModalEvents();
+		checkAndLoadCompanies();
 	});
 
 	document.addEventListener('astro:after-swap', () => {
+		bindModalEvents();
 		companiesLoaded = false;
 		checkAndLoadCompanies();
 	});
