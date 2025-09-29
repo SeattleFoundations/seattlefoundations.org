@@ -9,7 +9,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 >
 	<section class="site-container space-y-12">
 		<div
-			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-none"
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-[url('/assets/pattern-dark.svg')]"
 		>
 			<div class="mx-auto flex max-w-[950px] flex-col justify-center">
 				<h1 class="h1 text-center">Companies</h1>
@@ -53,9 +53,9 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		<!-- Modal Content -->
 		<div class="fixed inset-0 z-10 overflow-y-auto">
 			<div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-				<div id="modal-content" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl">
+				<div id="modal-content" class="relative transform overflow-hidden rounded-lg bg-card text-card-foreground text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl">
 					<!-- Close button -->
-					<button id="modal-close" class="absolute right-4 top-4 z-10 rounded-full bg-white p-2 shadow-md hover:bg-gray-100">
+					<button id="modal-close" class="absolute right-4 top-4 z-10 rounded-full bg-card p-2 shadow-md hover:bg-muted">
 						<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 						</svg>
@@ -233,26 +233,26 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 				class="group text-left w-full"
 				aria-label="View details for ${company.name}"
 			>
-				<div class="flex flex-col items-center border-r border-b border-gray-200 p-4 transition-all duration-200 hover:shadow-lg">
+				<div class="flex flex-col items-center border-r border-b border-gray-200 p-4 transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:hover:shadow-black/20">
 					<div class="flex h-20 w-full items-center justify-center px-8">
 						${company.logo ? `
 							<img src="${companyLogoUrl(company.logo)}" alt="${company.name} logo" class="h-16 object-contain" />
 						` : `
-							<div class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-								<span class="text-lg font-medium text-gray-500">${company.name.charAt(0)}</span>
+							<div class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+								<span class="text-lg font-medium text-gray-500 dark:text-gray-400">${company.name.charAt(0)}</span>
 							</div>
 						`}
 					</div>
-					<h3 class="group-hover:text-primary-600 mt-2 text-center text-sm text-gray-900">
+					<h3 class="group-hover:text-primary-600 mt-2 text-center text-sm text-gray-900 dark:text-gray-100 dark:group-hover:text-primary-400">
 						<span class="flex items-center justify-center text-base">${company.name}</span>
 						<div class="mt-1 flex items-center justify-center gap-1">
 							${company.alumn ? `
-								<span class="bg-primary-500/40 text-primary-800 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium">Alum</span>
+								<span class="bg-primary-500/40 text-primary-800 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium dark:bg-primary-500/20 dark:text-primary-300">Alum</span>
 							` : ''}
 							${company.fir ? `
-								<span class="bg-gray-500/40 text-gray-800 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium">Founder in Residence</span>
+								<span class="bg-gray-500/40 text-gray-800 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium dark:bg-gray-400/20 dark:text-gray-300">Founder in Residence</span>
 							` : `
-								<span class="bg-green-500/40 text-green-800 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium">Member</span>
+								<span class="bg-green-500/40 text-green-800 inline-flex items-center rounded-full px-2 py-1 text-xs font-medium dark:bg-green-500/20 dark:text-green-300">Member</span>
 							`}
 						</div>
 					</h3>
@@ -277,14 +277,14 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 					` : ''}
 					<div class="flex-1 ${!company.logo ? 'md:pl-0' : ''}">
 						<div class="pr-12"> <!-- Add padding-right to avoid overlap with close button -->
-							<h2 class="text-2xl font-semibold text-gray-900">${company.name}</h2>
+							<h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">${company.name}</h2>
 							<div class="mt-2 flex flex-wrap items-start gap-2">
-								${company.alumn ? `<span class="bg-primary-500/40 text-primary-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">Alumni</span>` : ''}
-								${company.fir ? `<span class="bg-gray-500/40 text-gray-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">Founder in Residence</span>` : `<span class="bg-green-500/40 text-green-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium">Member</span>`}
+								${company.alumn ? `<span class=\"bg-primary-500/40 text-primary-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium dark:bg-primary-500/20 dark:text-primary-300\">Alumni</span>` : ''}
+								${company.fir ? `<span class=\"bg-gray-500/40 text-gray-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium dark:bg-gray-400/20 dark:text-gray-300\">Founder in Residence</span>` : `<span class=\"bg-green-500/40 text-green-800 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium dark:bg-green-500/20 dark:text-green-300\">Member</span>`}
 							</div>
 							${urlWithUtm ? `
 								<div class="mt-3">
-									<a href="${urlWithUtm}" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline inline-flex items-center">
+									<a href="${urlWithUtm}" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:underline inline-flex items-center dark:text-primary-400">
 										<svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
 										</svg>
@@ -293,19 +293,19 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 								</div>
 							` : ''}
 						</div>
-						${company.description ? `<p class="mt-4 text-gray-600 pr-8">${company.description}</p>` : ''}
+						${company.description ? `<p class=\"mt-4 text-gray-600 pr-8 dark:text-gray-300\">${company.description}</p>` : ''}
 					</div>
 				</div>
 			</div>
 			
 			${company.members && company.members.length ? `
 				<div class="border-t pt-6">
-					<h3 class="mb-4 text-xl font-medium text-gray-900">Active Founders</h3>
+					<h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-gray-100">Active Founders</h3>
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 						${company.members.map(m => `
-							<div class="space-y-2 rounded-lg bg-gray-50 px-6 py-4">
-								<h4 class="text-lg font-medium text-gray-900">${m.name}</h4>
-								${m.linkedin ? `<a href="${m.linkedin}" target="_blank" rel="noopener noreferrer" class="text-primary-600 hover:text-primary-700 inline-flex items-center text-sm"><svg class="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" /></svg>LinkedIn</a>` : ''}
+							<div class=\"space-y-2 rounded-lg bg-gray-50 px-6 py-4 dark:bg-gray-800/50\">
+								<h4 class=\"text-lg font-medium text-gray-900 dark:text-gray-100\">${m.name}</h4>
+								${m.linkedin ? `<a href=\"${m.linkedin}\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"text-primary-600 hover:text-primary-700 inline-flex items-center text-sm dark:text-primary-400 dark:hover:text-primary-300\"><svg class=\"mr-1 h-4 w-4\" fill=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.454C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z\" /></svg>LinkedIn</a>` : ''}
 							</div>
 						`).join('')}
 					</div>

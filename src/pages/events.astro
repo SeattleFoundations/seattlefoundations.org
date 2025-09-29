@@ -15,7 +15,7 @@ import Button from "@components/Button/Button.astro";
 <BaseLayout title="Events - Seattle Foundations" description="Upcoming events at Seattle Foundations">
 	<section class="site-container space-y-12">
 		<div
-			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-none"
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-[url('/assets/pattern-dark.svg')]"
 		>
 			<div class="mx-auto flex max-w-[950px] flex-col justify-center">
 				<h1 class="h1 text-center">Upcoming Events</h1>
@@ -103,7 +103,7 @@ import Button from "@components/Button/Button.astro";
 		const { month, day } = getMonthDay(event.date);
 		
 		return `
-			<div class="group relative overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
+			<div class="group relative overflow-hidden rounded-lg border border-border bg-card p-6 shadow-sm transition-all hover:shadow-lg hover:bg-muted/50">
 				<div class="flex flex-col gap-6 md:flex-row">
 					<!-- Date Badge -->
 					<div class="flex-shrink-0">
@@ -115,11 +115,11 @@ import Button from "@components/Button/Button.astro";
 
 					<!-- Event Details -->
 					<div class="flex-grow">
-						<h3 class="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-100">
+						<h3 class="mb-2 text-xl font-semibold text-foreground">
 							${event.name}
 						</h3>
 						
-						<div class="mb-3 flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+						<div class="mb-3 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
 							<div class="flex items-center gap-1">
 								<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -134,13 +134,13 @@ import Button from "@components/Button/Button.astro";
 							</div>
 						</div>
 
-						<p class="mb-4 line-clamp-3 text-gray-600 dark:text-gray-300">
+						<p class="mb-4 line-clamp-3 text-muted-foreground">
 							${event.description}
 						</p>
 
 						${event.link ? `
 							<a href="${event.link}" target="_blank" rel="noopener noreferrer" 
-								class="inline-flex items-center gap-1 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:bg-primary-500 dark:hover:bg-primary-600">
+								class="inline-flex items-center gap-1 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-background dark:bg-primary-500 dark:hover:bg-primary-600">
 								<span>Register</span>
 								<svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
