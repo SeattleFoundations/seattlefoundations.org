@@ -1,30 +1,64 @@
-/* buttons, 4 types "primary", "secondary", "outline", "ghost" */
+/* buttons - Bay Area Standard with spring physics */
 .button {
-	@apply flex items-center justify-center rounded-md px-7 py-3 font-medium transition-colors;
+	@apply flex items-center justify-center rounded-xl px-7 py-3 font-medium;
 	@apply focus:outline-none;
-	@apply disabled:pointer-events-none;
+	@apply disabled:pointer-events-none disabled:opacity-50;
+	transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .button--primary {
-	@apply bg-primary-500 text-white shadow-md;
+	@apply bg-primary-500 text-white;
 	@apply hover:bg-primary-600;
-	@apply focus-visible:ring-primary-500/50 focus-visible:ring-2;
+	@apply focus-visible:ring-primary-500/50 focus-visible:ring-2 focus-visible:ring-offset-2;
+	box-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.05),
+		0 4px 12px rgba(47, 196, 92, 0.15);
+}
+
+.button--primary:hover {
+	box-shadow:
+		0 2px 4px rgba(0, 0, 0, 0.05),
+		0 8px 24px rgba(47, 196, 92, 0.25);
+	transform: translateY(-1px);
+}
+
+.button--primary:active {
+	transform: translateY(0);
 }
 
 .button--secondary {
-	@apply bg-primary-500/10 text-primary-500 border border-primary-500 shadow-sm;
-	@apply hover:bg-primary-500/15;
-	@apply focus-visible:ring-base-500/50 focus-visible:ring-2;
+	@apply bg-primary-500/10 text-primary-600 border border-primary-500/30;
+	@apply hover:bg-primary-500/15 hover:border-primary-500/50;
+	@apply focus-visible:ring-primary-500/50 focus-visible:ring-2;
+	@apply dark:text-primary-400;
 }
 
 .button--outline {
-	@apply border-base-200 bg-base-50 text-base-800 border shadow-sm;
-	@apply hover:bg-base-100;
+	@apply border-base-200 bg-white text-base-700 border;
+	@apply hover:bg-base-50 hover:border-base-300;
 	@apply focus-visible:ring-base-200/50 focus-visible:ring-2;
+	@apply dark:bg-base-900 dark:border-base-700 dark:text-base-200;
+	@apply dark:hover:bg-base-800 dark:hover:border-base-600;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.button--outline:hover {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .button--ghost {
-	@apply bg-base-50 text-base-800;
-	@apply hover:bg-base-200;
+	@apply bg-transparent text-base-700;
+	@apply hover:bg-base-100;
 	@apply focus-visible:ring-base-200/50 focus-visible:ring-2;
+	@apply dark:text-base-300 dark:hover:bg-base-800;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	.button,
+	.button--primary:hover,
+	.button--primary:active {
+		transition: none;
+		transform: none;
+	}
 }

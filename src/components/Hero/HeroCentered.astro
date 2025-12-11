@@ -1,15 +1,11 @@
 ---
 /**
- * * Hero centered with video button
- *
- * There is a commented out "awards" section below in case you want that
+ * * Hero centered with gradient background - Bay Area Standard
  */
-import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 
 // components
 import Button from "@components/Button/Button.astro";
-import VideoButton from "@components/Button/VideoButton.astro";
 
 // images
 import person1 from "@images/people/john.jpeg";
@@ -19,85 +15,141 @@ import person2 from "@images/people/shivaas.jpeg";
 
 <section
 	id="hero-center"
-	class="mt-20 overflow-x-clip bg-[url('/assets/pattern-light-big.svg')] bg-center bg-no-repeat dark:bg-none"
+	class="relative overflow-hidden"
 >
-	<div class="site-container mx-auto px-4 pt-10 pb-20">
-		<!-- alter the max-w-[750px] here until your text looks nice on large screens -->
-		<div class="mx-auto mb-16 flex w-full max-w-[750px] flex-col justify-center px-4 text-center">
-			<div data-aos-trigger="#hero-center">
-				<!-- <span
-					class="bg-base-600/70 mb-4 inline-flex items-center rounded-full px-2 py-px text-xs leading-5 text-white uppercase"
-				>
-					Meet Foundations
-				</span> -->
+	<!-- Aurora/Gradient Background -->
+	<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+		<!-- Primary gradient blob -->
+		<div
+			class="absolute -top-1/4 left-1/2 h-[800px] w-[800px] -translate-x-1/2 rounded-full opacity-[0.15] blur-[120px]"
+			style="background: radial-gradient(circle, var(--color-primary-400) 0%, transparent 70%);"
+		></div>
+		<!-- Secondary accent blob -->
+		<div
+			class="absolute -bottom-1/4 -right-1/4 h-[600px] w-[600px] rounded-full opacity-[0.08] blur-[100px]"
+			style="background: radial-gradient(circle, var(--color-primary-300) 0%, transparent 70%);"
+		></div>
+		<!-- Subtle left accent -->
+		<div
+			class="absolute top-1/3 -left-1/4 h-[500px] w-[500px] rounded-full opacity-[0.06] blur-[80px]"
+			style="background: radial-gradient(circle, var(--color-base-300) 0%, transparent 70%);"
+		></div>
+		<!-- Grid pattern overlay (subtle) -->
+		<div
+			class="absolute inset-0 opacity-[0.03]"
+			style="background-image: linear-gradient(var(--color-base-400) 1px, transparent 1px), linear-gradient(90deg, var(--color-base-400) 1px, transparent 1px); background-size: 64px 64px;"
+		></div>
+	</div>
 
+	<div class="site-container mx-auto px-4 pt-36 pb-24 md:pt-44 md:pb-32">
+		<div class="mx-auto flex w-full max-w-[800px] flex-col justify-center px-4 text-center">
+			<!-- Headline with Motion animation -->
+			<div class="hero-animate opacity-0" style="--delay: 0ms;">
 				<h1
-					class="text-base-900 dark:text-base-100 mt-8 mb-6 text-3xl leading-tight font-semibold tracking-tight text-pretty md:mt-18 lg:text-5xl lg:leading-tight"
+					class="text-base-900 dark:text-base-100 mt-4 mb-6 text-4xl font-semibold tracking-tight md:mt-8 md:text-5xl lg:text-6xl"
+					style="line-height: 1.1; letter-spacing: -0.03em;"
 				>
 					Building the Foundations of Seattle's Startups
 				</h1>
 			</div>
-			<p class="description mb-10 text-lg text-pretty lg:text-xl">
-				A member-owned community of tech founders in Seattle
-			</p>
-			<div class="flex flex-wrap justify-center gap-4">
-				<Button
-					variant="primary"
-					href="/membership"
-					target="_blank"
-				>
-					Join the Community
-				</Button>
-				<!-- <VideoButton data-aos="fade-right" data-aos-delay=".2" data-aos-trigger="#hero-center" /> -->
+
+			<!-- Description -->
+			<div class="hero-animate opacity-0" style="--delay: 100ms;">
+				<p class="description mx-auto mb-10 max-w-xl text-lg text-pretty md:text-xl" style="line-height: 1.6;">
+					A member-owned community of tech founders in Seattle
+				</p>
 			</div>
 
-			<!-- social proof -->
-			<div class="mx-auto mt-8 flex max-w-md justify-center">
-				<div class="-m-1.5 flex flex-wrap items-center">
-					<div class="w-auto p-1.5">
-						<div class="flex flex-wrap">
-							<div
-								class="border-primary-500 bg-primary-500 aspect-square size-10 overflow-hidden rounded-full border-2"
-							>
-								<Image
-									src={person1}
-									class="object-cover"
-									alt="reader"
-									loading="eager"
-									width={100}
-								/>
-							</div>
-							<div
-								class="border-primary-500 bg-primary-500 -ml-5 aspect-square size-10 overflow-hidden rounded-full border-2"
-							>
-								<Image
-									src={person2}
-									class="object-cover"
-									alt="reader"
-									loading="eager"
-									width={100}
-								/>
-							</div>
-							<div
-								class="border-primary-500 bg-primary-500 -ml-5 aspect-square size-10 overflow-hidden rounded-full border-2"
-							>
-								<Image
-									src={person3}
-									class="object-cover"
-									alt="reader"
-									loading="eager"
-									width={100}
-								/>
+			<!-- CTA Button -->
+			<div class="hero-animate opacity-0" style="--delay: 200ms;">
+				<div class="flex flex-wrap justify-center gap-4">
+					<Button
+						variant="primary"
+						href="/membership"
+						target="_blank"
+						class="shadow-lg shadow-primary-500/20 hover:shadow-xl hover:shadow-primary-500/30 transition-shadow duration-300"
+					>
+						Join the Community
+					</Button>
+				</div>
+			</div>
+
+			<!-- Social proof -->
+			<div class="hero-animate opacity-0" style="--delay: 300ms;">
+				<div class="mx-auto mt-12 flex max-w-md justify-center">
+					<div class="-m-1.5 flex flex-wrap items-center">
+						<div class="w-auto p-1.5">
+							<div class="flex flex-wrap">
+								<div
+									class="border-primary-500 bg-primary-500 aspect-square size-12 overflow-hidden rounded-full border-2 shadow-md"
+								>
+									<Image
+										src={person1}
+										class="object-cover"
+										alt="Community member"
+										loading="eager"
+										width={100}
+									/>
+								</div>
+								<div
+									class="border-primary-500 bg-primary-500 -ml-4 aspect-square size-12 overflow-hidden rounded-full border-2 shadow-md"
+								>
+									<Image
+										src={person2}
+										class="object-cover"
+										alt="Community member"
+										loading="eager"
+										width={100}
+									/>
+								</div>
+								<div
+									class="border-primary-500 bg-primary-500 -ml-4 aspect-square size-12 overflow-hidden rounded-full border-2 shadow-md"
+								>
+									<Image
+										src={person3}
+										class="object-cover"
+										alt="Community member"
+										loading="eager"
+										width={100}
+									/>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="flex-1 p-1.5 text-left">
-						<p class="description text-sm leading-tight tracking-tight">
-							250+ of the best Seattle founders in the community
-						</p>
+						<div class="flex-1 p-1.5 text-left">
+							<p class="text-base-600 dark:text-base-400 text-sm font-medium leading-snug">
+								<span class="text-base-900 dark:text-base-100 font-semibold">250+</span> of the best Seattle founders in the community
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+<style>
+	/* Motion animation styles */
+	.hero-animate {
+		animation: heroFadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+		animation-delay: var(--delay, 0ms);
+	}
+
+	@keyframes heroFadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Respect reduced motion preference */
+	@media (prefers-reduced-motion: reduce) {
+		.hero-animate {
+			animation: none;
+			opacity: 1;
+		}
+	}
+</style>

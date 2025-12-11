@@ -1,11 +1,7 @@
 ---
 /**
- * * These are small cards with icons, titles, and text
- * This looks best with an even number of cards. They are smaller to
- * use with more cards in the same section. 6 cards is probably ideal
- *
- * ! I copy all icons into the src/icons folder and recommend you do the same
- * ! If the icon is at src/icons/tabler/paint.svg then you put in "tabler/paint"
+ * * Bento-style feature card - Bay Area Standard
+ * Modern card with squircle corners, subtle borders, and spring-physics hover
  */
 
 import { Icon } from "astro-icon/components";
@@ -14,23 +10,93 @@ interface Props {
 	icon: string;
 	title: string;
 	text: string;
-	rest?: any; // catch-all for any additional parameters, such as "aria-label"
+	size?: "large" | "standard";
+	rest?: any;
 }
 
-const { icon, title, text, ...rest } = Astro.props as Props;
+const { icon, title, text, size = "standard", ...rest } = Astro.props as Props;
+
+const isLarge = size === "large";
 ---
 
-<div {...rest}>
+<div {...rest} class="h-full">
 	<div
-		class="dark:hover:bg-base-900 h-full rounded-md p-6 transition duration-200 hover:bg-white hover:shadow-xl"
+		class:list={[
+			"group relative h-full overflow-hidden rounded-3xl border border-base-200/60 bg-white p-6 transition-all duration-300",
+			"hover:border-base-300/80 hover:shadow-lg",
+			"dark:border-base-700/50 dark:bg-base-900/50 dark:hover:border-base-600/60 dark:hover:bg-base-900/80",
+			isLarge ? "md:p-8" : "md:p-6"
+		]}
+		style="box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 4px 8px rgba(0,0,0,0.02);"
 	>
-		<div class="flex items-center gap-2">
-			<Icon name={icon} class="text-primary-500 mt-1 size-12" aria-hidden="true" />
-			<h3 class="text-base-900 dark:text-base-100 inline text-2xl font-medium">
-				{title}
-			</h3>
-		</div>
+		<!-- Subtle gradient overlay on hover -->
+		<div
+			class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+			style="background: radial-gradient(ellipse at top left, rgba(47, 196, 92, 0.03) 0%, transparent 50%);"
+		></div>
 
-		<p class="description mt-2">{text}</p>
+		<div class="relative flex flex-col gap-4">
+			<!-- Icon -->
+			<div
+				class:list={[
+					"flex items-center justify-center rounded-2xl bg-primary-500/10 transition-transform duration-300 group-hover:scale-105",
+					isLarge ? "size-14" : "size-12"
+				]}
+			>
+				<Icon
+					name={icon}
+					class:list={[
+						"text-primary-500",
+						isLarge ? "size-7" : "size-6"
+					]}
+					aria-hidden="true"
+				/>
+			</div>
+
+			<!-- Content -->
+			<div class="flex flex-col gap-2">
+				<h3
+					class:list={[
+						"text-base-900 dark:text-base-100 font-semibold tracking-tight",
+						isLarge ? "text-xl md:text-2xl" : "text-lg md:text-xl"
+					]}
+					style="letter-spacing: -0.01em;"
+				>
+					{title}
+				</h3>
+
+				<p
+					class:list={[
+						"text-base-500 dark:text-base-400 leading-relaxed",
+						isLarge ? "text-base" : "text-sm md:text-base"
+					]}
+				>
+					{text}
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
+
+<style>
+	/* Spring physics hover effect */
+	.group:hover {
+		transform: translateY(-2px);
+	}
+
+	.group {
+		transition:
+			transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+			box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+			border-color 0.3s ease;
+	}
+
+	/* Respect reduced motion */
+	@media (prefers-reduced-motion: reduce) {
+		.group,
+		.group:hover {
+			transform: none;
+			transition: none;
+		}
+	}
+</style>

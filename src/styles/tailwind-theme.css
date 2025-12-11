@@ -76,12 +76,36 @@
 	--font-fallback:
 		"-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif",
 		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	--font-sans: "Poppins", var(--font-fallback);
+	--font-sans: "Geist Sans", var(--font-fallback);
 	--font-serif:
 		"Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", "Droid Serif", "Times",
 		"Source Serif Pro", "serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	--font-mono:
-		"SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
+		"Geist Mono", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace";
+
+	/* Bay Area Standard - Typography */
+	--tracking-tighter: -0.04em;
+	--tracking-tight: -0.02em;
+	--leading-hero: 1.1;
+
+	/* Bay Area Standard - Animation */
+	--ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+	--duration-fast: 200ms;
+	--duration-normal: 300ms;
+
+	/* Bay Area Standard - Shadows */
+	--shadow-card:
+		0 1px 2px rgba(0, 0, 0, 0.04),
+		0 4px 8px rgba(0, 0, 0, 0.04),
+		0 12px 24px rgba(0, 0, 0, 0.06);
+	--shadow-card-hover:
+		0 1px 2px rgba(0, 0, 0, 0.04),
+		0 8px 16px rgba(0, 0, 0, 0.08),
+		0 24px 48px rgba(0, 0, 0, 0.08);
+
+	/* Bay Area Standard - Border Radius */
+	--radius-card: 1.5rem;
+	--radius-button: 0.75rem;
 
 	/* starwind and cosmic themes animations */
 	--animate-accordion-down: accordion-down 0.3s ease-out;

@@ -1,18 +1,11 @@
 ---
 /**
- * * These are small cards with icons, titles, and text. With title first
- * This looks best with an even number of cards. They are smaller to
- * use with more cards in the same section. 4 or 6 cards is probably ideal
- *
- * ! I copy all icons into the src/icons folder and recommend you do the same
- * ! If the icon is at src/icons/tabler/paint.svg then you put in "tabler/paint"
+ * * Bento-style feature cards - Bay Area Standard
+ * Features displayed in a modern bento grid layout with variable tile sizes
  */
-
-import { Icon } from "astro-icon/components";
 
 // components
 import FeatureCard from "@components/FeatureCard/FeatureCardSmall.astro";
-import Badge from "@components/Badge/Badge.astro";
 
 interface FeatureData {
 	icon: string;
@@ -25,7 +18,7 @@ const featureData: FeatureData[] = [
 	{
 		icon: "tabler/affiliate",
 		title: "Networking",
-		text: `Instantly connect with Seattle’s top investors, founders, and startups all in one place.`,
+		text: `Instantly connect with Seattle's top investors, founders, and startups all in one place.`,
 	},
 	{
 		icon: "tabler/bolt",
@@ -34,7 +27,7 @@ const featureData: FeatureData[] = [
 	},
 	{
 		icon: "tabler/load-balancer",
-		title: "Flexibility	",
+		title: "Flexibility",
 		text: `Engage with the community at the pace that matches your stage in the startup journey.`,
 	},
 ];
@@ -42,22 +35,77 @@ const featureData: FeatureData[] = [
 
 <section
 	id="feature-cards-small"
-	class="bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat py-24 md:py-28 dark:bg-none"
+	class="relative py-24 md:py-32"
 >
+	<!-- Subtle background gradient -->
+	<div class="pointer-events-none absolute inset-0 -z-10">
+		<div
+			class="absolute top-0 left-1/2 h-[600px] w-full max-w-4xl -translate-x-1/2 opacity-[0.04] blur-[100px]"
+			style="background: radial-gradient(ellipse, var(--color-primary-400) 0%, transparent 70%);"
+		></div>
+	</div>
+
 	<div class="site-container relative">
-		<div class="mx-auto mb-16 text-center md:max-w-4xl">
-			<h2 class="h2 mb-4">We help founders thrive in Seattle</h2>
+		<!-- Section header -->
+		<div class="bento-animate mx-auto mb-16 max-w-2xl text-center opacity-0" style="--delay: 0ms;">
+			<h2
+				class="h2 mb-4"
+				style="letter-spacing: -0.02em;"
+			>
+				We help founders thrive in Seattle
+			</h2>
 			<p class="description text-lg text-pretty md:text-xl">
 				We aim to create a vibrant, interconnected network of experienced founders, new entrants,
 				and established leaders to foster innovation and growth.
 			</p>
 		</div>
-		<div id="trigger-small-cards" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+		<!-- Bento Grid -->
+		<div
+			id="trigger-small-cards"
+			class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5 lg:gap-6"
+		>
 			{
 				featureData.map((feature, idx) => (
-					<FeatureCard title={feature.title} text={feature.text} icon={feature.icon} />
+					<div
+						class="bento-animate opacity-0"
+						style={`--delay: ${(idx + 1) * 100}ms;`}
+					>
+						<FeatureCard
+							title={feature.title}
+							text={feature.text}
+							icon={feature.icon}
+						/>
+					</div>
 				))
 			}
 		</div>
 	</div>
 </section>
+
+<style>
+	/* Bento animation styles */
+	.bento-animate {
+		animation: bentoFadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+		animation-delay: var(--delay, 0ms);
+	}
+
+	@keyframes bentoFadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(24px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Respect reduced motion preference */
+	@media (prefers-reduced-motion: reduce) {
+		.bento-animate {
+			animation: none;
+			opacity: 1;
+		}
+	}
+</style>
