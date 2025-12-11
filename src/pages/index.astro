@@ -45,7 +45,22 @@ const siteData = getTranslatedData("siteData", currLocale);
 	<!-- <HeroBgImage /> -->
 	<HeroCentered />
 
-	<GalleryMarquee />
+	<!-- Wistia Video -->
+	<section class="py-8 px-4 md:px-8 lg:px-16">
+		<div class="mx-auto max-w-5xl">
+			<script src="https://fast.wistia.com/player.js" async></script>
+			<script src="https://fast.wistia.com/embed/w3mmn1lcqj.js" async type="module"></script>
+			<style>
+				wistia-player[media-id='w3mmn1lcqj']:not(:defined) {
+					background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w3mmn1lcqj/swatch');
+					display: block;
+					filter: blur(5px);
+					padding-top: 56.25%;
+				}
+			</style>
+			<wistia-player media-id="w3mmn1lcqj" aspect="1.7777777777777777" class="rounded-lg shadow-lg overflow-hidden"></wistia-player>
+		</div>
+	</section>
 	<FeatureCardsSmall />
 	<!-- <FeatureVideo /> -->
 
