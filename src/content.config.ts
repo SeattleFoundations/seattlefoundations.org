@@ -70,7 +70,18 @@ const companiesCollection = defineCollection({
 		id: z.string().uuid(),
 		slug: z.string(),
 		name: z.string(),
-		url: z.string().url().optional().nullable(),
+		url: z
+			.string()
+			.optional()
+			.nullable()
+			.transform((val) => {
+				if (!val) return val;
+				// Add https:// if no protocol is present
+				if (!/^https?:\/\//i.test(val)) {
+					return `https://${val}`;
+				}
+				return val;
+			}),
 		description: z.string().optional().nullable(),
 		logo: z.string().optional().nullable(),
 		memberCount: z.number().optional(),
@@ -80,7 +91,7 @@ const companiesCollection = defineCollection({
 			.array(
 				z.object({
 					name: z.string(),
-					linkedin: z.string().url().optional(),
+					linkedin: z.string().url().optional().nullable(),
 				}),
 			)
 			.optional(),
