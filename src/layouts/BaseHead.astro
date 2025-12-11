@@ -28,20 +28,24 @@ const {
 	noindex = false,
 } = Astro.props as Props;
 
-import Poppins400 from "@fontsource/poppins/files/poppins-latin-400-normal.woff2";
-import Poppins500 from "@fontsource/poppins/files/poppins-latin-500-normal.woff2";
-import Poppins600 from "@fontsource/poppins/files/poppins-latin-600-normal.woff2";
-import Poppins700 from "@fontsource/poppins/files/poppins-latin-700-normal.woff2";
+// Geist Sans fonts
+import GeistSans400 from "@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2";
+import GeistSans500 from "@fontsource/geist-sans/files/geist-sans-latin-500-normal.woff2";
+import GeistSans600 from "@fontsource/geist-sans/files/geist-sans-latin-600-normal.woff2";
+import GeistSans700 from "@fontsource/geist-sans/files/geist-sans-latin-700-normal.woff2";
+// Geist Mono font
+import GeistMono400 from "@fontsource/geist-mono/files/geist-mono-latin-400-normal.woff2";
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" , initial-scale="1.0" />
 
 <!-- local font preload for better performance -->
-<link rel="preload" href={Poppins400} as="font" type="font/woff2" crossorigin="anonymous" />
-<link rel="preload" href={Poppins500} as="font" type="font/woff2" crossorigin="anonymous" />
-<link rel="preload" href={Poppins600} as="font" type="font/woff2" crossorigin="anonymous" />
-<link rel="preload" href={Poppins700} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={GeistSans400} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={GeistSans500} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={GeistSans600} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={GeistSans700} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={GeistMono400} as="font" type="font/woff2" crossorigin="anonymous" />
 
 <!-- Favicons. I store these in public/favicons. Wherever you store them in the public folder is what you need these href's to match -->
 <link rel="icon" href="/favicons/favicon.ico" />
