@@ -132,9 +132,9 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		return `
 			<article class="overflow-hidden rounded-xl bg-card shadow-lg dark:shadow-black/20">
 				<div class="aspect-video w-full">
-					<iframe 
-						src="${video.embedUrl}" 
-						title="${video.title}"
+				<iframe 
+					src="${video.embedUrl}?rel=0" 
+					title="${video.title}"
 						class="h-full w-full"
 						frameborder="0" 
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
