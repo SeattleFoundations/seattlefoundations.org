@@ -1,0 +1,328 @@
+---
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+	title="Almost Live! - Foundations"
+	description="Almost Live! video content from Seattle Foundations"
+>
+	<section class="site-container space-y-12">
+		<div
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-none"
+		>
+			<div class="mx-auto flex max-w-[950px] flex-col items-center justify-center">
+				<img 
+					src="/assets/almost-live-logo.png" 
+					alt="Almost Live! Logo" 
+					class="h-32 w-auto md:h-48"
+				/>
+				<p class="mt-4 text-center text-lg text-muted-foreground">
+					A uniquely Seattle startup experience.
+				</p>
+			</div>
+		</div>
+
+		<!-- Loading state -->
+		<div id="videos-loading" class="mx-auto max-w-4xl text-center">
+			<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
+				<div class="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-primary-600"></div>
+				<p class="text-lg text-gray-600 dark:text-gray-300">Loading videos...</p>
+			</div>
+		</div>
+
+		<!-- Error state (hidden by default) -->
+		<div id="videos-error" class="mx-auto max-w-4xl text-center hidden">
+			<div class="rounded-lg bg-red-50 p-8 dark:bg-red-900/20">
+				<p class="text-lg text-red-800 dark:text-red-300">Failed to load videos</p>
+				<p class="mt-2 text-sm text-red-600 dark:text-red-400">Please try again later.</p>
+			</div>
+		</div>
+
+		<!-- Empty state (hidden by default) -->
+		<div id="videos-empty" class="mx-auto max-w-4xl text-center hidden">
+			<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
+				<p class="text-lg text-gray-600 dark:text-gray-300">No videos to display yet. Check back soon!</p>
+			</div>
+		</div>
+
+		<!-- Videos container (hidden by default) -->
+		<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+			<div id="videos-container" class="space-y-12 hidden"></div>
+			
+			<!-- Pagination -->
+			<div id="pagination-container" class="mt-12 flex items-center justify-center gap-4 hidden">
+				<button 
+					id="prev-page" 
+					class="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+					disabled
+				>
+					← Previous
+				</button>
+				<span id="page-info" class="text-gray-600 dark:text-gray-400">Page 1 of 1</span>
+				<button 
+					id="next-page" 
+					class="rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+					disabled
+				>
+					Next →
+				</button>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	interface Video {
+		id: string;
+		title: string;
+		description: string;
+		youtubeVideoId: string;
+		embedUrl: string;
+		watchUrl: string;
+		thumbnailUrl: string;
+		duration: string | null;
+		formattedDuration: string;
+		publishedAt: string;
+		displayOrder: number;
+	}
+
+	interface VideosApiResponse {
+		success: boolean;
+		videos?: Video[];
+	}
+
+	const VIDEOS_PER_PAGE = 10;
+	let allVideos: Video[] = [];
+	let currentPage = 1;
+
+	// Mock data for local development
+	const mockData: VideosApiResponse = {
+		success: true,
+		videos: [
+			{
+				id: "a477ffe7-8589-4ec9-a609-1fc77572780d",
+				title: "Episode 0: Coming Soon!",
+				description: "Coming soon! Like, this week!",
+				youtubeVideoId: "llvzOLwoab8",
+				embedUrl: "https://www.youtube.com/embed/llvzOLwoab8",
+				watchUrl: "https://www.youtube.com/watch?v=llvzOLwoab8",
+				thumbnailUrl: "https://img.youtube.com/vi/llvzOLwoab8/maxresdefault.jpg",
+				duration: null,
+				formattedDuration: "",
+				publishedAt: "2026-01-12T00:00:00.000Z",
+				displayOrder: 1
+			}
+		]
+	};
+
+	// Check if we're running locally
+	function isLocalDevelopment(): boolean {
+		const hostname = window.location.hostname;
+		return hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('localhost');
+	}
+
+	function createVideoCard(video: Video): string {
+		const publishedDate = new Date(video.publishedAt).toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric'
+		});
+
+		return `
+			<article class="overflow-hidden rounded-xl bg-card shadow-lg dark:shadow-black/20">
+				<div class="aspect-video w-full">
+					<iframe 
+						src="${video.embedUrl}" 
+						title="${video.title}"
+						class="h-full w-full"
+						frameborder="0" 
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+						referrerpolicy="strict-origin-when-cross-origin" 
+						allowfullscreen
+					></iframe>
+				</div>
+				<div class="p-6">
+					<h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 md:text-2xl">
+						${video.title}
+					</h2>
+					<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+						${publishedDate}
+						${video.formattedDuration ? `<span class="mx-2">•</span>${video.formattedDuration}` : ''}
+					</p>
+					<p class="mt-4 text-gray-600 dark:text-gray-300">
+						${video.description}
+					</p>
+					<a 
+						href="${video.watchUrl}" 
+						target="_blank" 
+						rel="noopener noreferrer"
+						class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+					>
+						<svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+						</svg>
+						Watch on YouTube
+					</a>
+				</div>
+			</article>
+		`;
+	}
+
+	function renderVideos(): void {
+		const containerEl = document.getElementById('videos-container');
+		if (!containerEl) return;
+
+		const startIndex = (currentPage - 1) * VIDEOS_PER_PAGE;
+		const endIndex = startIndex + VIDEOS_PER_PAGE;
+		const videosToShow = allVideos.slice(startIndex, endIndex);
+
+		const html = videosToShow.map(v => createVideoCard(v)).join('');
+		containerEl.innerHTML = html;
+	}
+
+	function updatePagination(): void {
+		const paginationEl = document.getElementById('pagination-container');
+		const prevBtn = document.getElementById('prev-page') as HTMLButtonElement;
+		const nextBtn = document.getElementById('next-page') as HTMLButtonElement;
+		const pageInfo = document.getElementById('page-info');
+
+		if (!paginationEl || !prevBtn || !nextBtn || !pageInfo) return;
+
+		const totalPages = Math.ceil(allVideos.length / VIDEOS_PER_PAGE);
+
+		if (totalPages <= 1) {
+			paginationEl.classList.add('hidden');
+			return;
+		}
+
+		paginationEl.classList.remove('hidden');
+		pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+		prevBtn.disabled = currentPage === 1;
+		nextBtn.disabled = currentPage === totalPages;
+	}
+
+	function goToPage(page: number): void {
+		currentPage = page;
+		renderVideos();
+		updatePagination();
+		
+		// Scroll to top of videos
+		const containerEl = document.getElementById('videos-container');
+		if (containerEl) {
+			containerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+	}
+
+	async function loadVideos(): Promise<void> {
+		const loadingEl = document.getElementById('videos-loading');
+		const errorEl = document.getElementById('videos-error');
+		const emptyEl = document.getElementById('videos-empty');
+		const containerEl = document.getElementById('videos-container');
+
+		loadingEl?.classList.remove('hidden');
+		errorEl?.classList.add('hidden');
+		emptyEl?.classList.add('hidden');
+		containerEl?.classList.add('hidden');
+
+		try {
+			let data: VideosApiResponse;
+			
+			if (isLocalDevelopment()) {
+				// Use mock data for local development
+				console.log('Using mock data for local development');
+				// Simulate network delay
+				await new Promise(resolve => setTimeout(resolve, 500));
+				data = mockData;
+			} else {
+				// Fetch from API in production
+				const response = await fetch(`https://ai.seattlefoundations.org/api/almost-live/videos?t=${Date.now()}`, {
+					method: 'GET',
+					headers: { 'Accept': 'application/json' }
+				});
+				if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+				data = await response.json();
+			}
+
+			loadingEl?.classList.add('hidden');
+
+			allVideos = data.success && data.videos ? data.videos : [];
+			
+			// Sort by displayOrder
+			allVideos.sort((a, b) => a.displayOrder - b.displayOrder);
+
+			if (!allVideos.length) {
+				emptyEl?.classList.remove('hidden');
+				return;
+			}
+
+			containerEl?.classList.remove('hidden');
+			currentPage = 1;
+			renderVideos();
+			updatePagination();
+		} catch (e) {
+			console.error('Error fetching videos:', e);
+			loadingEl?.classList.add('hidden');
+			errorEl?.classList.remove('hidden');
+		}
+	}
+
+	function bindPaginationEvents(): void {
+		const prevBtn = document.getElementById('prev-page');
+		const nextBtn = document.getElementById('next-page');
+
+		prevBtn?.addEventListener('click', () => {
+			if (currentPage > 1) {
+				goToPage(currentPage - 1);
+			}
+		});
+
+		nextBtn?.addEventListener('click', () => {
+			const totalPages = Math.ceil(allVideos.length / VIDEOS_PER_PAGE);
+			if (currentPage < totalPages) {
+				goToPage(currentPage + 1);
+			}
+		});
+	}
+
+	let videosLoaded = false;
+	function checkAndLoadVideos() {
+		const isAlmostLivePage = window.location.pathname === '/almost-live' || window.location.pathname === '/almost-live/';
+		const hasContainer = document.getElementById('videos-container') !== null;
+		if (isAlmostLivePage && hasContainer && !videosLoaded) {
+			videosLoaded = true;
+			loadVideos();
+		} else if (!isAlmostLivePage) {
+			videosLoaded = false;
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		bindPaginationEvents();
+		checkAndLoadVideos();
+	});
+
+	checkAndLoadVideos();
+
+	const observer = new MutationObserver(() => { checkAndLoadVideos(); });
+	observer.observe(document.body, { childList: true, subtree: true });
+
+	document.addEventListener('visibilitychange', () => {
+		if (!document.hidden && (window.location.pathname === '/almost-live' || window.location.pathname === '/almost-live/')) {
+			videosLoaded = false;
+			checkAndLoadVideos();
+		}
+	});
+
+	document.addEventListener('astro:page-load', () => {
+		bindPaginationEvents();
+		checkAndLoadVideos();
+	});
+
+	document.addEventListener('astro:after-swap', () => {
+		bindPaginationEvents();
+		videosLoaded = false;
+		checkAndLoadVideos();
+	});
+</script>

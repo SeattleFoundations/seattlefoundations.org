@@ -19,10 +19,6 @@ const navConfig: navItem[] = [
 		newTab: true,
 	},
 	{
-		text: "Blog",
-		link: "/blog",
-	},
-	{
 		text: "Companies",
 		link: "/companies",
 	},
@@ -33,6 +29,10 @@ const navConfig: navItem[] = [
 	{
 		text: "Merch",
 		link: "https://merch.seattlefoundations.org/",
+	},
+	{
+		text: "Almost Live!",
+		link: "/almost-live",
 	},
 ];
 
