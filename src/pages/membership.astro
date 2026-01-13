@@ -1,6 +1,6 @@
 ---
-
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { MembershipApplicationForm } from "@components/Forms/MembershipApplicationForm";
 
 const meta = {
 	title: "Membership | Seattle Foundations",
@@ -9,22 +9,21 @@ const meta = {
 ---
 
 <BaseLayout {...meta}>
-	<section class="py-16 md:py-24">
-		<div class="site-container">
-			<div class="mx-auto max-w-3xl">
-				<h1 class="h1 text-center">Membership</h1>
-					<div class="mt-12 bg-card text-card-foreground rounded-xl p-4 md:p-6 shadow-sm">
-					<iframe id="membership-frame" src="https://hill-newsprint-479.notion.site/ebd/1cebcd8b70e4807fa622d2b65bc46ba0" width="100%" height="2500" frameborder="0" allowfullscreen />
-				</div>
+	<section class="site-container">
+		<div
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 pb-12 md:pt-32 md:pb-16 dark:bg-none"
+		>
+			<div class="mx-auto flex max-w-[950px] flex-col justify-center text-center">
+				<h1 class="h1">Join Foundations</h1>
+				<p class="description mt-4 text-lg">
+					Apply to become a member.
+				</p>
+			</div>
+		</div>
+		<div class="mx-auto max-w-2xl pb-16 md:pb-24">
+			<div class="bg-card text-card-foreground rounded-xl p-6 md:p-8 shadow-sm">
+				<MembershipApplicationForm client:load />
 			</div>
 		</div>
 	</section>
 </BaseLayout>
-
-<style>
-	iframe {
-		border: none;
-		border-radius: 0.5rem;
-		background-color: var(--card);
-	}
-</style>
