@@ -32,7 +32,7 @@ const authorsCollection = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 			name: z.string(),
-			avatar: image(), // author page link. Could be a personal website, github, twitter, whatever you want
+			avatar: image(), // author page link. Could be a personal website, github, X, whatever you want
 		}),
 });
 
