@@ -40,21 +40,3 @@ const {
 	</div>
 </section>
 
-<script>
-	// Focus email input when scrolled into view
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach((entry) => {
-			if (entry.isIntersecting) {
-				const emailInput = document.querySelector('#newsletter-email');
-				if (emailInput) {
-					emailInput.focus();
-				}
-			}
-		});
-	});
-
-	const newsletterForm = document.querySelector('#newsletter-form');
-	if (newsletterForm) {
-		observer.observe(newsletterForm);
-	}
-</script>
