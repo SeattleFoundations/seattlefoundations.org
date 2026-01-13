@@ -305,7 +305,7 @@ export const MembershipApplicationForm = () => {
 					Application Submitted!
 				</h3>
 				<p className="text-muted-foreground">
-					Thank you for your interest in Seattle Foundations. We'll review your
+					Thank you for your interest in Foundations. We'll review your
 					application and get back to you soon.
 				</p>
 			</div>

@@ -1,6 +1,6 @@
-# Seattle Foundations
+# Foundations
 
-Welcome to the Seattle Foundations website [https://seattlefoundations.org](https://seattlefoundations.org).
+Welcome to the Foundations website [https://seattlefoundations.org](https://seattlefoundations.org).
 
 This website is built and is maintained by the community. If you have any questions or feedback, please reach out to Art Litvinau over email or Foundations Slack (*art at seattlefoundations.org*).
 
@@ -66,4 +66,4 @@ Auto-deploys from main
 
 ## License
 
-This website is maintained by Seattle Foundations. All rights reserved.
+This website is maintained by Foundations. All rights reserved.
