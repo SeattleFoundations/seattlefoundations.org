@@ -21,7 +21,7 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 					class="h-32 w-auto md:h-48"
 				/>
 				<p class="mt-4 text-center text-lg text-muted-foreground">
-					A uniquely Seattle startup experience.
+					The voice of the Seattle startup community.
 				</p>
 			</div>
 		</div>
@@ -155,9 +155,9 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 						${publishedDate}
 						${video.formattedDuration ? `<span class="mx-2">•</span>${video.formattedDuration}` : ''}
 					</p>
-					<p class="mt-4 text-gray-600 dark:text-gray-300">
-						${video.description}
-					</p>
+				<div class="mt-4 text-gray-600 dark:text-gray-300 [&_a]:text-primary-600 [&_a]:underline [&_a:hover]:text-primary-700 dark:[&_a]:text-primary-400 dark:[&_a:hover]:text-primary-300 [&_p]:mb-2 [&_ul]:list-disc [&_ul]:ml-4 [&_ol]:list-decimal [&_ol]:ml-4">
+					${video.description}
+				</div>
 					<a 
 						href="${video.watchUrl}" 
 						target="_blank" 
