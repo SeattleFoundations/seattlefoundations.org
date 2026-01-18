@@ -178,7 +178,8 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 		// Click handler to load iframe
 		videoContainer.addEventListener('click', () => {
 			const iframe = document.createElement('iframe');
-			iframe.src = video.embedUrl + '?rel=0&autoplay=1';
+			const isMobile = window.innerWidth < 768;
+			iframe.src = video.embedUrl + '?rel=0' + (isMobile ? '' : '&autoplay=1');
 			iframe.title = video.title;
 			iframe.className = 'absolute inset-0 w-full h-full';
 			iframe.frameBorder = '0';
