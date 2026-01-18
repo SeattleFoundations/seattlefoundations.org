@@ -178,7 +178,10 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 		// Click handler to load iframe
 		videoContainer.addEventListener('click', () => {
 			const iframe = document.createElement('iframe');
-			const isMobile = window.innerWidth < 768;
+			// Detect mobile/touch devices - don't autoplay on these
+			const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+				('ontouchstart' in window) || 
+				(navigator.maxTouchPoints > 0);
 			iframe.src = video.embedUrl + '?rel=0' + (isMobile ? '' : '&autoplay=1');
 			iframe.title = video.title;
 			iframe.className = 'absolute inset-0 w-full h-full';
