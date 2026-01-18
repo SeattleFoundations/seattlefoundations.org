@@ -150,51 +150,67 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 		const article = document.createElement('article');
 		article.className = 'overflow-hidden rounded-xl bg-card shadow-lg dark:shadow-black/20';
 
-		// Create video container with facade pattern (thumbnail + play button)
-		// Only loads iframe when user clicks - massive performance improvement on mobile
+		// Detect if device is mobile/touch
+		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+			('ontouchstart' in window) || 
+			(navigator.maxTouchPoints > 0);
+
 		const videoContainer = document.createElement('div');
-		videoContainer.className = 'aspect-video w-full relative bg-black cursor-pointer group';
-		
-		// Thumbnail image (uses YouTube's default thumbnail)
-		const thumbnail = document.createElement('img');
-		thumbnail.src = video.thumbnailUrl;
-		thumbnail.alt = video.title;
-		thumbnail.className = 'w-full h-full object-cover';
-		thumbnail.loading = 'lazy';
-		videoContainer.appendChild(thumbnail);
-		
-		// Play button overlay
-		const playButton = document.createElement('div');
-		playButton.className = 'absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors';
-		playButton.innerHTML = `
-			<div class="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 group-hover:scale-110 transition-all">
-				<svg class="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-					<path d="M8 5v14l11-7z"/>
-				</svg>
-			</div>
-		`;
-		videoContainer.appendChild(playButton);
-		
-		// Click handler to load iframe
-		videoContainer.addEventListener('click', () => {
+		videoContainer.className = 'aspect-video w-full relative';
+
+		if (isMobile) {
+			// Mobile: Use facade pattern (thumbnail + play button)
+			// Only loads iframe when user clicks - better performance on mobile
+			videoContainer.classList.add('bg-black', 'cursor-pointer', 'group');
+			
+			// Thumbnail image
+			const thumbnail = document.createElement('img');
+			thumbnail.src = video.thumbnailUrl;
+			thumbnail.alt = video.title;
+			thumbnail.className = 'w-full h-full object-cover';
+			thumbnail.loading = 'lazy';
+			videoContainer.appendChild(thumbnail);
+			
+			// Play button overlay
+			const playButton = document.createElement('div');
+			playButton.className = 'absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors';
+			playButton.innerHTML = `
+				<div class="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:bg-red-700 group-hover:scale-110 transition-all">
+					<svg class="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+						<path d="M8 5v14l11-7z"/>
+					</svg>
+				</div>
+			`;
+			videoContainer.appendChild(playButton);
+			
+			// Click handler to load iframe (no autoplay on mobile)
+			videoContainer.addEventListener('click', () => {
+				const iframe = document.createElement('iframe');
+				iframe.src = video.embedUrl + '?rel=0';
+				iframe.title = video.title;
+				iframe.className = 'absolute inset-0 w-full h-full';
+				iframe.frameBorder = '0';
+				iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+				iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+				iframe.allowFullscreen = true;
+				
+				// Replace thumbnail with iframe
+				videoContainer.innerHTML = '';
+				videoContainer.classList.remove('bg-black', 'cursor-pointer', 'group');
+				videoContainer.appendChild(iframe);
+			});
+		} else {
+			// Desktop: Load iframe immediately with autoplay
 			const iframe = document.createElement('iframe');
-			// Detect mobile/touch devices - don't autoplay on these
-			const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
-				('ontouchstart' in window) || 
-				(navigator.maxTouchPoints > 0);
-			iframe.src = video.embedUrl + '?rel=0' + (isMobile ? '' : '&autoplay=1');
+			iframe.src = video.embedUrl + '?rel=0&autoplay=1';
 			iframe.title = video.title;
-			iframe.className = 'absolute inset-0 w-full h-full';
+			iframe.className = 'h-full w-full';
 			iframe.frameBorder = '0';
 			iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
 			iframe.referrerPolicy = 'strict-origin-when-cross-origin';
 			iframe.allowFullscreen = true;
-			
-			// Replace thumbnail with iframe
-			videoContainer.innerHTML = '';
-			videoContainer.className = 'aspect-video w-full relative';
 			videoContainer.appendChild(iframe);
-		});
+		}
 		
 		article.appendChild(videoContainer);
 
