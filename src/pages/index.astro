@@ -48,19 +48,83 @@ const siteData = getTranslatedData("siteData", currLocale);
 	<!-- Wistia Video -->
 	<section class="py-8 px-4 md:px-8 lg:px-16">
 		<div class="mx-auto max-w-5xl">
-			<script src="https://fast.wistia.com/player.js" async></script>
-			<script src="https://fast.wistia.com/embed/w3mmn1lcqj.js" async type="module"></script>
-			<style>
-				wistia-player[media-id='w3mmn1lcqj']:not(:defined) {
-					background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w3mmn1lcqj/swatch');
-					display: block;
-					filter: blur(5px);
-					padding-top: 56.25%;
-				}
-			</style>
-			<wistia-player media-id="w3mmn1lcqj" aspect="1.7777777777777777" class="rounded-lg shadow-lg overflow-hidden"></wistia-player>
+			<!-- Desktop: Load Wistia player immediately -->
+			<div id="wistia-desktop" class="hidden md:block">
+				<script src="https://fast.wistia.com/player.js" async></script>
+				<script src="https://fast.wistia.com/embed/w3mmn1lcqj.js" async type="module"></script>
+				<style>
+					wistia-player[media-id='w3mmn1lcqj']:not(:defined) {
+						background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w3mmn1lcqj/swatch');
+						display: block;
+						filter: blur(5px);
+						padding-top: 56.25%;
+					}
+				</style>
+				<wistia-player media-id="w3mmn1lcqj" aspect="1.7777777777777777" class="rounded-lg shadow-lg overflow-hidden"></wistia-player>
+			</div>
+			
+			<!-- Mobile: Thumbnail facade - only loads player on click -->
+			<div id="wistia-mobile" class="md:hidden">
+				<div 
+					id="wistia-facade" 
+					class="relative aspect-video w-full cursor-pointer rounded-lg shadow-lg overflow-hidden bg-black group"
+				>
+					<img 
+						src="https://fast.wistia.com/embed/medias/w3mmn1lcqj/swatch" 
+						alt="Play video"
+						class="w-full h-full object-cover"
+					/>
+					<div class="absolute inset-0 flex items-center justify-center bg-black/30 group-active:bg-black/50 transition-colors">
+						<div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center shadow-lg group-active:scale-95 transition-transform">
+							<svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+								<path d="M8 5v14l11-7z"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="wistia-mobile-player" class="hidden"></div>
+			</div>
 		</div>
 	</section>
+	
+	<script>
+		// Mobile: Load Wistia player only when user clicks the facade
+		const facade = document.getElementById('wistia-facade');
+		const mobilePlayer = document.getElementById('wistia-mobile-player');
+		
+		facade?.addEventListener('click', () => {
+			if (!mobilePlayer) return;
+			
+			// Hide facade, show player container
+			facade.classList.add('hidden');
+			mobilePlayer.classList.remove('hidden');
+			
+			// Load Wistia scripts
+			const playerScript = document.createElement('script');
+			playerScript.src = 'https://fast.wistia.com/player.js';
+			playerScript.async = true;
+			document.head.appendChild(playerScript);
+			
+			const embedScript = document.createElement('script');
+			embedScript.src = 'https://fast.wistia.com/embed/w3mmn1lcqj.js';
+			embedScript.async = true;
+			embedScript.type = 'module';
+			document.head.appendChild(embedScript);
+			
+			// Create and insert the player (no autoplay on mobile)
+			mobilePlayer.innerHTML = `
+				<style>
+					wistia-player[media-id='w3mmn1lcqj']:not(:defined) {
+						background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w3mmn1lcqj/swatch');
+						display: block;
+						filter: blur(5px);
+						padding-top: 56.25%;
+					}
+				</style>
+				<wistia-player media-id="w3mmn1lcqj" aspect="1.7777777777777777" class="rounded-lg shadow-lg overflow-hidden"></wistia-player>
+			`;
+		});
+	</script>
 	<FeatureCardsSmall />
 	<!-- <FeatureVideo /> -->
 
