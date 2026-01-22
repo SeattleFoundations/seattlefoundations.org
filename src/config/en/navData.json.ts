@@ -15,7 +15,7 @@ const navConfig: navItem[] = [
 	// },
 	{
 		text: "Founders in Residence",
-		link: "https://hill-newsprint-479.notion.site/Founder-in-Residence-Program-184bcd8b70e4804a8836cf1193af7d02",
+		link: "https://ai.seattlefoundations.org/kb/founder-in-residence",
 		newTab: true,
 	},
 	{
