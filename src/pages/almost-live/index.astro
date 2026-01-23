@@ -299,9 +299,6 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 			loadingEl?.classList.add('hidden');
 
 			allVideos = data.success && data.videos ? data.videos : [];
-			
-			// Sort by displayOrder
-			allVideos.sort((a, b) => a.displayOrder - b.displayOrder);
 
 			if (!allVideos.length) {
 				emptyEl?.classList.remove('hidden');
