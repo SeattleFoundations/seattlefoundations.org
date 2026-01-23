@@ -6,6 +6,7 @@
 
 // components
 import FeatureCard from "@components/FeatureCard/FeatureCardSmall.astro";
+import Button from "@components/Button/Button.astro";
 
 interface FeatureData {
 	icon: string;
@@ -58,6 +59,15 @@ const featureData: FeatureData[] = [
 				We're on a mission to make Seattle a better place to be a founder. We do that by creating a vibrant, interconnected network of experienced founders, first-timers,
 				and established leaders.
 			</p>
+			<div class="mt-6 flex flex-wrap justify-center gap-4">
+				<Button
+					variant="primary"
+					href="/static/manifesto"
+					class="shadow-lg shadow-primary-500/20 hover:shadow-xl hover:shadow-primary-500/30 transition-shadow duration-300"
+				>
+					Read the Manifesto
+				</Button>
+			</div>
 		</div>
 
 		<!-- Bento Grid -->
