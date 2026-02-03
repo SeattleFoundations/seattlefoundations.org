@@ -147,49 +147,68 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 			day: 'numeric'
 		});
 
+		const videoPageUrl = `/almost-live/${video.id}`;
+
 		const article = document.createElement('article');
 		article.className = 'overflow-hidden rounded-xl bg-card shadow-lg dark:shadow-black/20';
 
-		// Create video iframe container
-		const videoContainer = document.createElement('div');
-		videoContainer.className = 'aspect-video w-full';
-		const iframe = document.createElement('iframe');
-		iframe.src = video.embedUrl + '?rel=0';
-		iframe.title = video.title;
-		iframe.className = 'h-full w-full';
-		iframe.frameBorder = '0';
-		iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-		iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-		iframe.allowFullscreen = true;
-		videoContainer.appendChild(iframe);
-		article.appendChild(videoContainer);
+		// Create clickable video thumbnail/embed container
+		const videoLink = document.createElement('a');
+		videoLink.href = videoPageUrl;
+		videoLink.className = 'block aspect-video w-full relative group';
+		
+		// Thumbnail image
+		const thumbnail = document.createElement('img');
+		thumbnail.src = video.thumbnailUrl;
+		thumbnail.alt = video.title;
+		thumbnail.className = 'h-full w-full object-cover';
+		videoLink.appendChild(thumbnail);
+		
+		// Play button overlay
+		const playOverlay = document.createElement('div');
+		playOverlay.className = 'absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors';
+		playOverlay.innerHTML = `
+			<div class="rounded-full bg-red-600 p-4 group-hover:bg-red-700 transition-colors">
+				<svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M8 5v14l11-7z"/>
+				</svg>
+			</div>
+		`;
+		videoLink.appendChild(playOverlay);
+		
+		// Duration badge if available
+		if (video.formattedDuration) {
+			const durationBadge = document.createElement('span');
+			durationBadge.className = 'absolute bottom-2 right-2 rounded bg-black/80 px-2 py-1 text-xs font-medium text-white';
+			durationBadge.textContent = video.formattedDuration;
+			videoLink.appendChild(durationBadge);
+		}
+		
+		article.appendChild(videoLink);
 
 		// Create content container
 		const contentDiv = document.createElement('div');
 		contentDiv.className = 'p-6';
 
-		// Title
+		// Title as link
+		const titleLink = document.createElement('a');
+		titleLink.href = videoPageUrl;
+		titleLink.className = 'block';
 		const title = document.createElement('h2');
-		title.className = 'text-xl font-semibold text-gray-900 dark:text-gray-100 md:text-2xl';
+		title.className = 'text-xl font-semibold text-gray-900 dark:text-gray-100 md:text-2xl hover:text-primary-600 dark:hover:text-primary-400 transition-colors';
 		title.textContent = video.title;
-		contentDiv.appendChild(title);
+		titleLink.appendChild(title);
+		contentDiv.appendChild(titleLink);
 
-		// Date and duration
+		// Date
 		const dateLine = document.createElement('p');
 		dateLine.className = 'mt-1 text-sm text-gray-500 dark:text-gray-400';
 		dateLine.textContent = publishedDate;
-		if (video.formattedDuration) {
-			const separator = document.createElement('span');
-			separator.className = 'mx-2';
-			separator.textContent = '•';
-			dateLine.appendChild(separator);
-			dateLine.appendChild(document.createTextNode(video.formattedDuration));
-		}
 		contentDiv.appendChild(dateLine);
 
 		// Description - use innerHTML to render HTML from API
 		const descriptionDiv = document.createElement('div');
-		descriptionDiv.className = 'description-content mt-4 text-gray-600 dark:text-gray-300';
+		descriptionDiv.className = 'description-content mt-4 text-gray-600 dark:text-gray-300 line-clamp-3';
 		descriptionDiv.innerHTML = video.description;
 		// Style links within description
 		descriptionDiv.querySelectorAll('a').forEach(link => {
@@ -199,19 +218,37 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 		});
 		contentDiv.appendChild(descriptionDiv);
 
-		// YouTube link
+		// Links container
+		const linksDiv = document.createElement('div');
+		linksDiv.className = 'mt-4 flex items-center gap-3';
+
+		// View Details icon link
+		const detailsLink = document.createElement('a');
+		detailsLink.href = videoPageUrl;
+		detailsLink.className = 'inline-flex items-center justify-center rounded-full p-2 text-primary-600 hover:bg-primary-50 hover:text-primary-700 dark:text-primary-400 dark:hover:bg-primary-900/20 dark:hover:text-primary-300 transition-colors';
+		detailsLink.title = 'View details';
+		detailsLink.innerHTML = `
+			<svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+			</svg>
+		`;
+		linksDiv.appendChild(detailsLink);
+
+		// YouTube icon link
 		const youtubeLink = document.createElement('a');
 		youtubeLink.href = video.watchUrl;
 		youtubeLink.target = '_blank';
 		youtubeLink.rel = 'noopener noreferrer';
-		youtubeLink.className = 'mt-4 inline-flex items-center text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300';
+		youtubeLink.className = 'inline-flex items-center justify-center rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-red-600 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-red-500 transition-colors';
+		youtubeLink.title = 'Watch on YouTube';
 		youtubeLink.innerHTML = `
-			<svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+			<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
 				<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
 			</svg>
-			Watch on YouTube
 		`;
-		contentDiv.appendChild(youtubeLink);
+		linksDiv.appendChild(youtubeLink);
+
+		contentDiv.appendChild(linksDiv);
 
 		article.appendChild(contentDiv);
 		return article;

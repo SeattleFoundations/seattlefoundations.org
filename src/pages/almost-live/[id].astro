@@ -1,0 +1,221 @@
+---
+// This page is server-rendered since video IDs come from an external API
+export const prerender = false;
+
+// layout
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+// components
+import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
+
+interface Video {
+	id: string;
+	title: string;
+	description: string;
+	youtubeVideoId: string;
+	embedUrl: string;
+	watchUrl: string;
+	thumbnailUrl: string;
+	duration: string | null;
+	formattedDuration: string;
+	publishedAt: string;
+	displayOrder: number;
+}
+
+interface VideosApiResponse {
+	success: boolean;
+	videos?: Video[];
+}
+
+const { id } = Astro.params;
+
+// Mock data for local development
+const mockVideos: Video[] = [
+	{
+		id: "98cf7509-bb07-4dc9-ac51-ed48b4d84ff3",
+		title: "Welcome to Almost Live!",
+		description: "Almost Live! is well... live! Learn what we're all about in this first installment!",
+		youtubeVideoId: "8ZOytEC4suQ",
+		embedUrl: "https://www.youtube.com/embed/8ZOytEC4suQ",
+		watchUrl: "https://www.youtube.com/watch?v=8ZOytEC4suQ",
+		thumbnailUrl: "https://img.youtube.com/vi/8ZOytEC4suQ/maxresdefault.jpg",
+		duration: null,
+		formattedDuration: "",
+		publishedAt: "2026-01-13T00:00:00.000Z",
+		displayOrder: 2
+	},
+	{
+		id: "924dc99a-3006-4901-8a44-283e3fb4ca91",
+		title: "Seattle: The Next Generation",
+		description: 'Only builders can change the world. Our mission at Foundations is to make Seattle a better place to be a founder and encourage those builders to do that here. Our success begins and ends with empowering a strong next generation of founders. For the region to win, we need folks like <a href="https://www.linkedin.com/in/caleb-john-165675139/" target="_blank" rel="noopener noreferrer">Caleb John</a> to choose to build their legacy here.',
+		youtubeVideoId: "b-AKueR4CrA",
+		embedUrl: "https://www.youtube.com/embed/b-AKueR4CrA",
+		watchUrl: "https://www.youtube.com/watch?v=b-AKueR4CrA",
+		thumbnailUrl: "https://img.youtube.com/vi/b-AKueR4CrA/maxresdefault.jpg",
+		duration: null,
+		formattedDuration: "",
+		publishedAt: "2026-01-15T00:00:00.000Z",
+		displayOrder: 3
+	}
+];
+
+// Check if we're running locally
+const isLocal = import.meta.env.DEV;
+
+let video: Video | null = null;
+let error: string | null = null;
+
+try {
+	if (isLocal) {
+		// Use mock data for local development
+		video = mockVideos.find(v => v.id === id) || null;
+	} else {
+		// Fetch from API in production
+		const response = await fetch(`https://ai.seattlefoundations.org/api/almost-live/videos?t=${Date.now()}`, {
+			method: 'GET',
+			headers: { 'Accept': 'application/json' }
+		});
+		
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		
+		const data: VideosApiResponse = await response.json();
+		
+		if (data.success && data.videos) {
+			video = data.videos.find(v => v.id === id) || null;
+		}
+	}
+} catch (e) {
+	console.error('Error fetching video:', e);
+	error = 'Failed to load video';
+}
+
+// If video not found, return 404
+if (!video && !error) {
+	return Astro.redirect('/almost-live');
+}
+
+const publishedDate = video ? new Date(video.publishedAt).toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric'
+}) : '';
+
+const pageTitle = video ? `${video.title} - Almost Live!` : 'Video Not Found - Almost Live!';
+const pageDescription = video ? video.description.replace(/<[^>]*>/g, '').substring(0, 160) : 'Almost Live! video content from Foundations';
+---
+
+<BaseLayout
+	title={pageTitle}
+	description={pageDescription}
+>
+	<section class="site-container">
+		<div
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 md:pt-32 dark:bg-none"
+		>
+			<!-- Back to All Videos Link -->
+			<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+				<a 
+					href="/almost-live" 
+					class="inline-flex items-center text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors mb-8"
+				>
+					<svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+					</svg>
+					Back to All Videos
+				</a>
+			</div>
+
+			{error ? (
+				<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+					<div class="rounded-lg bg-red-50 p-8 dark:bg-red-900/20 text-center">
+						<p class="text-lg text-red-800 dark:text-red-300">{error}</p>
+						<p class="mt-2 text-sm text-red-600 dark:text-red-400">Please try again later.</p>
+					</div>
+				</div>
+			) : video ? (
+				<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-12">
+					<article class="overflow-hidden rounded-xl bg-card shadow-lg dark:shadow-black/20">
+						<!-- Video Embed -->
+						<div class="aspect-video w-full">
+							<iframe
+								src={`${video.embedUrl}?rel=0`}
+								title={video.title}
+								class="h-full w-full"
+								frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								referrerpolicy="strict-origin-when-cross-origin"
+								allowfullscreen
+							></iframe>
+						</div>
+
+						<!-- Content -->
+						<div class="p-6 md:p-8">
+							<h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 md:text-3xl">
+								{video.title}
+							</h1>
+
+							<p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+								{publishedDate}
+								{video.formattedDuration && (
+									<>
+										<span class="mx-2">•</span>
+										{video.formattedDuration}
+									</>
+								)}
+							</p>
+
+							<div 
+								class="description-content mt-6 text-gray-600 dark:text-gray-300 text-lg leading-relaxed"
+								set:html={video.description}
+							/>
+
+							<div class="mt-8 flex flex-wrap gap-4">
+								<a
+									href={video.watchUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center rounded-lg bg-red-600 px-4 py-2 text-white transition hover:bg-red-700"
+								>
+									<svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+									</svg>
+									Watch on YouTube
+								</a>
+
+								<a
+									href="/almost-live"
+									class="inline-flex items-center rounded-lg bg-gray-100 px-4 py-2 text-gray-700 transition hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+								>
+									<svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+									</svg>
+									View All Videos
+								</a>
+							</div>
+						</div>
+					</article>
+				</div>
+			) : null}
+		</div>
+	</section>
+
+	<CtaCardSplit />
+</BaseLayout>
+
+<style>
+	.description-content :global(a) {
+		color: var(--color-primary-600);
+		text-decoration: underline;
+	}
+	.description-content :global(a:hover) {
+		color: var(--color-primary-700);
+	}
+	:global(.dark) .description-content :global(a) {
+		color: var(--color-primary-400);
+	}
+	:global(.dark) .description-content :global(a:hover) {
+		color: var(--color-primary-300);
+	}
+</style>
