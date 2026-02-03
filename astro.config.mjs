@@ -13,7 +13,7 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
 	site: "https://seattlefoundations.org",
-	output: "server", // Enables SSR, pages can opt-in to prerender with `export const prerender = true`
+	output: "hybrid", // Allows mixing static and server-rendered pages
 	adapter: netlify({
 		imageCDN: false,
 	}),
