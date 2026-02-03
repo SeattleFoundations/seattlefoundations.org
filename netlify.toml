@@ -5,10 +5,15 @@
 [build]
   command = "pnpm build"
   publish = "dist"
-  functions = "netlify/functions/"
 
 [[redirects]]
-  from = "/api/*" # simplify all calls to serverless functions
-  to = "/.netlify/functions/:splat" # all function calls will go to this path
-  status = 200 # ok code
-  force = true # ensure to always redirect
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# SSR fallback - route all non-static requests to the Astro SSR function
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/entry"
+  status = 200
