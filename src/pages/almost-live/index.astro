@@ -157,11 +157,22 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 		videoLink.href = videoPageUrl;
 		videoLink.className = 'block aspect-video w-full relative group';
 		
-		// Thumbnail image
+		// Thumbnail image with fallback for videos without maxresdefault
 		const thumbnail = document.createElement('img');
-		thumbnail.src = video.thumbnailUrl;
 		thumbnail.alt = video.title;
 		thumbnail.className = 'h-full w-full object-cover';
+		
+		// Try maxresdefault first, fall back to hqdefault if it fails
+		const maxResThumbnail = `https://img.youtube.com/vi/${video.youtubeVideoId}/maxresdefault.jpg`;
+		const hqThumbnail = `https://img.youtube.com/vi/${video.youtubeVideoId}/hqdefault.jpg`;
+		
+		thumbnail.src = maxResThumbnail;
+		thumbnail.onerror = () => {
+			// maxresdefault not available, use hqdefault
+			if (thumbnail.src !== hqThumbnail) {
+				thumbnail.src = hqThumbnail;
+			}
+		};
 		videoLink.appendChild(thumbnail);
 		
 		// Play button overlay
