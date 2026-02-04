@@ -1,6 +1,0 @@
-# SSR routes for Almost Live video pages (must use force to work with 404 fallback)
-/almost-live/*  /.netlify/functions/ssr  200!
-
-# Keystatic CMS routes (also SSR)
-/keystatic  /.netlify/functions/ssr  200!
-/keystatic/*  /.netlify/functions/ssr  200!

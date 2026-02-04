@@ -147,7 +147,7 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 			day: 'numeric'
 		});
 
-		const videoPageUrl = `/almost-live/${video.id}`;
+		const videoPageUrl = `/almost-live/video?id=${video.id}`;
 
 		const article = document.createElement('article');
 		article.className = 'overflow-hidden rounded-xl bg-card shadow-lg dark:shadow-black/20';
