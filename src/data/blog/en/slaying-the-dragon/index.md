@@ -17,7 +17,7 @@ Today, I'm thrilled to announce that Foundations is expanding with a new San Fra
 
 ## The Dragon's Origin: Hope, Cope, and a Dash of Self-Promotion
 
-Let's be honest about how this dragon came to life. For years, it was fueled by a mix of genuine hope and a hefty dose of cope. Seattle boosters pitched the narrative hard, sometimes out of optimism, but usually because well… the sunk cost fallacy is real. So it had to be true, right? After all, who wouldn't want to believe that Seattle could rival the Bay Area without all the hassle?
+Let's be honest about how this dragon came to life. For years, it was fueled by a mix of genuine hope and a hefty dose of cope. Seattle boosters pitched the narrative hard, sometimes out of optimism, but usually because well… the sunk cost fallacy is real. So it *had* to be true, right? After all, who wouldn't want to believe that Seattle could rival the Bay Area without all the hassle?
 
 But like any tall tale, there's a kernel of truth buried beneath the hype. Seattle's tech scene exploded thanks to the rise of Microsoft and Amazon, turning the city into a magnet for engineering talent. Tech outposts from giants like Google and Meta followed, bringing world-class expertise. The talent here is undeniable: deep technical skills, a willingness to tackle "unsexy" problems, uniquely loyal, and a much higher signal-to-noise ratio compared to the froth of SF. Depending on what data you look at, Seattle now boasts more software engineers per capita than the Bay Area market itself.
 
