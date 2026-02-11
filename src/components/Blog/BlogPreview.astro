@@ -1,5 +1,6 @@
 ---
 import BlogGrid from "@components/Blog/BlogGrid.astro";
+import Button from "@components/Button/Button.astro";
 import { getAllPosts } from "@js/blogUtils";
 
 const posts = await getAllPosts();
@@ -16,6 +17,12 @@ const posts = await getAllPosts();
 
 		<div class="mx-auto mt-6 max-w-7xl overflow-hidden pb-10 md:mt-10">
 			<BlogGrid posts={posts} limit={3} />
+		</div>
+
+		<div class="flex justify-center pb-4">
+			<Button variant="outline" href="/blog" arrow="right">
+				View All Posts
+			</Button>
 		</div>
 	</div>
 </section>

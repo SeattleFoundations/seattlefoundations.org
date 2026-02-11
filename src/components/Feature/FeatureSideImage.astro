@@ -50,17 +50,51 @@ const featureData: FeatureItem[] = [
       <h2 class="h2 mb-4">The best choice for your needs</h2>
     </div> -->
 		<div class="flex flex-col gap-16 md:gap-24">
+			<FeatureCard
+				badge={featureData[0].badge}
+				title={featureData[0].title}
+				items={featureData[0].items}
+				image={featureData[0].image}
+				imageSide="right"
+				href={featureData[0].href}
+				actionLabel="Learn More"
+				idx={0}
+			>
+				<a
+					href="http://seattlefoundations.org/blog/slaying-the-dragon"
+					class="group mt-6 flex items-center gap-3 rounded-xl border border-primary-200 bg-primary-50/60 px-4 py-3 no-underline transition-all duration-300 hover:border-primary-300 hover:bg-primary-50 hover:shadow-sm dark:border-primary-800 dark:bg-primary-950/30 dark:hover:border-primary-700 dark:hover:bg-primary-950/50"
+				>
+					<span class="text-lg">🌉</span>
+					<span class="flex flex-col">
+						<span class="text-xs font-semibold tracking-wide uppercase text-primary-600 dark:text-primary-400">
+							Coming Soon
+						</span>
+						<span class="text-sm font-medium text-base-800 dark:text-base-200">
+							Seattle + San Francisco office expansion
+						</span>
+					</span>
+					<svg
+						class="ml-auto size-4 shrink-0 text-primary-400 transition-transform duration-300 group-hover:translate-x-0.5 dark:text-primary-500"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+					</svg>
+				</a>
+			</FeatureCard>
 			{
-				featureData.map((feature, idx) => (
+				featureData.slice(1).map((feature, idx) => (
 					<FeatureCard
 						badge={feature.badge}
 						title={feature.title}
 						items={feature.items}
 						image={feature.image}
-						imageSide={idx % 2 === 0 ? "right" : "left"}
+						imageSide={(idx + 1) % 2 === 0 ? "right" : "left"}
 						href={feature.href}
 						actionLabel="Learn More"
-						idx={idx}
+						idx={idx + 1}
 					/>
 				))
 			}

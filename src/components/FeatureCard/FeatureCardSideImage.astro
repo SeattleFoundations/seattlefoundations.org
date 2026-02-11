@@ -53,19 +53,21 @@ const currLocale = getLocaleFromUrl(Astro.url);
 				}
 			</ul>
 
-			{
-				href && (
-					<div class="z-20 mt-8 flex">
-						<Button
-							variant="primary"
-							href={href}
-							arrow="right"
-						>
-							{actionLabel}
-						</Button>
-					</div>
-				)
-			}
+		{
+			href && (
+				<div class="z-20 mt-8 flex">
+					<Button
+						variant="primary"
+						href={href}
+						arrow="right"
+					>
+						{actionLabel}
+					</Button>
+				</div>
+			)
+		}
+
+			<slot />
 		</div>
 	</div>
 
