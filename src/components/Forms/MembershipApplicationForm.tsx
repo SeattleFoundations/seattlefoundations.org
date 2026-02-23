@@ -6,6 +6,7 @@ interface FormData {
 	email: string;
 	linkedin_url: string;
 	location: string;
+	application_type: string;
 	stage: string[];
 	working_status: string;
 	areas_of_interest: string;
@@ -46,6 +47,11 @@ const WORKING_STATUS_OPTIONS = [
 	{ label: "Not yet started", value: "not-started" },
 ];
 
+const APPLICATION_TYPE_OPTIONS = [
+	{ label: "Founder in Residence", value: "fir" },
+	{ label: "Member", value: "member" },
+];
+
 const LOOKING_FOR_OPTIONS = [
 	"Find a co-founder",
 	"Help with idea discovery & validation",
@@ -62,6 +68,7 @@ export const MembershipApplicationForm = () => {
 		email: "",
 		linkedin_url: "",
 		location: "",
+		application_type: "fir",
 		stage: [],
 		working_status: "",
 		areas_of_interest: "",
@@ -192,10 +199,13 @@ export const MembershipApplicationForm = () => {
 
 	const handleRadioChange = (value: string) => {
 		setFormData((prev) => ({ ...prev, working_status: value }));
-		// Clear error when user makes a selection
 		if (errors.working_status) {
 			setErrors((prev) => ({ ...prev, working_status: undefined }));
 		}
+	};
+
+	const handleApplicationTypeChange = (value: string) => {
+		setFormData((prev) => ({ ...prev, application_type: value }));
 	};
 
 	// URL field blur handler for immediate validation feedback
@@ -250,6 +260,7 @@ export const MembershipApplicationForm = () => {
 			about_me: formData.about_me.trim(),
 			linkedin_url: formData.linkedin_url.trim(),
 			location: formData.location.trim(),
+			application_type: formData.application_type,
 			stage: formData.stage,
 			part_time: partTime,
 			areas_of_interest: areasOfInterest,
@@ -394,6 +405,36 @@ export const MembershipApplicationForm = () => {
 				/>
 				{errors.location && <p className="text-sm text-error">{errors.location}</p>}
 			</div>
+
+			{/* Application Type */}
+			<fieldset className="space-y-3">
+				<legend className="text-sm font-medium text-foreground">
+					Application Type
+				</legend>
+				<div className="space-y-2">
+					{APPLICATION_TYPE_OPTIONS.map((option) => (
+						<label
+							key={option.value}
+							className="flex items-center gap-3 cursor-pointer group"
+						>
+							<input
+								type="radio"
+								name="application_type"
+								value={option.value}
+								checked={formData.application_type === option.value}
+								onChange={() => handleApplicationTypeChange(option.value)}
+								className="h-5 w-5 border-gray-300 text-primary focus:ring-2 focus:ring-primary focus:ring-offset-0 dark:border-gray-600 dark:bg-gray-800"
+							/>
+							<span className="text-sm text-foreground group-hover:text-primary transition-colors">
+								{option.label}
+							</span>
+						</label>
+					))}
+				</div>
+				<p className="text-xs text-muted-foreground">
+					Acceptance directly into membership requires a strong track record of building, scaling, and exiting prior startups.
+				</p>
+			</fieldset>
 
 			{/* Stage */}
 			<fieldset className="space-y-3">
