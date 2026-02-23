@@ -432,7 +432,7 @@ export const MembershipApplicationForm = () => {
 					))}
 				</div>
 				<p className="text-xs text-muted-foreground">
-					Acceptance directly into membership requires a strong track record of building, scaling, and exiting prior startups.
+					Acceptance directly into membership requires a strong track record of building and scaling current or prior startups.
 				</p>
 			</fieldset>
 
