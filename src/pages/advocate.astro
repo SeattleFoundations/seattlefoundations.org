@@ -1,0 +1,123 @@
+---
+import { Icon } from "astro-icon/components";
+
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+import { NewsletterForm } from "@components/NewsletterForm/NewsletterForm";
+
+const meta = {
+	title: "Foundations Advocates",
+	description:
+		"Advocating for Seattle and Washington State policies that support entrepreneurship, innovation, and the startup ecosystem.",
+};
+---
+
+<BaseLayout {...meta}>
+	<section class="site-container">
+		<div
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 pb-12 md:pt-32 md:pb-16 dark:bg-none"
+		>
+			<div class="mx-auto flex max-w-[950px] flex-col justify-center text-center">
+				<h1 class="h1">Foundations Advocates</h1>
+				<p class="description mt-4 text-lg md:text-xl">
+					Championing policies that support entrepreneurship and investment<br/>
+					in the greater Seattle region and Washington State.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-container pb-16 md:pb-24">
+		<div class="mx-auto max-w-4xl space-y-16">
+			<!-- Mission Context -->
+			<div>
+				<h2 class="mb-6 text-2xl font-semibold md:text-3xl">Why We Advocate</h2>
+				<div class="mb-6 flex flex-col gap-6 md:flex-row">
+					<p class="description text-lg">
+						Foundations is a public benefit corporation with a mission to <strong>Make Seattle Founders Successful</strong>.
+						Our charter compels us to promote the long-term vitality, inclusiveness, and effectiveness
+						of greater Seattle area technology founders by fostering community, collaboration, and
+						shared learning among startup founders; providing physical and programmatic infrastructure
+						that supports early-stage company formation and growth; expanding access to mentorship,
+						peer support, and capital-readiness resources; and contributing to local economic
+						development and innovation for the benefit of founders, workers, and the broader public.
+					</p>
+					<img src="/images/heart.jpg" alt="Why We Advocate" class="h-auto w-full rounded-lg object-cover md:w-1/3" />
+				</div>
+				<p class="description text-lg">
+					To fulfill this mission, we actively advocate on behalf of the startup community to
+					encourage entrepreneurship and investment in the region. We engage with policymakers at
+					both the city and state level to ensure that the interests of founders, early-stage
+					companies and the broader innovation ecosystem are represented.
+				</p>
+			</div>
+
+			<!-- Focus Areas -->
+			<div>
+				<h2 class="mb-8 text-center text-2xl font-semibold md:text-3xl">Our Focus Areas</h2>
+			<div class="grid gap-6">
+				<div class="flex gap-6 rounded-lg border border-border bg-card p-6 shadow-sm">
+					<img src="/images/washington.jpg" alt="Washington State" class="h-24 w-24 flex-shrink-0 rounded-lg object-cover" />
+					<div>
+						<h3 class="mb-2 text-lg font-semibold">Washington State Legislation</h3>
+						<p class="text-muted-foreground">
+							Engaging with state legislators on policies that promote innovation,
+							protect founders, and strengthen the statewide startup ecosystem.
+						</p>
+					</div>
+				</div>
+
+				<div class="flex gap-6 rounded-lg border border-border bg-card p-6 shadow-sm">
+					<img src="/images/seattle.jpg" alt="Seattle" class="h-24 w-24 flex-shrink-0 rounded-lg object-cover" />
+					<div>
+						<h3 class="mb-2 text-lg font-semibold">Seattle City Policy</h3>
+						<p class="text-muted-foreground">
+							Working with city leaders to create a regulatory environment that
+							supports startup formation, attracts talent, and reduces barriers for
+							early-stage companies.
+						</p>
+					</div>
+				</div>
+
+				<div class="flex gap-6 rounded-lg border border-border bg-card p-6 shadow-sm">
+					<img src="/images/cranes.jpg" alt="Capital and Investment" class="h-24 w-24 flex-shrink-0 rounded-lg object-cover" />
+					<div>
+						<h3 class="mb-2 text-lg font-semibold">Capital &amp; Investment</h3>
+						<p class="text-muted-foreground">
+							Advocating for policies that increase access to venture capital,
+							angel investment, and other funding mechanisms that help early-stage
+							companies grow.
+						</p>
+					</div>
+				</div>
+			</div>
+			</div>
+
+			<!-- Get Involved -->
+			<div>
+				<h2 class="mb-4 text-2xl font-semibold md:text-3xl">Get Involved</h2>
+				<p class="description mb-6 text-lg">
+					Whether you're a founder, investor, or community member who cares about the future of
+					Seattle's startup ecosystem, your voice matters. Sign up to stay informed about policy
+					developments and opportunities to engage.
+				</p>
+				<div class="bg-primary-500 relative overflow-hidden rounded-md px-8 py-8 md:px-12 md:py-10">
+					<Icon
+						name="atlas/wave-bg-basic"
+						class="absolute top-1/2 left-1/2 h-full w-auto -translate-x-1/2 -translate-y-1/2 object-cover text-black/5"
+						aria-hidden="true"
+					/>
+					<div class="relative z-20 flex flex-col items-center gap-6 md:flex-row md:items-start">
+						<div class="flex-1">
+							<h3 class="mb-2 text-xl font-semibold text-white md:text-2xl">Join the Advocate Mailing List</h3>
+							<p class="font-medium text-white/90">Stay informed about policy developments and opportunities to support Seattle's startup ecosystem.</p>
+						</div>
+						<div class="w-full md:w-auto md:min-w-[320px]">
+							<NewsletterForm formId="clxoxlxbq007vcksu71j0wwwc" userGroup="Advocate" client:load />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>

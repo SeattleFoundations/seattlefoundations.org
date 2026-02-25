@@ -27,12 +27,8 @@ const navConfig: navItem[] = [
 		link: "/jobs",
 	},
 	{
-		text: "Merch",
-		link: "https://merch.seattlefoundations.org/",
-	},
-	{
-		text: "Almost Live!",
-		link: "/almost-live",
+		text: "Advocate",
+		link: "/advocate",
 	},
 ];
 

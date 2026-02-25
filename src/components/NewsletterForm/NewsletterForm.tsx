@@ -1,6 +1,6 @@
 import React from "react";
 
-export const NewsletterForm = ({ formId }: { formId: string }) => {
+export const NewsletterForm = ({ formId, userGroup = "Newsletter" }: { formId: string; userGroup?: string }) => {
 	const [email, setEmail] = React.useState("");
 	const [status, setStatus] = React.useState<"idle" | "loading" | "success" | "error">("idle");
 	const [errorMessage, setErrorMessage] = React.useState("");
@@ -15,7 +15,7 @@ export const NewsletterForm = ({ formId }: { formId: string }) => {
 			// Use the URLSearchParams API to format data as application/x-www-form-urlencoded
 			const formData = new URLSearchParams();
 			formData.append("email", email);
-			formData.append("userGroup", "Newsletter");
+			formData.append("userGroup", userGroup);
 
 			const response = await fetch(`https://app.loops.so/api/newsletter-form/${formId}`, {
 				method: "POST",
@@ -56,7 +56,7 @@ export const NewsletterForm = ({ formId }: { formId: string }) => {
 		return (
 			<div className="rounded-lg bg-white p-6 shadow-lg">
 				<h3 className="mb-2 text-lg font-medium text-gray-900">Thank you!</h3>
-				<p className="text-gray-600">You have successfully signed up for our newsletter.</p>
+				<p className="text-gray-600">You've been successfully signed up.</p>
 			</div>
 		);
 	}
@@ -79,7 +79,7 @@ export const NewsletterForm = ({ formId }: { formId: string }) => {
 					disabled={status === "loading"}
 				/>
 			</div>
-			<input type="hidden" name="userGroup" value="Newsletter" />
+			<input type="hidden" name="userGroup" value={userGroup} />
 			{status === "error" && (
 				<div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-600">
 					{errorMessage || "Failed to subscribe. Please try again."}
