@@ -41,7 +41,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 		<!-- Companies container (hidden by default) -->
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-			<div id="companies-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 hidden"></div>
+			<div id="companies-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 rounded-xl bg-white shadow-lg hidden"></div>
 		</div>
 	</section>
 
@@ -233,7 +233,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 				class="group text-left w-full"
 				aria-label="View details for ${company.name}"
 			>
-				<div class="flex flex-col items-center border-r border-b border-gray-200 p-4 transition-all duration-200 hover:shadow-lg dark:border-gray-700 dark:hover:shadow-black/20">
+				<div class="flex flex-col items-center p-4 cursor-pointer">
 					<div class="flex h-20 w-full items-center justify-center px-8">
 						${company.logo ? `
 							<img src="${companyLogoUrl(company.logo)}" alt="${company.name} logo" class="h-16 object-contain" />
