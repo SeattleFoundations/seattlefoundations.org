@@ -168,8 +168,8 @@ import Button from "@components/Button/Button.astro";
 
 		try {
 			// Always use the direct API URL
-			// The API should have CORS headers configured to allow requests from fndtns.org
-			const response = await fetch(`https://ai.fndtns.org/api/calendar/events?t=${Date.now()}`, {
+			// The API should have CORS headers configured to allow requests from fndtns.org and seattlefoundations.org
+			const response = await fetch(`https://ai.seattlefoundations.org/api/calendar/events?t=${Date.now()}`, {
 				method: 'GET',
 				headers: {
 					'Accept': 'application/json',

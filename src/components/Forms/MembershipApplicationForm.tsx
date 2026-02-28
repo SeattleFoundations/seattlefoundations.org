@@ -60,7 +60,7 @@ const LOOKING_FOR_OPTIONS = [
 	"Secure funding",
 ];
 
-const API_ENDPOINT = "https://ai.fndtns.org/api/membership/requests";
+const API_ENDPOINT = "https://ai.seattlefoundations.org/api/membership/requests";
 
 export const MembershipApplicationForm = () => {
 	const [formData, setFormData] = useState<FormData>({

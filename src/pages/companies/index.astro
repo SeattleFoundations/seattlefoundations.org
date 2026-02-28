@@ -211,7 +211,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 	};
 
 	function companyLogoUrl(relativeUrl: string): string {
-		return new URL(relativeUrl, 'https://ai.fndtns.org').toString();
+		return new URL(relativeUrl, 'https://ai.seattlefoundations.org').toString();
 	}
 
 	// Check if we're running locally
@@ -381,7 +381,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 				data = mockData;
 			} else {
 				// Fetch from API in production
-				const response = await fetch(`https://ai.fndtns.org/api/companies?t=${Date.now()}`, {
+				const response = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, {
 					method: 'GET',
 					headers: { 'Accept': 'application/json' }
 				});
