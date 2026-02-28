@@ -15,7 +15,7 @@ const navConfig: navItem[] = [
 	// },
 	{
 		text: "Founders in Residence",
-		link: "https://ai.seattlefoundations.org/kb/founder-in-residence",
+		link: "https://ai.fndtns.org/kb/founder-in-residence",
 		newTab: true,
 	},
 	{

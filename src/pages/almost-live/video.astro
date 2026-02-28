@@ -231,7 +231,7 @@ import CtaCardSplit from "@components/Cta/CtaCardSplit.astro";
 				video = mockVideos.find(v => v.id === videoId) || null;
 			} else {
 				// Fetch from API in production
-				const response = await fetch(`https://ai.seattlefoundations.org/api/almost-live/videos?t=${Date.now()}`, {
+				const response = await fetch(`https://ai.fndtns.org/api/almost-live/videos?t=${Date.now()}`, {
 					method: 'GET',
 					headers: { 'Accept': 'application/json' }
 				});

@@ -1,8 +1,8 @@
 # Foundations
 
-Welcome to the Foundations website [https://seattlefoundations.org](https://seattlefoundations.org).
+Welcome to the Foundations website [https://fndtns.org](https://fndtns.org).
 
-This website is built and is maintained by the community. If you have any questions or feedback, please reach out to Art Litvinau over email or Foundations Slack (*art at seattlefoundations.org*).
+This website is built and is maintained by the community. If you have any questions or feedback, please reach out to Art Litvinau over email or Foundations Slack (*art at fndtns.org*).
 
 ## Getting Started
 
@@ -59,7 +59,7 @@ I've spent the past two years diving deep into the world of GenAI and CodeGen…
 ![Image alt text](./pathToImage.jpg)
 ```
 
-The blog posts are rendered using [Astro.build](https://docs.astro.build/en/guides/markdown-content/) and will be available at [https://seattlefoundations.org/blog](https://seattlefoundations.org/blog).
+The blog posts are rendered using [Astro.build](https://docs.astro.build/en/guides/markdown-content/) and will be available at [https://fndtns.org/blog](https://fndtns.org/blog).
 
 ## Deployment
 Auto-deploys from main

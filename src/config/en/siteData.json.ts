@@ -13,13 +13,13 @@ const siteData: SiteDataProps = {
 		address1: "1234 Main Street",
 		address2: "New York, NY 10001",
 		phone: "(123) 456-7890",
-		email: "art@seattlefoundations.org",
+		email: "art@fndtns.org",
 	},
 
 	// Your information for blog post purposes
 	author: {
 		name: "Foundations",
-		email: "art@seattlefoundations.org",
+		email: "art@fndtns.org",
 		twitter: "",
 	},
 

@@ -12,7 +12,7 @@ import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://seattlefoundations.org",
+	site: "https://fndtns.org",
 	adapter: netlify({
 		imageCDN: false,
 	}),
