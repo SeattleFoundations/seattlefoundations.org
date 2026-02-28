@@ -73,7 +73,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		}
 
 		function companyLogoUrl(relativeUrl: string): string {
-			return new URL(relativeUrl, 'https://ai.seattlefoundations.org').toString();
+			return new URL(relativeUrl, 'https://app.fndtns.org').toString();
 		}
 
 		function createCompanySection(company: { companyId: string; companyName: string; companyLogo: string | null; companyUrl: string | null; companySlug: string | null; jobs: ApiJob[] }): string {
@@ -135,12 +135,12 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 			try {
 				// Fetch jobs grouped by company
-				const jobsResp = await fetch(`https://ai.seattlefoundations.org/api/job-listings?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
+				const jobsResp = await fetch(`https://app.fndtns.org/api/job-listings?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
 				if (!jobsResp.ok) throw new Error(`HTTP error! status: ${jobsResp.status}`);
 				const jobsData: JobsApiResponse = await jobsResp.json();
 
 				// Fetch companies to map url/slug
-				const companiesResp = await fetch(`https://ai.seattlefoundations.org/api/companies?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
+				const companiesResp = await fetch(`https://app.fndtns.org/api/companies?t=${Date.now()}`, { method: 'GET', headers: { 'Accept': 'application/json' } });
 				if (!companiesResp.ok) throw new Error(`HTTP error! status: ${companiesResp.status}`);
 				const companiesData: CompaniesApiResponse = await companiesResp.json();
 

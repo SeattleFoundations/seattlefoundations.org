@@ -61,7 +61,7 @@ const otherPagesCollection = defineCollection({
 // companies
 const companiesCollection = defineCollection({
 	loader: async () => {
-		const response = await fetch("https://ai.seattlefoundations.org/api/companies");
+		const response = await fetch("https://app.fndtns.org/api/companies");
 		const data = await response.json();
 		// Extract companies array from the response
 		return data.success && data.data && data.data.companies ? data.data.companies : [];
@@ -101,7 +101,7 @@ const companiesCollection = defineCollection({
 // jobs
 const jobsCollection = defineCollection({
 	loader: async () => {
-		const response = await fetch("https://ai.seattlefoundations.org/api/job-listings");
+		const response = await fetch("https://app.fndtns.org/api/job-listings");
 		const data = await response.json();
 		// Extract job listings from the response and flatten them
 		if (data.success && data.data && data.data.jobListingsByCompany) {
