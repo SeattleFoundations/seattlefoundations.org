@@ -33,10 +33,6 @@ export const dataTranslations = {
  * Or if this is "atlas.com/blog/my-post", the route would be "blog/my-post"
  */
 export const routeTranslations = {
-	en: {
-		aboutKey: "about",
-	},
-	fr: {
-		aboutKey: "a-propos",
-	},
+	en: {},
+	fr: {},
 } as const;
