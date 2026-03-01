@@ -35,7 +35,41 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		<!-- Empty state (hidden by default) -->
 		<div id="companies-empty" class="mx-auto max-w-2xl text-center hidden">
 			<div class="rounded-lg bg-gray-50 p-8 dark:bg-gray-800/50">
-				<p class="text-lg text-gray-600 dark:text-gray-300">No companies to display.</p>
+				<p id="companies-empty-message" class="text-lg text-gray-600 dark:text-gray-300">No companies to display.</p>
+			</div>
+		</div>
+
+		<!-- Category filters (hidden by default) -->
+		<div id="companies-filters" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 hidden">
+			<div class="mb-4 flex flex-wrap items-center justify-center gap-2">
+				<button
+					type="button"
+					data-filter="all"
+					class="company-filter-btn rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+				>
+					All
+				</button>
+				<button
+					type="button"
+					data-filter="active-fir"
+					class="company-filter-btn rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+				>
+					Active FIR
+				</button>
+				<button
+					type="button"
+					data-filter="fir-alumni"
+					class="company-filter-btn rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+				>
+					FIR Alumni
+				</button>
+				<button
+					type="button"
+					data-filter="members"
+					class="company-filter-btn rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+				>
+					Members
+				</button>
 			</div>
 		</div>
 
@@ -121,10 +155,12 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		success: boolean;
 		data?: { companies?: Company[] };
 	}
+	type CompanyFilter = 'all' | 'active-fir' | 'fir-alumni' | 'members';
 
 	// Store companies data globally for modal access
 	let companiesData: Company[] = [];
 	let globalListenersInitialized = false;
+	let activeFilter: CompanyFilter = 'active-fir';
 
 	// Mock data for local development
 	const mockData: CompaniesApiResponse = {
@@ -224,6 +260,85 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		if (company.fir && !company.alumn) return 1; // Active FIR
 		if (company.fir && company.alumn) return 2;  // FIR Alumni
 		return 3; // Members
+	}
+
+	function matchesFilter(company: Company, filter: CompanyFilter): boolean {
+		if (filter === 'all') return true;
+		if (filter === 'active-fir') return !!company.fir && !company.alumn;
+		if (filter === 'fir-alumni') return !!company.fir && !!company.alumn;
+		return !company.fir;
+	}
+
+	function getEmptyMessageForFilter(filter: CompanyFilter): string {
+		if (filter === 'active-fir') return 'No active FIR companies to display.';
+		if (filter === 'fir-alumni') return 'No FIR alumni companies to display.';
+		if (filter === 'members') return 'No member companies to display.';
+		return 'No companies to display.';
+	}
+
+	function updateFilterButtonStyles(): void {
+		const buttons = document.querySelectorAll<HTMLButtonElement>('.company-filter-btn');
+		buttons.forEach((button) => {
+			const isActive = button.dataset.filter === activeFilter;
+			button.classList.toggle('bg-primary-600', isActive);
+			button.classList.toggle('text-white', isActive);
+			button.classList.toggle('border-primary-600', isActive);
+			button.classList.toggle('bg-white', !isActive);
+			button.classList.toggle('text-gray-700', !isActive);
+			button.classList.toggle('border-gray-300', !isActive);
+			button.classList.toggle('hover:bg-gray-50', !isActive);
+		});
+	}
+
+	function bindFilterEvents(): void {
+		const buttons = document.querySelectorAll<HTMLButtonElement>('.company-filter-btn');
+		buttons.forEach((button) => {
+			button.onclick = () => {
+				const next = button.dataset.filter as CompanyFilter | undefined;
+				if (!next || next === activeFilter) return;
+				activeFilter = next;
+				updateFilterButtonStyles();
+				renderCompanies();
+			};
+		});
+		updateFilterButtonStyles();
+	}
+
+	function renderCompanies(): void {
+		const emptyEl = document.getElementById('companies-empty');
+		const emptyMessageEl = document.getElementById('companies-empty-message');
+		const containerEl = document.getElementById('companies-container');
+		const filtersEl = document.getElementById('companies-filters');
+		if (!emptyEl || !containerEl || !filtersEl) return;
+
+		if (!companiesData.length) {
+			filtersEl.classList.add('hidden');
+			containerEl.classList.add('hidden');
+			emptyMessageEl && (emptyMessageEl.textContent = getEmptyMessageForFilter('all'));
+			emptyEl.classList.remove('hidden');
+			return;
+		}
+
+		filtersEl.classList.remove('hidden');
+		const filtered = companiesData.filter((company) => matchesFilter(company, activeFilter));
+		const sorted = [...filtered].sort((a, b) => {
+			const pa = getPriority(a);
+			const pb = getPriority(b);
+			if (pa !== pb) return pa - pb;
+			return a.name.localeCompare(b.name);
+		});
+
+		if (!sorted.length) {
+			emptyMessageEl && (emptyMessageEl.textContent = getEmptyMessageForFilter(activeFilter));
+			containerEl.classList.add('hidden');
+			emptyEl.classList.remove('hidden');
+			return;
+		}
+
+		emptyEl.classList.add('hidden');
+		const html = sorted.map(c => createCompanyCard(c)).join('');
+		containerEl.innerHTML = html;
+		containerEl.classList.remove('hidden');
 	}
 
 	function createCompanyCard(company: Company): string {
@@ -364,11 +479,13 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		const errorEl = document.getElementById('companies-error');
 		const emptyEl = document.getElementById('companies-empty');
 		const containerEl = document.getElementById('companies-container');
+		const filtersEl = document.getElementById('companies-filters');
 
 		loadingEl?.classList.remove('hidden');
 		errorEl?.classList.add('hidden');
 		emptyEl?.classList.add('hidden');
 		containerEl?.classList.add('hidden');
+		filtersEl?.classList.add('hidden');
 
 		try {
 			let data: CompaniesApiResponse;
@@ -392,24 +509,9 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 			loadingEl?.classList.add('hidden');
 
 			companiesData = data.success && data.data && data.data.companies ? data.data.companies : [];
-
-			if (!companiesData.length) {
-				emptyEl?.classList.remove('hidden');
-				return;
-			}
-
-			const sorted = companiesData.sort((a, b) => {
-				const pa = getPriority(a);
-				const pb = getPriority(b);
-				if (pa !== pb) return pa - pb;
-				return a.name.localeCompare(b.name);
-			});
-
-			const html = sorted.map(c => createCompanyCard(c)).join('');
-			if (containerEl) {
-				containerEl.innerHTML = html;
-				containerEl.classList.remove('hidden');
-			}
+			activeFilter = 'active-fir';
+			updateFilterButtonStyles();
+			renderCompanies();
 
 			// Check if there's a hash in the URL and open that company
 			if (window.location.hash) {
@@ -460,6 +562,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 	document.addEventListener('DOMContentLoaded', () => {
 		bindModalEvents();
+		bindFilterEvents();
 		initGlobalListeners();
 	});
 
@@ -477,11 +580,13 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 	document.addEventListener('astro:page-load', () => {
 		bindModalEvents();
+		bindFilterEvents();
 		checkAndLoadCompanies();
 	});
 
 	document.addEventListener('astro:after-swap', () => {
 		bindModalEvents();
+		bindFilterEvents();
 		companiesLoaded = false;
 		checkAndLoadCompanies();
 	});
