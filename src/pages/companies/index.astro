@@ -322,9 +322,11 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 		filtersEl.classList.remove('hidden');
 		const filtered = companiesData.filter((company) => matchesFilter(company, activeFilter));
 		const sorted = [...filtered].sort((a, b) => {
-			const pa = getPriority(a);
-			const pb = getPriority(b);
-			if (pa !== pb) return pa - pb;
+			if (activeFilter !== 'all') {
+				const pa = getPriority(a);
+				const pb = getPriority(b);
+				if (pa !== pb) return pa - pb;
+			}
 			return a.name.localeCompare(b.name);
 		});
 
