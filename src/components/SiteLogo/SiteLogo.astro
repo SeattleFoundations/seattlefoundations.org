@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import { Icon } from "astro-icon/components";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 // utils
@@ -10,11 +8,6 @@ import { getTranslatedData } from "@js/translationUtils";
 // data
 const currLocale = getLocaleFromUrl(Astro.url);
 const siteData = getTranslatedData("siteData", currLocale);
-
-// images
-import logo from "@images/atlas-logo.png";
-import foundationsLogoLight from "@assets/images/logo.svg";
-import foundationsLogoDark from "@assets/images/logo-dark.svg";
 ---
 
 <a
@@ -22,27 +15,8 @@ import foundationsLogoDark from "@assets/images/logo-dark.svg";
 	class="primary-focus text-base-600 dark:text-base-200 flex items-center gap-2 align-middle text-xl font-semibold"
 	href={getRelativeLocaleUrl(currLocale)}
 >
-	<!-- Static logos (shown after animation or on repeat visits) -->
-	<Image
-		src={foundationsLogoLight}
-		alt="Foundations logo"
-		loading="eager"
-		width={100}
-		height={40}
-		class="logo-static logo-force-hidden w-48 dark:hidden"
-	/>
-	<Image
-		src={foundationsLogoDark}
-		alt="Foundations logo"
-		loading="eager"
-		width={100}
-		height={40}
-		class="logo-static logo-force-hidden hidden w-48 dark:block"
-	/>
-
-	<!-- Animated inline SVG (shown on first load only) -->
 	<svg
-		class="logo-animated w-48"
+		class="logo-svg w-48"
 		viewBox="0 0 7141 1400"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
@@ -51,18 +25,26 @@ import foundationsLogoDark from "@assets/images/logo-dark.svg";
 	>
 		<defs>
 			<style>
-				/* Consonants slide left-to-right from compact "Fndtns" to full "Foundations" */
-				/* Shift amounts = cumulative vowel-space removed before each consonant */
 				.fn-c-nd { animation: fn-slide-nd 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
 				.fn-c-t  { animation: fn-slide-t  0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
 				.fn-c-ns { animation: fn-slide-ns 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
 
-				/* Vowels fade in with staggered delays (left to right) */
 				.fn-v-o1 { animation: fn-vowel 0.4s ease-out 0.30s both; }
 				.fn-v-u  { animation: fn-vowel 0.4s ease-out 0.35s both; }
 				.fn-v-a  { animation: fn-vowel 0.4s ease-out 0.40s both; }
 				.fn-v-i  { animation: fn-vowel 0.4s ease-out 0.45s both; }
 				.fn-v-o2 { animation: fn-vowel 0.4s ease-out 0.50s both; }
+
+				.fn-no-animate .fn-c-nd,
+				.fn-no-animate .fn-c-t,
+				.fn-no-animate .fn-c-ns,
+				.fn-no-animate .fn-v-o1,
+				.fn-no-animate .fn-v-u,
+				.fn-no-animate .fn-v-a,
+				.fn-no-animate .fn-v-i,
+				.fn-no-animate .fn-v-o2 {
+					animation: none !important;
+				}
 
 				@keyframes fn-slide-nd {
 					from { transform: translateX(-1031px); }
@@ -83,58 +65,58 @@ import foundationsLogoDark from "@assets/images/logo-dark.svg";
 			</style>
 		</defs>
 
-		<!-- Green icon mark (always visible, no animation) -->
+		<!-- Green icon mark -->
 		<path fill-rule="evenodd" clip-rule="evenodd" d="M529 200H329V200V400V1200L529 999.5V400L1128.5 400L1329 200L529 200ZM629 700V500L829 500H1329L1129 700L829 700V1000.5L629 1200V700ZM929 1000V800H1129H1329L1130 1000H1129L929 1200V1000Z" fill="#2FC45C"/>
 
-		<!-- F (consonant — anchor, no shift) -->
+		<!-- F -->
 		<path d="M1915.27 960.861H1812V358.473H2238.84V451.413H1915.27V617.5H2215.6V710.44H1915.27V960.861Z" fill="currentColor"/>
 
-		<!-- o (vowel — fades in) -->
+		<!-- o -->
 		<g class="fn-v-o1">
 			<path d="M2529.31 973.764C2381.29 973.764 2295.23 869.636 2295.23 728.505C2295.23 579.629 2395.92 490.992 2529.31 490.992C2676.46 490.992 2762.52 594.259 2762.52 728.505C2762.52 882.545 2665.27 973.764 2529.31 973.764ZM2529.31 886.848C2611.06 886.848 2659.25 819.724 2659.25 728.505C2659.25 638.147 2608.48 577.908 2529.31 577.908C2450.13 577.908 2398.5 638.147 2398.5 728.505C2398.5 828.33 2454.44 886.848 2529.31 886.848Z" fill="currentColor"/>
 		</g>
 
-		<!-- u (vowel — fades in) -->
+		<!-- u -->
 		<g class="fn-v-u">
 			<path d="M3005.55 973.77C2897.12 973.77 2834.3 905.786 2834.3 806.822V504.768H2935.85V802.52C2935.85 854.153 2971.99 884.272 3026.21 884.272C3095.91 884.272 3137.22 838.663 3138.08 780.145V504.768H3239.63V960.862H3157.87L3150.13 894.599C3123.45 943.651 3069.24 973.77 3005.55 973.77Z" fill="currentColor"/>
 		</g>
 
-		<!-- n (consonant — slides right from compact position) -->
+		<!-- n -->
 		<g class="fn-c-nd">
 			<path d="M3444.47 960.855H3342.92V504.761H3424.68L3433.28 571.884C3461.68 524.554 3519.34 490.992 3587.32 490.992C3684.56 490.992 3748.24 556.394 3748.24 658.8V960.855H3646.7V663.964C3646.7 613.191 3613.14 579.629 3556.34 579.629C3490.08 579.629 3445.33 625.239 3444.47 684.617V960.855Z" fill="currentColor"/>
 		</g>
 
-		<!-- d (consonant — slides right from compact position) -->
+		<!-- d -->
 		<g class="fn-c-nd">
 			<path d="M4033.07 973.77C3910.01 973.77 3821.38 873.946 3821.38 730.233C3821.38 589.102 3908.29 490.999 4029.63 490.999C4094.17 490.999 4147.53 517.676 4179.37 560.704V315.445H4280.91V960.862H4199.16L4189.69 879.969C4163.88 937.627 4107.08 973.77 4033.07 973.77ZM4052 887.714C4126.87 887.714 4179.37 822.312 4179.37 729.372C4179.37 639.014 4127.73 576.194 4053.73 576.194C3978 576.194 3925.5 639.875 3925.5 731.093C3925.5 823.173 3977.14 887.714 4052 887.714Z" fill="currentColor"/>
 		</g>
 
-		<!-- a (vowel — fades in) -->
+		<!-- a -->
 		<g class="fn-v-a">
 			<path d="M4536.44 970.321C4431.45 970.321 4362.61 919.549 4363.47 834.354C4364.33 727.645 4470.17 705.27 4558.81 694.944C4627.66 687.199 4678.43 684.617 4679.29 648.474C4678.43 603.725 4644.01 574.466 4585.49 574.466C4525.25 574.466 4482.22 607.167 4476.2 654.498H4373.79C4383.26 558.115 4469.31 490.992 4587.21 490.992C4710.27 490.992 4778.25 558.115 4778.25 655.358V861.891C4778.25 874.8 4785.14 881.684 4800.63 881.684H4825.58V960.855H4777.39C4730.92 960.855 4702.52 941.923 4694.78 907.501C4693.06 903.198 4691.34 897.174 4690.48 892.011C4663.8 941.063 4613.89 970.321 4536.44 970.321ZM4557.09 890.29C4626.8 890.29 4679.29 850.704 4679.29 789.605V725.924C4662.08 752.601 4618.19 758.625 4570 764.649C4513.2 771.533 4465.87 779.278 4465.87 827.469C4465.87 867.055 4497.71 890.29 4557.09 890.29Z" fill="currentColor"/>
 		</g>
 
-		<!-- t (consonant — slides right from compact position) -->
+		<!-- t -->
 		<g class="fn-c-t">
 			<path d="M5141.59 960.857H5083.08C4984.11 960.857 4930.76 911.805 4930.76 821.447V590.818H4850.73V504.762H4930.76V349.002H5032.3V504.762H5150.2V590.818H5032.3V814.562C5032.3 853.287 5052.1 874.801 5089.96 874.801H5141.59V960.857Z" fill="currentColor"/>
 		</g>
 
-		<!-- i (vowel — fades in) -->
+		<!-- i -->
 		<g class="fn-v-i">
 			<path d="M5275.32 443.665C5238.31 443.665 5209.92 414.406 5209.92 377.402C5209.92 340.398 5238.31 312 5275.32 312C5313.18 312 5340.72 340.398 5340.72 377.402C5340.72 414.406 5313.18 443.665 5275.32 443.665ZM5326.09 960.859H5224.55V504.764H5326.09V960.859Z" fill="currentColor"/>
 		</g>
 
-		<!-- o (vowel — fades in) -->
+		<!-- o -->
 		<g class="fn-v-o2">
 			<path d="M5639.57 973.764C5491.56 973.764 5405.5 869.636 5405.5 728.505C5405.5 579.629 5506.19 490.992 5639.57 490.992C5786.73 490.992 5872.78 594.259 5872.78 728.505C5872.78 882.545 5775.54 973.764 5639.57 973.764ZM5639.57 886.848C5721.33 886.848 5769.52 819.724 5769.52 728.505C5769.52 638.147 5718.74 577.908 5639.57 577.908C5560.4 577.908 5508.77 638.147 5508.77 728.505C5508.77 828.33 5564.7 886.848 5639.57 886.848Z" fill="currentColor"/>
 		</g>
 
-		<!-- n (consonant — slides right from compact position) -->
+		<!-- n -->
 		<g class="fn-c-ns">
 			<path d="M6053.86 960.855H5952.32V504.761H6034.07L6042.68 571.884C6071.08 524.554 6128.73 490.992 6196.72 490.992C6293.96 490.992 6357.64 556.394 6357.64 658.8V960.855H6256.1V663.964C6256.1 613.191 6222.53 579.629 6165.74 579.629C6099.47 579.629 6054.73 625.239 6053.86 684.617V960.855Z" fill="currentColor"/>
 		</g>
 
-		<!-- s (consonant — slides right from compact position) -->
+		<!-- s -->
 		<g class="fn-c-ns">
 			<path d="M6636.45 973.764C6511.67 973.764 6437.66 915.246 6431.63 815.421H6529.74C6533.18 864.473 6575.35 890.29 6631.28 890.29C6682.92 890.29 6710.45 870.497 6710.45 835.214C6710.45 799.931 6681.2 793.047 6641.61 780.139L6581.37 760.346C6505.64 735.39 6440.24 709.573 6440.24 625.239C6440.24 544.347 6502.2 490.992 6611.49 490.992C6717.34 490.992 6789.63 546.928 6801.67 650.195H6705.29C6700.13 598.562 6663.12 574.466 6610.63 574.466C6565.88 574.466 6540.07 593.398 6540.07 624.378C6540.07 659.661 6579.65 669.127 6612.35 680.314L6667.43 698.386C6757.79 728.505 6812 756.043 6812 837.796C6812 922.13 6748.32 973.764 6636.45 973.764Z" fill="currentColor"/>
 		</g>
@@ -142,46 +124,20 @@ import foundationsLogoDark from "@assets/images/logo-dark.svg";
 </a>
 
 <script>
-	const logoAnimationDurationMs = 1300;
-
 	function initLogoAnimation() {
-		const logoLinks = document.querySelectorAll("[data-site-logo]");
-		if (!logoLinks.length) return;
+		const svgs = document.querySelectorAll(".logo-svg");
+		if (!svgs.length) return;
 
 		const hasAnimatedBefore = (window as any).__foundationsLogoAnimationComplete === true;
-		logoLinks.forEach((logoLink) => {
-			const staticLogos = logoLink.querySelectorAll(".logo-static");
-			const animatedLogos = logoLink.querySelectorAll(".logo-animated");
 
-			if (hasAnimatedBefore) {
-				animatedLogos.forEach((el) => el.classList.add("logo-force-hidden"));
-				staticLogos.forEach((el) => el.classList.remove("logo-force-hidden"));
-				return;
-			}
-
-			staticLogos.forEach((el) => el.classList.add("logo-force-hidden"));
-			animatedLogos.forEach((el) => el.classList.remove("logo-force-hidden"));
-		});
-
-		if (!hasAnimatedBefore) {
+		if (hasAnimatedBefore) {
+			svgs.forEach((svg) => svg.classList.add("fn-no-animate"));
+		} else {
+			svgs.forEach((svg) => svg.classList.remove("fn-no-animate"));
 			(window as any).__foundationsLogoAnimationComplete = true;
-			window.setTimeout(() => {
-				logoLinks.forEach((logoLink) => {
-					const staticLogos = logoLink.querySelectorAll(".logo-static");
-					const animatedLogos = logoLink.querySelectorAll(".logo-animated");
-					animatedLogos.forEach((el) => el.classList.add("logo-force-hidden"));
-					staticLogos.forEach((el) => el.classList.remove("logo-force-hidden"));
-				});
-			}, logoAnimationDurationMs);
 		}
 	}
 
 	initLogoAnimation();
 	document.addEventListener("astro:after-swap", initLogoAnimation);
 </script>
-
-<style>
-	.logo-force-hidden {
-		display: none !important;
-	}
-</style>
