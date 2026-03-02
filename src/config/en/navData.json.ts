@@ -5,10 +5,6 @@ const navConfig: navItem[] = [
 		text: "Manifesto",
 		link: "/static/manifesto",
 	},
-	{
-		text: "Public Events",
-		link: "/events",
-	},
 	// {
 	// 	text: "Companies",
 	// 	link: "/companies",
@@ -25,6 +21,11 @@ const navConfig: navItem[] = [
 	{
 		text: "Startup Jobs",
 		link: "/jobs",
+	},
+	{
+		text: "Merch",
+		link: "https://merch.seattlefoundations.org/",
+		newTab: true,
 	},
 	{
 		text: "Advocate",
