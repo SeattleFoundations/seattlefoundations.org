@@ -18,6 +18,7 @@ export default defineConfig({
 	}),
 	redirects: {
 		"/admin": "/keystatic",
+		"/root": "https://app.fndtns.org/root",
 	},
 	// i18n configuration must match src/config/translations.json.ts
 	i18n: {

@@ -7,6 +7,12 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/root"
+  to = "https://app.fndtns.org/root"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
