@@ -28,6 +28,8 @@ const {
 	noindex = false,
 } = Astro.props as Props;
 
+const gaMeasurementId = "G-YB4PENP1BZ";
+
 // Geist Sans fonts
 import GeistSans400 from "@fontsource/geist-sans/files/geist-sans-latin-400-normal.woff2";
 import GeistSans500 from "@fontsource/geist-sans/files/geist-sans-latin-500-normal.woff2";
@@ -38,7 +40,7 @@ import GeistMono400 from "@fontsource/geist-mono/files/geist-mono-latin-400-norm
 ---
 
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width" , initial-scale="1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <!-- local font preload for better performance -->
 <link rel="preload" href={GeistSans400} as="font" type="font/woff2" crossorigin="anonymous" />
@@ -64,6 +66,16 @@ import GeistMono400 from "@fontsource/geist-mono/files/geist-mono-latin-400-norm
 <!-- other -->
 <meta name="generator" content={Astro.generator} />
 <link rel="sitemap" href="/sitemap-index.xml" />
+
+{
+	gaMeasurementId && (
+		<>
+			<script async src={"https://www.googletagmanager.com/gtag/js?id=" + gaMeasurementId} />
+			<script is:inline set:html={`window.gaMeasurementId = ${JSON.stringify(gaMeasurementId)};`} />
+			<script is:inline src="/scripts/google-analytics.js" />
+		</>
+	)
+}
 
 <!-- Theme change setup. Run early to eliminate Flash of inAccurate coloR Theme (FART) -->
 <script is:inline>
