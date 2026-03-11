@@ -8,12 +8,17 @@ import image2 from "@images/fir-launch.jpg";
 
 interface FeatureItem {
 	badge: string; // badge text
-	image: ImageMetadata; // an imported image
+	image: ImageMetadata | string; // an imported image or public asset path
 	title: string;
+	description?: string[];
 	items: string[]; // list of items that will have check marks next to
+	closingLine?: string;
 	href?: string; // link to learn more
 	actionLabel?: string; // button label
+	imageClass?: string;
 }
+
+const rootHref = "https://app.fndtns.org/root";
 
 // data
 const featureData: FeatureItem[] = [
@@ -41,6 +46,20 @@ const featureData: FeatureItem[] = [
 		href: "https://app.fndtns.org/kb/founder-in-residence",
 		actionLabel: "Learn More",
 	},
+	{
+		badge: "Root",
+		image: "/root-office.jpg",
+		title: "Meet Root",
+		description: ["Our completely built in-house program manager (yes, we code too) for helping Foundations members navigate the community, unlock resources, and keep momentum."],
+		items: [
+			"Book office hours and manage mentor sessions.",
+			"Find members, events, and helpful community resources.",
+			"Tap into the shared knowledge of the Foundations community in one place.",
+			"Stay on top of the opportunities, intros, and next steps that matter most.",
+		],
+		href: rootHref,
+		actionLabel: "Explore Root",
+	},
 ];
 ---
 
@@ -49,15 +68,18 @@ const featureData: FeatureItem[] = [
 		<!-- <div class="mx-auto mb-16 text-center md:max-w-4xl" data-aos="fade-up">
       <h2 class="h2 mb-4">The best choice for your needs</h2>
     </div> -->
-		<div class="flex flex-col gap-16 md:gap-24">
+		<div class="mx-auto flex max-w-7xl flex-col gap-16 md:gap-24">
 			<FeatureCard
 				badge={featureData[0].badge}
 				title={featureData[0].title}
+				description={featureData[0].description}
 				items={featureData[0].items}
+				closingLine={featureData[0].closingLine}
 				image={featureData[0].image}
+				imageClass={featureData[0].imageClass}
 				imageSide="right"
 				href={featureData[0].href}
-				actionLabel="Learn More"
+				actionLabel={featureData[0].actionLabel ?? "Learn More"}
 				idx={0}
 			>
 				<a
@@ -89,11 +111,14 @@ const featureData: FeatureItem[] = [
 					<FeatureCard
 						badge={feature.badge}
 						title={feature.title}
+						description={feature.description}
 						items={feature.items}
+						closingLine={feature.closingLine}
 						image={feature.image}
+						imageClass={feature.imageClass}
 						imageSide={(idx + 1) % 2 === 0 ? "right" : "left"}
 						href={feature.href}
-						actionLabel="Learn More"
+						actionLabel={feature.actionLabel ?? "Learn More"}
 						idx={idx + 1}
 					/>
 				))
