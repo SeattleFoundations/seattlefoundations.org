@@ -465,9 +465,21 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 	}
 
 	function bindModalEvents(): void {
+		const modal = document.getElementById('company-modal') as HTMLDivElement | null;
+		const modalContent = document.getElementById('modal-content') as HTMLDivElement | null;
 		const modalClose = document.getElementById('modal-close') as HTMLButtonElement | null;
 		const modalBackdrop = document.getElementById('modal-backdrop') as HTMLDivElement | null;
 
+		if (modal && modalContent) {
+			modal.onclick = (event: MouseEvent) => {
+				const target = event.target;
+				if (!(target instanceof Node)) return;
+				if (!modal.classList.contains('show')) return;
+				if (!modalContent.contains(target)) {
+					closeModal();
+				}
+			};
+		}
 		if (modalClose) {
 			modalClose.onclick = () => closeModal();
 		}
