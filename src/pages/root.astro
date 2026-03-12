@@ -1,0 +1,23 @@
+---
+const targetUrl = "https://app.fndtns.org/root";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Redirecting to Root...</title>
+		<meta http-equiv="refresh" content={`0;url=${targetUrl}`} />
+		<meta name="robots" content="noindex" />
+		<link rel="canonical" href={targetUrl} />
+		<script is:inline define:vars={{ targetUrl }}>
+			window.location.replace(targetUrl);
+		</script>
+	</head>
+	<body>
+		<p>
+			Redirecting to <a href={targetUrl}>Root</a>...
+		</p>
+	</body>
+</html>
