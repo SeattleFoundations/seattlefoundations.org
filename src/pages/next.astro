@@ -1,0 +1,398 @@
+---
+import { Icon } from "astro-icon/components";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Button from "@components/Button/Button.astro";
+
+const meta = {
+	title: "Foundations Next | The Future of B2B Startups",
+	description:
+		"An experimental program for the future of B2B startups. Pitch a problem, not a startup. If it's real and worth solving, we'll help build it—for free.",
+};
+---
+
+<BaseLayout {...meta}>
+	<section class="site-container">
+		<div
+			class="overflow-x-clip bg-[url('/assets/pattern-light.svg')] bg-center bg-no-repeat pt-24 pb-12 text-center md:pt-32 md:pb-16 dark:bg-none"
+		>
+			<div class="mx-auto flex max-w-[950px] flex-col justify-center">
+				<img
+					src="/foundations-next-logo-animated-indigo-slide.svg"
+					alt="Foundations Next"
+					class="mx-auto mb-6 h-auto w-full max-w-[20rem] md:max-w-[24rem]"
+				/>
+				<h1 class="h1">The world has changed.<br/>Startups should change too.</h1>
+				<p class="description mx-auto mt-4 max-w-3xl text-lg md:text-xl">
+					It has never been easier to build software, and never been harder to know what to
+					build. Foundations Next is an experimental program for the future of B2B startups,
+					powered by one of the strongest communities of AI-native builders in the world,
+					and we're open to working with people from anywhere.
+				</p>
+				<div class="mt-8 flex flex-wrap justify-center gap-4">
+					<Button variant="primary" href="#pitch" arrow="right">Pitch a Problem</Button>
+					<Button variant="outline" href="#how-it-works">How It Works</Button>
+				</div>
+				<p class="text-base-400 dark:text-base-500 mt-6 text-sm">
+					No pitch deck. No prototype. No Seattle or SF requirement. Just a real problem
+					worth solving.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-container pb-8 md:pb-12">
+		<div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center gap-3">
+					<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" class="text-purple-600 dark:text-purple-300">
+						<circle cx="9" cy="9" r="7" fill="currentColor"></circle>
+					</svg>
+					<h3 class="text-base-900 dark:text-base-100 text-xl font-semibold tracking-tight">
+						The Shift
+					</h3>
+				</div>
+				<p class="mt-3 text-base text-base-600 leading-7 dark:text-base-400">
+					AI has radically changed the economics of software creation. Building is cheaper.
+					Discovery is harder.
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center gap-3">
+					<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" class="text-purple-600 dark:text-purple-300">
+						<rect x="3" y="3" width="12" height="12" rx="3" fill="currentColor"></rect>
+					</svg>
+					<h3 class="text-base-900 dark:text-base-100 text-xl font-semibold tracking-tight">
+						The Bet
+					</h3>
+				</div>
+				<p class="mt-3 text-base text-base-600 leading-7 dark:text-base-400">
+					The next wave of B2B startup opportunities will come from inside the industry,
+					not Stanford dropouts.
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center gap-3">
+					<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" class="text-purple-600 dark:text-purple-300">
+						<path d="M9 2L16 9L9 16L2 9L9 2Z" fill="currentColor"></path>
+					</svg>
+					<h3 class="text-base-900 dark:text-base-100 text-xl font-semibold tracking-tight">
+						The Ask
+					</h3>
+				</div>
+				<p class="mt-3 text-base text-base-600 leading-7 dark:text-base-400">
+					We're not asking you to pitch a startup. We're asking you to pitch a problem.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-container pb-16 md:pb-24">
+		<div class="relative mx-auto max-w-6xl">
+			<div class="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+			<div class="h-full rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
+				<h2 class="text-base-900 dark:text-base-100 mb-7 text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
+					The World Has Changed
+				</h2>
+				<div class="space-y-6 text-lg">
+					<p class="text-base-600 dark:text-base-400 leading-8">
+						The narrative that technology is simply destroying jobs is too simplistic.
+						Progress is disruptive, but disruption is not decline. There is real uncertainty
+						now, especially inside the tech community, about the future of work and careers.
+						We are all going through this together. This transition will be painful for many
+						people, but that does not mean we have to move through it passively. Part of the
+						work now is finding ways to make that transition more graceful.
+					</p>
+					<p class="text-base-600 dark:text-base-400 leading-8">
+						At the same time, AI has collapsed the cost of building software. It is now
+						possible to create useful, specialized products for markets that were previously
+						too small or too messy to serve.
+					</p>
+					<p class="pt-1 text-purple-700 leading-8 font-semibold dark:text-purple-300">
+						It has never been easier to build software, and never been harder to know what to
+						build.
+					</p>
+				</div>
+			</div>
+			<div class="h-full rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
+				<h2 class="text-base-900 dark:text-base-100 mb-7 text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
+					Why Foundations Next Exists
+				</h2>
+				<div class="space-y-6 text-lg">
+					<p class="text-base-600 dark:text-base-400 leading-8">
+						There are thousands of painful, valuable, non-obvious business problems inside
+						non-technical industries. Most never become software companies because the people
+						who understand the pain are not the people who know how to build.
+					</p>
+					<p class="text-base-600 dark:text-base-400 leading-8">
+						Foundations Next exists to bridge that gap. We want to capture real problems,
+						evaluate them with the community, and use modern software creation to test whether
+						they should become businesses. Foundations has assembled one of the strongest
+						communities of AI-native builders in the world. This is one place to put that
+						capability to work on the right problems.
+					</p>
+					<p class="pt-1 text-purple-700 leading-8 font-semibold dark:text-purple-300">
+						There has never been a greater asymmetry between solvable problems and our ability
+						to solve them.
+					</p>
+				</div>
+			</div>
+			</div>
+
+			<div
+				class="pointer-events-none absolute inset-y-0 left-1/2 hidden -translate-x-1/2 lg:flex items-center justify-center"
+				aria-hidden="true"
+			>
+				<svg
+					width="120"
+					height="560"
+					viewBox="0 0 120 560"
+					fill="none"
+					class="text-purple-600 drop-shadow-[0_10px_30px_rgba(99,102,241,0.35)] dark:text-purple-300"
+				>
+					<path
+						d="M16 280H92"
+						stroke="currentColor"
+						stroke-width="12"
+						stroke-linecap="round"
+					></path>
+					<path
+						d="M54 242L92 280L54 318"
+						stroke="currentColor"
+						stroke-width="12"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					></path>
+				</svg>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-linear-to-br from-purple-950 via-[#1a1330] to-base-950 py-12 md:py-16">
+		<div class="site-container">
+			<div class="mx-auto max-w-5xl">
+				<p class="text-xl font-semibold text-purple-50 md:text-2xl">
+					Some people at frontier AI labs believe startups are over.
+				</p>
+				<p class="mt-6 max-w-4xl text-lg leading-8 text-purple-100/80">
+					That OpenAI, Anthropic, Google, and xAI will absorb more and more of the economy as
+					AGI approaches. Coding today. Science, medicine, and finance next. Then everything
+					else.
+				</p>
+				<p class="mt-8 text-lg leading-8 font-medium text-purple-50">
+					If that's true, that's a very boring end state.
+				</p>
+				<p class="mt-6 max-w-4xl text-lg leading-8 text-purple-100/80">
+					Foundations rejects that passivity. If the world has changed, startups should change
+					too. Not disappear. Evolve.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="how-it-works" class="site-container pt-8 pb-16 md:pt-12 md:pb-24">
+		<div class="mx-auto max-w-3xl text-center">
+			<h2 class="h2">How it works</h2>
+			<img
+				src="/images/how.png"
+				alt="Illustration showing how Foundations Next works"
+				class="mx-auto mt-6 mb-6 h-auto w-full max-w-2xl"
+			/>
+			<p class="description mt-4 text-lg">
+				Problem-first, community-backed, and designed to create value rather than extract it.
+			</p>
+		</div>
+
+		<div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-2">
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+					01
+				</div>
+				<h3 class="h3 mb-2">Pitch a business problem</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					Not a startup idea, product mockup, or service business. Bring us a painful,
+					important business problem that actually exists.
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+					02
+				</div>
+				<h3 class="h3 mb-2">The community evaluates it</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					Foundations members assess whether the problem is real, urgent, and worth solving.
+					We care about problem quality, not presentation quality. The reason that matters is
+					simple: we have assembled one of the strongest communities of AI-native builders in
+					the world, and that community can tell the difference.
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+					03
+				</div>
+				<h3 class="h3 mb-2">If it's compelling, we get on the same page and help solve it</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					If we find the problem compelling, we start with a meeting to get aligned on
+					what is actually broken, what good looks like, and whether the opportunity is real.
+					If we believe it is worth solving, we'll help solve it for free. No consulting
+					invoice. No startup theater.
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+					04
+				</div>
+				<h3 class="h3 mb-2">If it becomes a business, you share in the upside</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					If the solution becomes a real company, the original problem owner receives equity.
+					You brought the insight. That should matter. Look at you, making money on AI too.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-container pb-16 md:pb-24">
+		<div class="mx-auto max-w-3xl text-center">
+			<h2 class="h2">What this is and what it isn't</h2>
+			<p class="description mt-4 text-lg">
+				Clear positioning matters. So does saying no.
+			</p>
+		</div>
+
+		<div class="mx-auto mt-12 grid max-w-6xl gap-6 lg:grid-cols-2">
+			<div class="rounded-xl border border-purple-200 bg-purple-50/60 p-6 md:p-8 shadow-sm dark:border-purple-900 dark:bg-purple-950/20">
+				<h3 class="h3 mb-6">What this is</h3>
+				<ul class="space-y-3 text-base-700 dark:text-base-300">
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">+</span>
+						<span>Real problems from non-technical businesses</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">+</span>
+						<span>Software for operators, not startups selling to startups</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">+</span>
+						<span>Rapid validation backed by the Foundations community</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">+</span>
+						<span>New business creation enabled by AI-native economics</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">+</span>
+						<span>Cash-generating software businesses where that makes sense</span>
+					</li>
+				</ul>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-8 shadow-sm">
+				<h3 class="h3 mb-6">What this is not</h3>
+				<ul class="space-y-3 text-base-500 dark:text-base-400">
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">×</span>
+						<span>Not an incubator</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">×</span>
+						<span>Not a consultancy</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">×</span>
+						<span>Not a pitch competition</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">×</span>
+						<span>Not dev tools, infrastructure, or SaaS for startups</span>
+					</li>
+					<li class="flex items-start gap-3">
+						<span class="text-purple-700 dark:text-purple-300 mt-0.5 text-sm font-semibold">×</span>
+						<span>Not products optimized for venture theater</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</section>
+
+	<section class="bg-linear-to-br from-purple-950 to-[#181226] py-12 md:py-16">
+		<div class="site-container">
+			<div class="mx-auto max-w-6xl">
+				<p class="max-w-4xl text-lg leading-8 text-purple-100/85">
+					This is not an incubator. Incubators extract value. This is designed to create it.
+					Not everything worth building needs to look like venture-backed SaaS. If AI makes it
+					possible to build a real cash-generating software business around a real operational
+					problem, we're interested.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-container pt-8 pb-16 md:pt-10 md:pb-24">
+		<div class="mx-auto max-w-3xl text-center">
+			<h2 class="h2">Who this is for</h2>
+			<img
+				src="/images/who.png"
+				alt="Illustration showing who Foundations Next is for"
+				class="mx-auto mt-6 mb-6 h-auto w-full max-w-2xl"
+			/>
+			<p class="description mt-4 text-lg">
+				Founders are welcome. So are operators who would never call themselves founders. You
+				do not need to be based in Seattle or San Francisco.
+			</p>
+		</div>
+
+		<div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<h3 class="h3 mb-2">Business owners and operators</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					You run a non-technical business with painful workflow, coordination, compliance,
+					or service delivery problems that software still hasn't solved well.
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<h3 class="h3 mb-2">People with domain pain</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					You know your industry deeply, see inefficiencies every day, and keep thinking
+					"someone should build this."
+				</p>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<h3 class="h3 mb-2">Builders who want real demand</h3>
+				<p class="text-base-500 dark:text-base-400 leading-7">
+					You want to create from real pull, not invented startup narratives. You'd rather
+					start with an urgent problem than a clever idea.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="pitch" class="pb-16 md:pb-24">
+		<div class="site-container">
+			<div class="bg-primary-500 relative overflow-hidden rounded-md px-8 py-10 md:px-10 md:py-12">
+				<Icon
+					name="atlas/wave-bg-basic"
+					class="absolute top-1/2 left-1/2 h-full w-auto -translate-x-1/2 -translate-y-1/2 object-cover text-black/5"
+					aria-hidden="true"
+				/>
+				<div class="relative z-20 mx-auto max-w-3xl text-center">
+					<h2 class="mb-4 text-3xl font-semibold text-white md:text-4xl">
+						Bring us a real problem.
+					</h2>
+					<p class="mx-auto max-w-2xl text-lg leading-8 font-medium text-white/90 md:text-xl">
+						If it turns into a business, you'll share in the upside. No pitch deck required.
+						No technical background needed. Just clarity about what's broken.
+					</p>
+					<div class="mt-8 flex flex-wrap justify-center gap-4">
+						<Button
+							variant="outline"
+							href="mailto:next@fndtns.org?subject=Foundations Next - Problem Submission"
+							arrow="right"
+							class="border-white/20 bg-white text-primary-700 hover:bg-primary-50"
+						>
+							Submit Your Business Problem
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
