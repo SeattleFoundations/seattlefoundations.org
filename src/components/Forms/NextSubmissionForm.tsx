@@ -113,6 +113,20 @@ export const NextSubmissionForm = () => {
 		return true;
 	};
 
+	const normalizeUrl = (url: string): string => {
+		const trimmed = url.trim();
+		if (!trimmed) return trimmed;
+		if (/^https?:\/\//i.test(trimmed)) return trimmed;
+		return `https://${trimmed}`;
+	};
+
+	const handleLinkedinBlur = () => {
+		const normalized = normalizeUrl(formData.linkedin);
+		if (normalized !== formData.linkedin) {
+			setFormData((prev) => ({ ...prev, linkedin: normalized }));
+		}
+	};
+
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
@@ -135,7 +149,7 @@ export const NextSubmissionForm = () => {
 		const payload = {
 			name: formData.name.trim(),
 			email: formData.email.trim(),
-			linkedin: formData.linkedin.trim(),
+			linkedin: normalizeUrl(formData.linkedin),
 			problem: formData.problem.trim(),
 			expertise: formData.expertise.trim(),
 			anythingElseWeShouldKnow: formData.anythingElseWeShouldKnow.trim(),
@@ -234,15 +248,16 @@ export const NextSubmissionForm = () => {
 				<label htmlFor="linkedin" className="block text-sm font-medium text-foreground">
 					LinkedIn URL
 				</label>
-				<input
-					type="url"
-					id="linkedin"
-					name="linkedin"
-					value={formData.linkedin}
-					onChange={handleInputChange}
-					className={`form__input ${errors.linkedin ? "!border-error" : ""}`}
-					placeholder="https://linkedin.com/in/yourprofile"
-				/>
+			<input
+				type="url"
+				id="linkedin"
+				name="linkedin"
+				value={formData.linkedin}
+				onChange={handleInputChange}
+				onBlur={handleLinkedinBlur}
+				className={`form__input ${errors.linkedin ? "!border-error" : ""}`}
+				placeholder="https://linkedin.com/in/yourprofile"
+			/>
 				{errors.linkedin && <p className="text-sm text-error">{errors.linkedin}</p>}
 			</div>
 
