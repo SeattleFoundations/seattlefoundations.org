@@ -19,7 +19,12 @@ const meta = {
 				<img
 					src="/foundations-next-logo-animated-indigo-slide.svg"
 					alt="Foundations Next"
-					class="mx-auto mb-6 h-auto w-full max-w-[20rem] md:max-w-[24rem]"
+					class="mx-auto mb-6 h-auto w-full max-w-[20rem] dark:hidden md:max-w-[24rem]"
+				/>
+				<img
+					src="/foundations-next-logo-darkmode-animated.svg"
+					alt="Foundations Next"
+					class="mx-auto mb-6 hidden h-auto w-full max-w-[20rem] dark:block md:max-w-[24rem]"
 				/>
 				<h1 class="h1">The world has changed.<br/>Startups should change too.</h1>
 				<p class="description mx-auto mt-4 max-w-3xl text-lg md:text-xl">
@@ -89,10 +94,14 @@ const meta = {
 	<section class="site-container pb-16 md:pb-24">
 		<div class="relative mx-auto max-w-6xl">
 			<div class="grid gap-8 lg:grid-cols-2 lg:items-stretch">
-			<div class="h-full rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
+			<div class="h-full rounded-xl border-[3px] border-purple-600 bg-card p-6 shadow-sm md:p-8 dark:border-purple-300">
 				<h2 class="text-base-900 dark:text-base-100 mb-7 text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
-					The World Has Changed
+					The world has changed
 				</h2>
+				<p class="mb-6 text-purple-700 leading-8 font-semibold dark:text-purple-300">
+					It has never been easier to build software, and never been harder to know what to
+					build.
+				</p>
 				<div class="space-y-6 text-lg">
 					<p class="text-base-600 dark:text-base-400 leading-8">
 						The narrative that technology is simply destroying jobs is too simplistic.
@@ -107,16 +116,16 @@ const meta = {
 						possible to create useful, specialized products for markets that were previously
 						too small or too messy to serve.
 					</p>
-					<p class="pt-1 text-purple-700 leading-8 font-semibold dark:text-purple-300">
-						It has never been easier to build software, and never been harder to know what to
-						build.
-					</p>
 				</div>
 			</div>
-			<div class="h-full rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
+			<div class="h-full rounded-xl border-[3px] border-purple-600 bg-card p-6 shadow-sm md:p-8 dark:border-purple-300">
 				<h2 class="text-base-900 dark:text-base-100 mb-7 text-2xl leading-tight font-semibold tracking-tight md:text-3xl">
-					Why Foundations Next Exists
+					Why Foundations Next exists
 				</h2>
+				<p class="mb-6 text-purple-700 leading-8 font-semibold dark:text-purple-300">
+					There has never been a greater asymmetry between solvable problems and our ability
+					to solve them.
+				</p>
 				<div class="space-y-6 text-lg">
 					<p class="text-base-600 dark:text-base-400 leading-8">
 						There are thousands of painful, valuable, non-obvious business problems inside
@@ -129,10 +138,6 @@ const meta = {
 						they should become businesses. Foundations has assembled one of the strongest
 						communities of AI-native builders in the world. This is one place to put that
 						capability to work on the right problems.
-					</p>
-					<p class="pt-1 text-purple-700 leading-8 font-semibold dark:text-purple-300">
-						There has never been a greater asymmetry between solvable problems and our ability
-						to solve them.
 					</p>
 				</div>
 			</div>
@@ -147,8 +152,21 @@ const meta = {
 					height="560"
 					viewBox="0 0 120 560"
 					fill="none"
-					class="text-purple-600 drop-shadow-[0_10px_30px_rgba(99,102,241,0.35)] dark:text-purple-300"
+					class="text-purple-600 dark:text-purple-300"
 				>
+					<path
+						d="M16 280H92"
+						stroke="var(--background)"
+						stroke-width="20"
+						stroke-linecap="round"
+					></path>
+					<path
+						d="M54 242L92 280L54 318"
+						stroke="var(--background)"
+						stroke-width="20"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					></path>
 					<path
 						d="M16 280H92"
 						stroke="currentColor"
@@ -210,7 +228,7 @@ const meta = {
 				<h3 class="h3 mb-2">Pitch a business problem</h3>
 				<p class="text-base-500 dark:text-base-400 leading-7">
 					Not a startup idea, product mockup, or service business. Bring us a painful,
-					important business problem that actually exists.
+					important business problem that actually exists inside a non-technical industry.
 				</p>
 			</div>
 			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
@@ -246,6 +264,91 @@ const meta = {
 					If the solution becomes a real company, the original problem owner receives equity.
 					You brought the insight. That should matter. Look at you, making money on AI too.
 				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="site-container pb-16 md:pb-24">
+		<div class="mx-auto max-w-3xl text-center">
+			<h2 class="h2">What are some successful examples?</h2>
+			<p class="description mt-4 text-lg">
+				The pattern is usually the same: the opportunity comes from someone close to the
+				problem, not from startup idea generation in a vacuum or via an LLM.
+			</p>
+		</div>
+
+		<div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-2">
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center justify-between gap-5">
+					<div class="min-w-0 flex-1">
+						<p class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+							Healthcare Law
+						</p>
+						<p class="text-base-600 dark:text-base-400 leading-7">
+							A company where the original idea came from a relative working in the healthcare
+							law world who understood the pain up close.
+						</p>
+					</div>
+					<img
+						src="/images/next-examples/med-legal.png"
+						alt="Healthcare law example"
+						class="h-[75px] w-auto flex-shrink-0 object-contain"
+					/>
+				</div>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center justify-between gap-5">
+					<div class="min-w-0 flex-1">
+						<p class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+							Insurance
+						</p>
+						<p class="text-base-600 dark:text-base-400 leading-7">
+							A company where the idea came from an insurance broker friend with direct knowledge
+							of where workflows were breaking down.
+						</p>
+					</div>
+					<img
+						src="/images/next-examples/insurance.png"
+						alt="Insurance example"
+						class="h-[75px] w-auto flex-shrink-0 object-contain"
+					/>
+				</div>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center justify-between gap-5">
+					<div class="min-w-0 flex-1">
+						<p class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+							Vehicle Repossession
+						</p>
+						<p class="text-base-600 dark:text-base-400 leading-7">
+							A company where the opportunity came from a neighbor in the vehicle repossession
+							space who could see the operational bottlenecks firsthand.
+						</p>
+					</div>
+					<img
+						src="/images/next-examples/repo.png"
+						alt="Vehicle repossession example"
+						class="h-[75px] w-auto flex-shrink-0 object-contain"
+					/>
+				</div>
+			</div>
+			<div class="rounded-xl border border-border bg-card p-6 md:p-7 shadow-sm">
+				<div class="flex items-center justify-between gap-5">
+					<div class="min-w-0 flex-1">
+						<p class="mb-3 text-sm font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">
+							Commercial Real Estate
+						</p>
+						<p class="text-base-600 dark:text-base-400 leading-7">
+							A company where the idea came from a friend in commercial real estate permitting
+							who knew exactly how painful the process was.
+						</p>
+					</div>
+					<img
+						src="/images/next-examples/construction.png"
+						alt="Commercial real estate permitting example"
+						class="h-[75px] w-auto flex-shrink-0 object-contain"
+					/>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -316,7 +419,7 @@ const meta = {
 	<section class="bg-linear-to-br from-purple-950 to-[#181226] py-12 md:py-16">
 		<div class="site-container">
 			<div class="mx-auto max-w-6xl">
-				<p class="max-w-4xl text-lg leading-8 text-purple-100/85">
+				<p class="w-full text-lg leading-8 text-purple-100/85">
 					This is not an incubator. Incubators extract value. This is designed to create it.
 					Not everything worth building needs to look like venture-backed SaaS. If AI makes it
 					possible to build a real cash-generating software business around a real operational
@@ -335,8 +438,8 @@ const meta = {
 				class="mx-auto mt-6 mb-6 h-auto w-full max-w-2xl"
 			/>
 			<p class="description mt-4 text-lg">
-				Founders are welcome. So are operators who would never call themselves founders. You
-				do not need to be based in Seattle or San Francisco.
+				Anyone is welcome, but this is really for in-industry operators and business owners.
+				You do not need to be based in Seattle or San Francisco.
 			</p>
 		</div>
 
@@ -373,11 +476,11 @@ const meta = {
 					class="absolute top-1/2 left-1/2 h-full w-auto -translate-x-1/2 -translate-y-1/2 object-cover text-black/5"
 					aria-hidden="true"
 				/>
-				<div class="relative z-20 mx-auto max-w-3xl text-center">
+				<div class="relative z-20 mx-auto max-w-5xl text-center">
 					<h2 class="mb-4 text-3xl font-semibold text-white md:text-4xl">
-						Bring us a real problem.
+						Bring us a real problem. We'll solve it for free.
 					</h2>
-					<p class="mx-auto max-w-2xl text-lg leading-8 font-medium text-white/90 md:text-xl">
+					<p class="mx-auto max-w-4xl text-lg leading-8 font-medium text-white/90 md:text-xl">
 						If it turns into a business, you'll share in the upside. No pitch deck required.
 						No technical background needed. Just clarity about what's broken.
 					</p>
