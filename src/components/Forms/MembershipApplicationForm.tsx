@@ -61,6 +61,19 @@ const LOOKING_FOR_OPTIONS = [
 ];
 
 const API_ENDPOINT = "https://app.fndtns.org/api/membership/requests";
+const ERROR_FIELD_SELECTORS: Record<keyof FormErrors, string> = {
+	name: "#name",
+	email: "#email",
+	about_me: "#about_me",
+	linkedin_url: "#linkedin_url",
+	location: "#location",
+	stage: 'input[type="checkbox"]',
+	working_status: 'input[name="working_status"]',
+	areas_of_interest: "#areas_of_interest",
+	looking_for: 'input[type="checkbox"][value="Find a co-founder"]',
+	referral_source: "#referral_source",
+	project_link: "#project_link",
+};
 
 export const MembershipApplicationForm = () => {
 	const [formData, setFormData] = useState<FormData>({
@@ -81,6 +94,22 @@ export const MembershipApplicationForm = () => {
 	const [errors, setErrors] = useState<FormErrors>({});
 	const [status, setStatus] = useState<SubmitStatus>("idle");
 	const [errorMessage, setErrorMessage] = useState("");
+
+	const scrollToFirstError = (newErrors: FormErrors) => {
+		const firstErrorField = Object.keys(newErrors)[0] as keyof FormErrors | undefined;
+		if (!firstErrorField) return;
+
+		requestAnimationFrame(() => {
+			const selector = ERROR_FIELD_SELECTORS[firstErrorField];
+			const element = selector ? document.querySelector(selector) : null;
+			if (element instanceof HTMLElement) {
+				element.scrollIntoView({ behavior: "smooth", block: "center" });
+				if ("focus" in element) {
+					element.focus({ preventScroll: true });
+				}
+			}
+		});
+	};
 
 	// Validation helpers
 	const isValidEmail = (email: string): boolean => {
@@ -151,7 +180,12 @@ export const MembershipApplicationForm = () => {
 		}
 
 		setErrors(newErrors);
-		return Object.keys(newErrors).length === 0;
+		if (Object.keys(newErrors).length > 0) {
+			scrollToFirstError(newErrors);
+			return false;
+		}
+
+		return true;
 	};
 
 	// Input handlers
