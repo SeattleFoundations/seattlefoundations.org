@@ -15,6 +15,7 @@ interface FormErrors {
 	linkedin?: string;
 	problem?: string;
 	expertise?: string;
+	ipAgreement?: string;
 }
 
 type SubmitStatus = "idle" | "loading" | "success" | "error";
@@ -26,6 +27,7 @@ const ERROR_FIELD_SELECTORS: Record<keyof FormErrors, string> = {
 	linkedin: "#linkedin",
 	problem: "#problem",
 	expertise: "#expertise",
+	ipAgreement: "#ipAgreement",
 };
 
 export const NextSubmissionForm = () => {
@@ -37,6 +39,7 @@ export const NextSubmissionForm = () => {
 		expertise: "",
 		anythingElseWeShouldKnow: "",
 	});
+	const [ipAgreement, setIpAgreement] = useState(false);
 	const [errors, setErrors] = useState<FormErrors>({});
 	const [status, setStatus] = useState<SubmitStatus>("idle");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -95,6 +98,10 @@ export const NextSubmissionForm = () => {
 
 		if (!formData.expertise.trim()) {
 			newErrors.expertise = "Please tell us why you understand this problem";
+		}
+
+		if (!ipAgreement) {
+			newErrors.ipAgreement = "You must agree before submitting";
 		}
 
 		setErrors(newErrors);
@@ -289,11 +296,33 @@ export const NextSubmissionForm = () => {
 				/>
 			</div>
 
-			<button
-				type="submit"
-				disabled={status === "loading"}
-				className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-purple-700 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-purple-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 disabled:pointer-events-none disabled:opacity-50 dark:bg-purple-600 dark:hover:bg-purple-500 sm:w-auto"
-			>
+		<div className="space-y-2">
+			<label className="flex items-start gap-3 cursor-pointer group">
+				<input
+					type="checkbox"
+					id="ipAgreement"
+					checked={ipAgreement}
+					onChange={(e) => {
+						setIpAgreement(e.target.checked);
+						if (errors.ipAgreement) {
+							setErrors((prev) => ({ ...prev, ipAgreement: undefined }));
+						}
+					}}
+					className={`mt-1 h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-2 focus:ring-purple-500 focus:ring-offset-0 dark:border-gray-600 dark:bg-gray-800 ${errors.ipAgreement ? "!border-error" : ""}`}
+				/>
+				<span className="text-sm text-foreground leading-snug">
+					I agree that what I am submitting is a problem that I have identified and not
+					protected or protectable intellectual property. <span className="text-error">*</span>
+				</span>
+			</label>
+			{errors.ipAgreement && <p className="text-sm text-error">{errors.ipAgreement}</p>}
+		</div>
+
+		<button
+			type="submit"
+			disabled={status === "loading"}
+			className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-purple-700 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-purple-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 disabled:pointer-events-none disabled:opacity-50 dark:bg-purple-600 dark:hover:bg-purple-500 sm:w-auto"
+		>
 				{status === "loading" ? "Submitting..." : "Submit Your Problem"}
 			</button>
 		</form>
