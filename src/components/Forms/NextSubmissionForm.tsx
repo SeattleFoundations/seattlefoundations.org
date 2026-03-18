@@ -196,16 +196,27 @@ export const NextSubmissionForm = () => {
 				<h3 className="mb-2 text-xl font-semibold text-foreground">
 					Submission Received
 				</h3>
-				<p className="text-muted-foreground">
-					Thanks for sending this in. We&apos;ll review the problem and follow up if it feels
-					like something we should explore.
-				</p>
+			<p className="text-muted-foreground">
+				Thanks for sending this in. We&apos;ll review the problem and follow up soon,
+				usually no more than a week.
+			</p>
 			</div>
 		);
 	}
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-6">
+			<div className="space-y-3 pb-2">
+				<h2 className="text-xl font-semibold leading-tight tracking-tight text-purple-700 dark:text-purple-300 md:text-2xl">
+					What to include
+				</h2>
+				<p className="leading-7 text-muted-foreground">
+					Tell us what is broken, why it matters, and why you are close enough to the problem
+					to understand it clearly. If the problem is compelling, we&apos;ll start with a meeting
+					to get aligned before deciding whether it&apos;s something we should help solve.
+				</p>
+			</div>
+
 			{status === "error" && (
 				<div className="rounded-lg border border-error/20 bg-error/10 p-4">
 					<p className="text-sm text-error-foreground">{errorMessage}</p>
