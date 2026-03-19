@@ -15,6 +15,10 @@ const navConfig: navItem[] = [
 		newTab: true,
 	},
 	{
+		text: "NEXT",
+		link: "/next",
+	},
+	{
 		text: "Companies",
 		link: "/companies",
 	},
