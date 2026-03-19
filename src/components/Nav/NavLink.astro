@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
+import { isActiveNavPath, normalizeNavPath } from "@js/navUtils";
 
 // data
 import { type navLinkItem } from "@config/types/configDataTypes";
@@ -12,12 +13,15 @@ interface Props {
 	navItem: navLinkItem;
 	class?: string;
 	noIcon?: boolean;
+	showSelectedState?: boolean;
 }
 
-const { navItem, class: className, noIcon = false } = Astro.props as Props;
+const { navItem, class: className, noIcon = false, showSelectedState = false } =
+	Astro.props as Props;
 const { text, link, newTab = false, icon } = navItem;
 
 const currLocale = getLocaleFromUrl(Astro.url);
+const currentPath = normalizeNavPath(Astro.url.pathname);
 
 const domain = import.meta.env.SITE; // pulls from astro.config.mjs
 let actualLink: string;
@@ -32,6 +36,12 @@ if (!link.includes(domain) && !link.startsWith("/") && !link.startsWith("#")) {
 if (actualLink.endsWith("/") && actualLink !== "/") {
 	actualLink = actualLink.slice(0, -1);
 }
+
+const isActive =
+	showSelectedState &&
+	!newTab &&
+	!actualLink.startsWith("#") &&
+	isActiveNavPath(currentPath, actualLink);
 ---
 
 <li>
@@ -39,14 +49,14 @@ if (actualLink.endsWith("/") && actualLink !== "/") {
 		class:list={[
 			`primary-focus nav__link--base relative flex h-10 w-full items-center gap-1.5 rounded-md px-4 py-2 ${className}`,
 			{
-				// styling for current active page link, if desired
-				"": Astro.url.pathname === actualLink,
+				"bg-base-100 text-base-900 dark:bg-base-800 dark:text-base-100": isActive,
 			},
 		]}
 		href={actualLink}
 		target={newTab ? "_blank" : ""}
 		rel={newTab ? "noopener noreferrer" : ""}
 		aria-label={text}
+		aria-current={isActive ? "page" : undefined}
 	>
 		{
 			icon && !noIcon && (

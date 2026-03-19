@@ -3,9 +3,12 @@
  * * Dropdown menu that opens on click
  * This is for non-mobile devices
  */
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { Icon } from "astro-icon/components";
 
 // utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+import { isActiveNavPath, normalizeNavPath } from "@js/navUtils";
 import { slugify } from "@js/textUtils";
 
 // components
@@ -14,15 +17,43 @@ import { type navDropdownItem } from "@config/types/configDataTypes";
 
 interface Props {
 	navItem: navDropdownItem;
+	showSelectedState?: boolean;
 }
 
-const { navItem } = Astro.props as Props;
+const { navItem, showSelectedState = false } = Astro.props as Props;
+const currLocale = getLocaleFromUrl(Astro.url);
+const currentPath = normalizeNavPath(Astro.url.pathname);
+const domain = import.meta.env.SITE;
+
+function getActualLink(link: string): string {
+	if (!link.includes(domain) && !link.startsWith("/") && !link.startsWith("#")) {
+		return link;
+	}
+
+	const localizedLink = getRelativeLocaleUrl(currLocale, link);
+	return normalizeNavPath(localizedLink);
+}
+
+const isActive =
+	showSelectedState &&
+	navItem.dropdown.some(({ link, newTab = false }) => {
+		if (newTab || link.startsWith("#")) {
+			return false;
+		}
+
+		return isActiveNavPath(currentPath, getActualLink(link));
+	});
 ---
 
 <!-- non-mobile dropdown menu -->
 <li class="nav__dropdown group relative">
 	<button
-		class="primary-focus nav__dropdown-button nav__link--base flex h-10 w-full items-center gap-0.5 px-3 py-2 whitespace-nowrap"
+		class:list={[
+			"primary-focus nav__dropdown-button nav__link--base flex h-10 w-full items-center gap-0.5 px-3 py-2 whitespace-nowrap",
+			{
+				"bg-base-100 text-base-900 dark:bg-base-800 dark:text-base-100": isActive,
+			},
+		]}
 		type="button"
 		id={`${slugify(navItem.text)}-dropdown-menu`}
 		aria-expanded="false"

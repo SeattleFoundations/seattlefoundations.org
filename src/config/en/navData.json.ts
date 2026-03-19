@@ -23,11 +23,6 @@ const navConfig: navItem[] = [
 		link: "/jobs",
 	},
 	{
-		text: "Merch",
-		link: "https://merch.seattlefoundations.org/",
-		newTab: true,
-	},
-	{
 		text: "Advocate",
 		link: "/advocate",
 	},

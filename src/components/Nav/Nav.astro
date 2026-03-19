@@ -56,13 +56,13 @@ import { locales } from "@config/siteSettings.json";
 										// non-mobile dropdown menu
 										<>
 											{/* <NavDropdown navItem={navItem} /> */}
-											<NavDropdownToggle navItem={navItem} />
+											<NavDropdownToggle navItem={navItem} showSelectedState />
 										</>
 									) : "megaMenuColumns" in navItem ? (
-										<MegaMenuDropdownToggle {navItem} />
+										<MegaMenuDropdownToggle {navItem} showSelectedState />
 									) : (
 										// normal nav link
-										<NavLink {navItem} />
+										<NavLink {navItem} showSelectedState />
 									),
 								)
 							}
