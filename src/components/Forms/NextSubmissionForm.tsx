@@ -215,6 +215,16 @@ export const NextSubmissionForm = () => {
 					to understand it clearly. If the problem is compelling, we&apos;ll start with a meeting
 					to get aligned before deciding whether it&apos;s something we should help solve.
 				</p>
+				<div className="rounded-lg border border-purple-200/70 bg-purple-50/50 p-4 dark:border-purple-900 dark:bg-purple-950/20">
+					<p className="text-sm leading-6 text-muted-foreground">
+						<span className="font-semibold text-foreground">What to expect:</span> Your
+						submission will be immediately shared with the builders in our community.
+						We&apos;ll do an AI-assisted deep dive into the problem, have a discussion, and, if
+						there&apos;s interest, split into a team to explore it further. If that happens,
+						we&apos;ll email you and invite you into a private Slack channel with that group to
+						get started on the solution.
+					</p>
+				</div>
 			</div>
 
 			{status === "error" && (
