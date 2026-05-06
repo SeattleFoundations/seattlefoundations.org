@@ -266,10 +266,7 @@ const stagingEventsPayload = {
 		const safeDescription = escapeHtml(normalizeText(event.description));
 		const safeHostName = escapeHtml(normalizeText(event.hostName));
 		const safeLocation = escapeHtml(normalizeText(event.location));
-		const normalizedSource = normalizeText(event.source).toLowerCase();
-		const eventUrl =
-			event.link || (normalizedSource === "foundations" && event.id ? `https://app.fndtns.org/event/${event.id}` : "");
-		const safeLink = eventUrl ? escapeHtml(eventUrl) : "";
+		const safeLink = event.link ? escapeHtml(event.link) : "";
 		const sourceLabel = escapeHtml(getSourceLabel(event.source));
 		const imageUrl = resolveAssetUrl(event.imageUrl);
 		const cardInner = `
@@ -342,9 +339,9 @@ const stagingEventsPayload = {
 
 				<div class="mt-auto flex items-center justify-between gap-4 pt-2">
 					<span class="text-xs uppercase tracking-wide text-muted-foreground">
-						${eventUrl ? "Open event page" : "Details shared directly"}
+						${event.link ? "Open event page" : "Details shared directly"}
 					</span>
-					${eventUrl ? `
+					${event.link ? `
 						<span class="inline-flex items-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white transition-colors group-hover:bg-primary-700 dark:bg-primary-500 dark:group-hover:bg-primary-600">
 							<span>View event</span>
 							<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -360,7 +357,7 @@ const stagingEventsPayload = {
 			</div>
 		`;
 
-		return eventUrl
+		return event.link
 			? `
 				<a
 					href="${safeLink}"
