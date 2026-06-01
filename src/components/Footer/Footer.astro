@@ -7,20 +7,21 @@ import SiteLogo from "@components/SiteLogo/SiteLogo.astro";
 import Button from "@components/Button/Button.astro";
 import SocialIcon from "@components/SocialIcon/SocialIcon.astro";
 
-import stifelLogo from "@images/sponsors/Stifel.png";
-import wilsonSonsiniLogo from "@images/sponsors/WilsonSonsini.png";
+import mercuryLogo from "@images/sponsors/mercury.svg";
+import fenwickLogo from "@images/sponsors/fenwick.svg";
 import parcionLogo from "@images/sponsors/parcion.png";
 
 const sponsorData = [
 	{
-		logo: stifelLogo,
-		alt: "Stifel",
-		link: "https://bankwithstifel.com/",
+		logo: mercuryLogo,
+		alt: "Mercury",
+		link: "https://mercury.com/",
 	},
 	{
-		logo: wilsonSonsiniLogo,
-		alt: "Wilson Sonsini",
-		link: "https://www.wsgr.com/en/",
+		logo: fenwickLogo,
+		alt: "Fenwick",
+		link: "https://www.fenwick.com/",
+		class: "scale-[0.8]",
 	},
 	{
 		logo: parcionLogo,
@@ -61,7 +62,10 @@ const today = new Date();
 								src={sponsor.logo}
 								alt={sponsor.alt}
 								width={200}
-								class="max-h-8 object-contain grayscale transition-all hover:grayscale-0 dark:invert"
+								class:list={[
+									"max-h-8 object-contain grayscale transition-all hover:grayscale-0 dark:invert",
+									sponsor.class,
+								]}
 							/>
 						</a>
 					))
