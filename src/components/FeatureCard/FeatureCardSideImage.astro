@@ -14,11 +14,20 @@ import Badge from "@components/Badge/Badge.astro";
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 
+type FeatureListItem =
+	| string
+	| {
+			textBefore?: string;
+			linkText: string;
+			href: string;
+			textAfter?: string;
+	  };
+
 interface Props {
 	badge: string; // small badge
 	title: string; // larger title
 	description?: string[]; // optional supporting paragraphs
-	items: string[]; // list of items that will have check marks next to
+	items: FeatureListItem[]; // list of items that will have check marks next to
 	closingLine?: string; // optional closing statement after the list
 	href?: string; // link to learn more
 	actionLabel?: string; // button label
@@ -68,7 +77,24 @@ const currLocale = getLocaleFromUrl(Astro.url);
 								class="text-primary-500 mr-2 size-6"
 								aria-hidden="true"
 							/>
-							<span>{item}</span>
+							<span>
+								{typeof item === "string" ? (
+									item
+								) : (
+									<>
+										{item.textBefore}
+										<a
+											href={item.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="font-medium text-primary-600 underline-offset-4 hover:underline dark:text-primary-400"
+										>
+											{item.linkText}
+										</a>
+										{item.textAfter}
+									</>
+								)}
+							</span>
 						</li>
 					))
 				}

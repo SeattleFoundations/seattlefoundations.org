@@ -6,12 +6,21 @@ import FeatureCard from "@components/FeatureCard/FeatureCardSideImage.astro";
 import image1 from "@images/event.jpg";
 import image2 from "@images/fir-launch.jpg";
 
+type FeatureListItem =
+	| string
+	| {
+			textBefore?: string;
+			linkText: string;
+			href: string;
+			textAfter?: string;
+	  };
+
 interface FeatureItem {
 	badge: string; // badge text
 	image: ImageMetadata | string; // an imported image or public asset path
 	title: string;
 	description?: string[];
-	items: string[]; // list of items that will have check marks next to
+	items: FeatureListItem[]; // list of items that will have check marks next to
 	closingLine?: string;
 	href?: string; // link to learn more
 	actionLabel?: string; // button label
@@ -25,10 +34,19 @@ const featureData: FeatureItem[] = [
 	{
 		badge: "Our Space",
 		image: image1,
-		title: "15,000 sqft space in Capitol Hill",
+		title: "Seattle & San Francisco",
 		items: [
-			"24/7 access to a space designed for deep work and collaboration.",
-			"50+ shared seats for members to work in, deep work room, 9 private spaces for meetings.",
+			{
+				textBefore: "15,000 sqft space in ",
+				linkText: "Capitol Hill",
+				href: "https://www.google.com/maps/place/1605+Boylston+Ave,+Seattle,+WA+98122",
+			},
+			{
+				textBefore: "5,000 sqft in ",
+				linkText: "South Fidi",
+				href: "https://www.google.com/maps/place/142+Minna+St,+San+Francisco,+CA+94105",
+			},
+			"24/7 access to a space designed for both deep work and collaboration.",
 			"Weekly community only events.",
 			"Event space with 1-2 events every week.",
 		],
@@ -41,7 +59,7 @@ const featureData: FeatureItem[] = [
 			"Weekly office hours with mentors.",
 			"Pitch clinics to refine fundraising and sales pitches.",
 			"Monthly show & tell events.",
-			">$100k of Cloud/AI Credits"
+			">$350k of Cloud/AI Credits"
 		],
 		href: "https://app.fndtns.org/kb/founder-in-residence",
 		actionLabel: "Learn More",
@@ -81,31 +99,7 @@ const featureData: FeatureItem[] = [
 				href={featureData[0].href}
 				actionLabel={featureData[0].actionLabel ?? "Learn More"}
 				idx={0}
-			>
-				<a
-					href="https://fndtns.org/blog/slaying-the-dragon"
-					class="group mt-6 flex items-center gap-3 rounded-xl border border-primary-200 bg-primary-50/60 px-4 py-3 no-underline transition-all duration-300 hover:border-primary-300 hover:bg-primary-50 hover:shadow-sm dark:border-primary-800 dark:bg-primary-950/30 dark:hover:border-primary-700 dark:hover:bg-primary-950/50"
-				>
-					<span class="text-lg">🌉</span>
-					<span class="flex flex-col">
-						<span class="text-xs font-semibold tracking-wide uppercase text-primary-600 dark:text-primary-400">
-							Coming Soon
-						</span>
-						<span class="text-sm font-medium text-base-800 dark:text-base-200">
-							San Francisco office expansion
-						</span>
-					</span>
-					<svg
-						class="ml-auto size-4 shrink-0 text-primary-400 transition-transform duration-300 group-hover:translate-x-0.5 dark:text-primary-500"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						stroke-width="2"
-					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-					</svg>
-				</a>
-			</FeatureCard>
+			/>
 			{
 				featureData.slice(1).map((feature, idx) => (
 					<FeatureCard
