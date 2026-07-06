@@ -5,6 +5,7 @@ interface FormData {
 	name: string;
 	email: string;
 	linkedin_url: string;
+	based_in: string;
 	location: string;
 	application_type: string;
 	stage: string[];
@@ -21,6 +22,7 @@ interface FormErrors {
 	email?: string;
 	about_me?: string;
 	linkedin_url?: string;
+	based_in?: string;
 	location?: string;
 	stage?: string;
 	working_status?: string;
@@ -47,6 +49,12 @@ const WORKING_STATUS_OPTIONS = [
 	{ label: "Not yet started", value: "not-started" },
 ];
 
+const BASED_IN_OPTIONS = [
+	{ label: "Seattle", value: "seattle" },
+	{ label: "San Francisco / Bay Area", value: "sf" },
+	{ label: "Other", value: "other" },
+];
+
 const APPLICATION_TYPE_OPTIONS = [
 	{ label: "Founder in Residence", value: "fir" },
 	{ label: "Member", value: "member" },
@@ -66,6 +74,7 @@ const ERROR_FIELD_SELECTORS: Record<keyof FormErrors, string> = {
 	email: "#email",
 	about_me: "#about_me",
 	linkedin_url: "#linkedin_url",
+	based_in: 'input[name="based_in"]',
 	location: "#location",
 	stage: 'input[type="checkbox"]',
 	working_status: 'input[name="working_status"]',
@@ -80,6 +89,7 @@ export const MembershipApplicationForm = () => {
 		name: "",
 		email: "",
 		linkedin_url: "",
+		based_in: "",
 		location: "",
 		application_type: "fir",
 		stage: [],
@@ -144,6 +154,10 @@ export const MembershipApplicationForm = () => {
 			newErrors.linkedin_url = "LinkedIn URL is required";
 		} else if (!isValidUrl(formData.linkedin_url)) {
 			newErrors.linkedin_url = "Please enter a valid LinkedIn URL (e.g., https://linkedin.com/in/yourprofile)";
+		}
+
+		if (!formData.based_in) {
+			newErrors.based_in = "Please select where you're based";
 		}
 
 		if (!formData.location.trim()) {
@@ -242,6 +256,13 @@ export const MembershipApplicationForm = () => {
 		setFormData((prev) => ({ ...prev, application_type: value }));
 	};
 
+	const handleBasedInChange = (value: string) => {
+		setFormData((prev) => ({ ...prev, based_in: value }));
+		if (errors.based_in) {
+			setErrors((prev) => ({ ...prev, based_in: undefined }));
+		}
+	};
+
 	// URL field blur handler for immediate validation feedback
 	const handleUrlBlur = (fieldName: "linkedin_url" | "project_link") => {
 		const value = formData[fieldName];
@@ -293,6 +314,7 @@ export const MembershipApplicationForm = () => {
 			email: formData.email.trim(),
 			about_me: formData.about_me.trim(),
 			linkedin_url: formData.linkedin_url.trim(),
+			based_in: formData.based_in,
 			location: formData.location.trim(),
 			application_type: formData.application_type,
 			stage: formData.stage,
@@ -423,6 +445,34 @@ export const MembershipApplicationForm = () => {
 				)}
 			</div>
 
+			{/* Based In */}
+			<fieldset className="space-y-3">
+				<legend className="text-sm font-medium text-foreground">
+					Where are you based? <span className="text-error">*</span>
+				</legend>
+				<div className="space-y-2">
+					{BASED_IN_OPTIONS.map((option) => (
+						<label
+							key={option.value}
+							className="flex items-center gap-3 cursor-pointer group"
+						>
+							<input
+								type="radio"
+								name="based_in"
+								value={option.value}
+								checked={formData.based_in === option.value}
+								onChange={() => handleBasedInChange(option.value)}
+								className="h-5 w-5 border-gray-300 text-primary focus:ring-2 focus:ring-primary focus:ring-offset-0 dark:border-gray-600 dark:bg-gray-800"
+							/>
+							<span className="text-sm text-foreground group-hover:text-primary transition-colors">
+								{option.label}
+							</span>
+						</label>
+					))}
+				</div>
+				{errors.based_in && <p className="text-sm text-error">{errors.based_in}</p>}
+			</fieldset>
+
 			{/* Location */}
 			<div className="space-y-2">
 				<label htmlFor="location" className="block text-sm font-medium text-foreground">
@@ -435,7 +485,7 @@ export const MembershipApplicationForm = () => {
 					value={formData.location}
 					onChange={handleInputChange}
 					className={`form__input ${errors.location ? "!border-error" : ""}`}
-					placeholder="e.g., Capitol Hill, Seattle"
+					placeholder="e.g., Capitol Hill, Seattle or Mission, SF"
 				/>
 				{errors.location && <p className="text-sm text-error">{errors.location}</p>}
 			</div>
